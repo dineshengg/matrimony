@@ -1,0 +1,427 @@
+/*-- -------------------------- -->
+<---         Donations          -->
+<--- -------------------------- -*/
+
+/* Mobile - 360px */
+@media only screen and (min-width: 0rem) {
+  #donations-1428 {
+    padding: var(--sectionPadding);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2.5rem;
+    position: relative;
+    z-index: 1;
+  }
+  #donations-1428 .cs-container {
+    width: 100%;
+    /* changes to 1280px at tablet */
+    max-width: 34.375rem;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* 48px - 64px */
+    gap: clamp(3rem, 6vw, 4rem);
+    position: relative;
+    z-index: 10;
+  }
+  #donations-1428 .cs-content {
+    /* set text align to left if content needs to be left aligned */
+    text-align: center;
+    width: 100%;
+    max-width: 32.625rem;
+    display: flex;
+    flex-direction: column;
+    /* centers content horizontally, set to flex-start to left align */
+    align-items: center;
+  }
+  #donations-1428 .cs-topper {
+    color: var(--secondary);
+  }
+  #donations-1428 .cs-title {
+    color: var(--bodyTextColorWhite);
+  }
+  #donations-1428 .cs-text {
+    margin-bottom: 1rem;
+    color: var(--bodyTextColorWhite);
+    opacity: .8;
+  }
+  #donations-1428 .cs-text:last-of-type {
+    margin-bottom: 2rem;
+  }
+  #donations-1428 .cs-button-solid {
+    font-size: 1rem;
+    /* 46px - 56px */
+    line-height: clamp(2.875rem, 5.5vw, 3.5rem);
+    text-decoration: none;
+    font-weight: 700;
+    text-align: center;
+    margin: 0;
+    color: #fff;
+    min-width: 9.375rem;
+    padding: 0 2rem;
+    background-color: var(--primary);
+    border-radius: 0.5rem;
+    overflow: hidden;
+    display: inline-block;
+    position: relative;
+    z-index: 1;
+    /* prevents padding from adding to the width */
+    box-sizing: border-box;
+    transition: color .3s;
+  }
+  #donations-1428 .cs-button-solid:before {
+    content: '';
+    position: absolute;
+    height: 100%;
+    width: 0%;
+    background: #fff;
+    opacity: 1;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    border-radius: 0.5rem;
+    transition: width .3s;
+  }
+  #donations-1428 .cs-button-solid:hover {
+    color: var(--primary);
+  }
+  #donations-1428 .cs-button-solid:hover:before {
+    width: 100%;
+  }
+  #donations-1428 .cs-card-group {
+    width: 100%;
+    /* changes to 630px at large desktop */
+    max-width: 59rem;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 1.25rem;
+  }
+  #donations-1428 .cs-item {
+    text-align: left;
+    list-style: none;
+    border-radius: 1rem;
+    overflow: hidden;
+    background-color: #fff;
+    box-shadow: 0px 4px 120px 0px rgba(0, 0, 0, 0.12);
+    grid-column: span 12;
+    position: relative;
+    z-index: 1;
+    transition: box-shadow 0.3s, transform 0.3s;
+  }
+  #donations-1428 .cs-item:hover {
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  }
+  #donations-1428 .cs-item:hover .cs-picture img {
+    opacity: .3;
+    transform: scale(1.1);
+  }
+  #donations-1428 .cs-item:hover .cs-h3 {
+    color: var(--primary);
+  }
+  #donations-1428 .cs-link {
+    text-decoration: none;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+  }
+  #donations-1428 .cs-picture {
+    width: 100%;
+    height: 15rem;
+    background-color: var(--primary);
+    overflow: hidden;
+    display: block;
+    position: relative;
+    z-index: 1;
+  }
+  #donations-1428 .cs-picture img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    transition: transform .6s, opacity .3s;
+  }
+  #donations-1428 .cs-flex {
+    padding: 1.5rem;
+    /* prblog padding from affecting height and width */
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    position: relative;
+    z-index: 2;
+  }
+  #donations-1428 .cs-h3 {
+    font-size: 1.25rem;
+    text-align: inherit;
+    line-height: 1.2em;
+    font-weight: 700;
+    color: var(--headerColor);
+    margin: 0 0 0.75rem 0;
+    transition: color .3s;
+  }
+  #donations-1428 .cs-item-text {
+    /* 14px - 16px */
+    font-size: clamp(0.875rem, 1.5vw, 1rem);
+    line-height: 1.5em;
+    text-align: inherit;
+    margin: 0 0 1.5rem;
+    padding: 0 0 1.5rem;
+    color: var(--bodyTextColor);
+    border-bottom: 1px solid #E8E8E8;
+  }
+  #donations-1428 .cs-donations-flex {
+    width: 100%;
+    margin: 0 0 0.5rem;
+  }
+  #donations-1428 .cs-bar {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* 4px - 8px */
+    gap: clamp(0.25rem, 1vw, 0.5rem);
+  }
+  #donations-1428 .cs-progress {
+    width: 100%;
+    height: 6px;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    background-color: #E8E8E8;
+  }
+  #donations-1428 .cs-progress-bar {
+    width: var(--progress);
+    height: 100%;
+    background-color: var(--secondary);
+    border-radius: 0.5rem;
+    display: block;
+  }
+  #donations-1428 .cs-percentage {
+    font-size: 0.875rem;
+    line-height: 0.2em;
+    font-weight: 700;
+    margin: 0;
+    color: var(--headerColor);
+    display: block;
+  }
+  #donations-1428 .cs-number-group {
+    width: 100%;
+    margin: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1.5rem;
+  }
+  #donations-1428 .cs-raised {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    gap: 0.25rem;
+  }
+  #donations-1428 .cs-number {
+    font-size: 0.875rem;
+    line-height: 1.2em;
+    margin: 0;
+    color: var(--bodyTextColor);
+    display: block;
+  }
+  #donations-1428 .cs-stats-container {
+    width: 100%;
+    /* changes to 1280px at large desktop */
+    max-width: 59rem;
+    position: relative;
+    z-index: 1;
+  }
+  #donations-1428 .cs-stats-group {
+    width: 100%;
+    max-width: 59rem;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    /* 16px - 20px */
+    gap: clamp(1rem, 4vw, 4rem);
+  }
+  #donations-1428 .cs-stat {
+    list-style: none;
+    width: 100%;
+    max-width: 25rem;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* 16px - 20xp */
+    gap: clamp(1rem, 2vw, 1.25rem);
+    grid-column: span 6;
+  }
+  #donations-1428 .cs-info {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  #donations-1428 .cs-icon-wrapper {
+    /* 60px - 88px */
+    width: clamp(3.75rem, 7vw, 5.5rem);
+    height: clamp(3.75rem, 7vw, 5.5rem);
+    border-radius: 50%;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* prevents flexbox from squishing it */
+    flex: none;
+    position: relative;
+    z-index: 1;
+  }
+  #donations-1428 .cs-icon-wrapper:before {
+    /* background color */
+    content: '';
+    width: 100%;
+    height: 100%;
+    background: var(--secondary);
+    opacity: .1;
+    position: absolute;
+    display: block;
+    top: 0;
+    left: 0;
+  }
+  #donations-1428 .cs-icon {
+    /* 32px - 48px */
+    width: clamp(2rem, 4vw, 3rem);
+    height: auto;
+    display: block;
+  }
+  #donations-1428 .cs-stat-number {
+    /* 25px - 39px */
+    font-size: clamp(1.5625rem, 3vw, 2.4375rem);
+    text-align: inherit;
+    line-height: 1.2em;
+    font-weight: 900;
+    margin: 0;
+    color: var(--headerColor);
+  }
+  #donations-1428 .cs-desc {
+    /* 14px - 16px */
+    font-size: clamp(0.875em, 3vw, 1rem);
+    text-align: inherit;
+    line-height: 1.5em;
+    margin: 0;
+    color: var(--bodyTextColor);
+  }
+  #donations-1428 .cs-background {
+    width: 100%;
+    /* 100% at large desktop */
+    height: 70%;
+    /* removed at large desktop */
+    max-height: 40.625rem;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+  }
+  #donations-1428 .cs-background:before {
+    content: "";
+    width: 100%;
+    height: 100%;
+    background-color: #1A1A1A;
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+  }
+  #donations-1428 .cs-background img {
+    width: 100%;
+    height: 100%;
+    opacity: .02;
+    object-fit: cover;
+    top: 0;
+    left: 0;
+  }
+}
+/* Tablet - 768px */
+@media only screen and (min-width: 48rem) {
+  #donations-1428 .cs-container {
+    max-width: 80rem;
+  }
+  #donations-1428 .cs-item {
+    grid-column: span 6;
+  }
+  #donations-1428 .cs-stat {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+  #donations-1428 .cs-info {
+    text-align: left;
+    align-items: flex-start;
+  }
+}
+/* Large Desktop - 1300px */
+@media only screen and (min-width: 81.25rem) {
+  #donations-1428 .cs-container {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+  #donations-1428 .cs-content {
+    text-align: left;
+    /* this padding will push down and maintain the same distance between the bottom of the group and the top of the cs-stats-container.  That way when you add or subtract content from this group it will always be the right distance from the stat container below it */
+    padding-bottom: 15.625rem;
+    align-items: flex-start;
+  }
+  #donations-1428 .cs-card-group {
+    /* same amount as the translateY value to offset it */
+    margin-bottom: 6.25rem;
+    /* sends it to the left in the 1st position */
+    order: -1;
+    align-self: center;
+  }
+  #donations-1428 .cs-item:nth-of-type(2) {
+    transform: translateY(6.25rem);
+  }
+  #donations-1428 .cs-card-group {
+    max-width: 39.375rem;
+  }
+  #donations-1428 .cs-stats-container {
+    max-width: 80rem;
+    /* makes it overlap the cs-container so the cards are next to it on the left */
+    margin-top: -9.375rem;
+    display: flex;
+    justify-content: flex-end;
+  }
+  #donations-1428 .cs-stats-container:before {
+    /* white background on the stats */
+    /* we add this to be the background so as the height of the cs-content changes, this white background area will ALWAYS have 36 pixels between the top of it and the stats content below it.  This is an "illusion" we use to create the LOOK of it being the section background so we have mroe control over the white space above the stats group. */
+    content: '';
+    width: 105vw;
+    height: 62.5rem;
+    background: #fff;
+    opacity: 1;
+    position: absolute;
+    display: block;
+    top: -2.25rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: -1;
+  }
+  #donations-1428 .cs-stats-group {
+    max-width: 36.5625rem;
+    justify-content: flex-end;
+  }
+  #donations-1428 .cs-background {
+    height: 100%;
+    max-height: 100%;
+  }
+}
+                                

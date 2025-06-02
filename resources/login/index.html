@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Matrimony registration form</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <header>New Account</header>
+      <div class="progress-bar">
+        <div class="step">
+          <p>About</p>
+          <div class="bullet">
+            <span>1</span>
+          </div>
+          <div class="check fas fa-check"></div>
+        </div>
+        <div class="step">
+          <p>Birth</p>
+          <div class="bullet">
+            <span>2</span>
+          </div>
+          <div class="check fas fa-check"></div>
+        </div>
+        <div class="step">
+          <p>Submit</p>
+          <div class="bullet">
+            <span>3</span>
+          </div>
+          <div class="check fas fa-check"></div>
+        </div>
+      </div>
+      <div class="form-outer">
+        <form action="/create-profile" method="POST">
+          <div class="page slide-page">
+            <div class="title">Basic Info:</div>
+            <div class="field">
+              <div class="label">First Name</div>
+              <input type="text" name="firstname" id="firstname" onfocus="this.value=''" value="e.g Kandan">
+            </div>
+            <div class="field">
+              <div class="label">Last Name</div>
+              <input type="text" name="secondname" id="secondname" onfocus="this.value=''" value="e.g Initial or lastname">
+            </div>
+            <div class="field">
+              <div class="label">Email Address</div>
+              <input type="text" name="email" id="email" onfocus="this.value=''" value="example@gmail.com">
+            </div>
+            <div class="field">
+              <div class="label">Phone Number</div>
+              <input type="Number" name="phone" id="phone" onfocus="this.value=''" value="9912345678">
+            </div>
+            <div class="field">
+              <button class="firstNext next">Next</button>
+            </div>
+          </div>
+          <div class="page">
+            <div class="title">Date of Birth:</div>
+            <div class="field">
+              <div class="label">Date</div>
+              <input type="date" name="dob" id="dob">
+            </div>
+            <div class="field">
+              <div class="label" name="gender" id="gender">Gender</div>
+              <select>
+                <option>Male</option>
+                <option>Female</option>
+                <option>Other</option>
+              </select>
+            </div>
+            <div class="field">
+              <div class="label" name="country" id="country">Country</div>
+              <select>
+                <option>India</option>
+                <option>United States</option>
+                <option>Canada</option>
+              </select>
+            </div>
+            <div class="field">
+              <div class="label" name="religion" id="religion">Religion</div>
+              <select>
+                <option>Hindu</option>
+                <option>Christian</option>
+                <option>Muslim</option>
+              </select>
+            </div>
+            <div class="field">
+              <div class="label" name="language" id="language">Language</div>
+              <select>
+                <option>Tamil</option>
+                <option>Hindi</option>
+                <option>Telugu</option>
+              </select>
+            </div>
+            <div class="field btns">
+              <button class="prev-1 prev">Previous</button>
+              <button class="next-1 next">Next</button>
+            </div>
+          </div>
+
+          <div class="page">
+            <div class="title">Login Details:</div>
+            <p>8 characters must including A-Z,a-z,0-9,@;#$%^&*</p>
+            <div class="field">
+              <div class="label">Password</div>
+              <input type="password">
+            </div>
+            <div class="field">
+              <div class="label">Confirm Password</div>
+              <input type="password">
+            </div>
+            <div class="field btns">
+              <button class="prev-2 prev">Previous</button>
+              <button type="submit" class="submit">Submit</button>
+              
+            </div>
+            <div class="field btns">
+            <button type="reset" class="reset">Reset</button>
+            </div>
+            
+          </div>
+        </form>
+      </div>
+    </div>
+    <script src="script.js"></script>
+
+  </body>
+</html>

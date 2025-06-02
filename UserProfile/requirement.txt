@@ -1,0 +1,9 @@
+//List of enhancements to be added for this project
+Add gorm for connection pooling
+Add redisclient pooling for efficient operations in redis currenly one connection client
+Add go routines in DB operations for efficient operations and reducing latency
+Add telemetry for all the events like adding user, forgot password etc. Opensearch or elasticsearch like datasource
+Add centralized loggin server for monitoring and observability
+How go in handling multiple request in the handler any optimization needed
+bootstrap the initialization for db, redis client, configuration, any other dependencies services health check, telemetry, metrics
+fasthttp, fiber are other frameworks available

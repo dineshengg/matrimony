@@ -1,0 +1,9 @@
+{
+    "db_user": "yourusername",
+    "db_password": "yourpassword",
+    "db_name": "yourdbname",
+    "db_host": "localhost",
+    "db_port": 5432,
+    "redis_host": "localhost",
+    "redis_port": 6379
+}

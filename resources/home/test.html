@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en"> <!-- Default, will be updated -->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration with Language Choice</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="./../css/profile.css">
+    <style>
+        body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+    color: #333;
+    line-height: 1.6;
+}
+
+.page-section {
+    padding: 40px 20px;
+    min-height: 25vh; /* Make sections take up some space for scrolling demo */
+    text-align: center;
+    border-bottom: 1px solid #eee;
+}
+
+#languageSelectorSection {
+    background-color: #eef;
+}
+
+#registrationFormSection {
+    background-color: #fee;
+    padding-top: 60px; /* Give some space if header is fixed, or just for visual separation */
+}
+
+
+h2 {
+    margin-top: 0;
+    margin-bottom: 25px;
+}
+
+.language-buttons button {
+    background-color: #ff6a3e;
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    margin: 8px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.2s;
+}
+
+.language-buttons button:hover {
+    background-color: #f5f7f9;
+    color:#ff6a3e;
+}
+
+.skip-link-container {
+    margin-top: 20px;
+}
+
+.skip-link-container a {
+    color: #ff6a3e;
+    text-decoration: none;
+}
+.skip-link-container a:hover {
+    text-decoration: underline;
+}
+
+
+/* Form Styles */
+#registrationForm {
+    max-width: 450px;
+    margin: 0 auto;
+    background-color: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    text-align: left;
+}
+
+#registrationForm div {
+    margin-bottom: 15px;
+}
+
+#registrationForm label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+#registrationForm input[type="text"],
+#registrationForm input[type="email"],
+#registrationForm input[type="password"] {
+    width: calc(100% - 22px); /* Account for padding */
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+#registrationForm button[type="submit"] {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1.1em;
+    width: 100%;
+    margin-top: 10px;
+    transition: background-color 0.2s;
+}
+
+#registrationForm button[type="submit"]:hover {
+    background-color: #218838;
+}
+
+/* For smooth scrolling */
+html {
+    scroll-behavior: smooth;
+}
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+    const languageButtons = document.querySelectorAll('#languageSelectorSection .language-buttons button');
+    const registrationFormSection = document.getElementById('registrationFormSection');
+    const skipToFormLink = document.getElementById('skipToFormLink');
+    let currentLanguage = 'en'; // Default language
+
+    // --- Translations Store ---
+    const translations = {
+        en: {
+            languagePromptHeading: "Choose Your Language",
+            skip_to_form: "Skip to Form",
+            form_title: "Register Your Account",
+            label_username: "Username:",
+            placeholder_username: "Enter your username",
+            label_email: "Email:",
+            placeholder_email: "Enter your email address",
+            label_password: "Password:",
+            placeholder_password: "Choose a strong password",
+            button_submit: "Create Account"
+        },
+        es: {
+            languagePromptHeading: "Elija su Idioma",
+            skip_to_form: "Ir al Formulario",
+            form_title: "Registre su Cuenta",
+            label_username: "Nombre de Usuario:",
+            placeholder_username: "Ingrese su nombre de usuario",
+            label_email: "Correo Electrónico:",
+            placeholder_email: "Ingrese su dirección de correo electrónico",
+            label_password: "Contraseña:",
+            placeholder_password: "Elija una contraseña segura",
+            button_submit: "Crear Cuenta"
+        },
+        fr: {
+            languagePromptHeading: "Choisissez Votre Langue",
+            skip_to_form: "Passer au Formulaire",
+            form_title: "Créez votre Compte",
+            label_username: "Nom d'utilisateur:",
+            placeholder_username: "Entrez votre nom d'utilisateur",
+            label_email: "Email:",
+            placeholder_email: "Entrez votre adresse e-mail",
+            label_password: "Mot de passe:",
+            placeholder_password: "Choisissez un mot de passe fort",
+            button_submit: "Créer un compte"
+        }
+        // Add more languages as needed
+    };
+
+    // --- Function to Apply Translations ---
+    function applyTranslations(lang) {
+        if (!translations[lang]) {
+            console.warn(`Language ${lang} not found. Defaulting to '${currentLanguage}'.`);
+            lang = currentLanguage; // Fallback to current or default if new lang is invalid
+        }
+        currentLanguage = lang; // Store the current language
+
+        document.querySelectorAll('[data-translate]').forEach(element => {
+            const key = element.getAttribute('data-translate');
+            if (translations[lang][key]) {
+                element.textContent = translations[lang][key]; // Use textContent for simple text
+            } else {
+                // If specific element has no key in current language, try default or leave as is
+                if(element.id === "languagePromptHeading" && translations[lang].languagePromptHeading){
+                    element.textContent = translations[lang].languagePromptHeading;
+                } else if (translations.en[key]) { // Fallback to English for this key if missing
+                    element.textContent = translations.en[key];
+                }
+                console.warn(`Translation key "${key}" not found for lang "${lang}".`);
+            }
+        });
+        // Translate the language prompt heading itself, if needed (though it's often kept multi-lingual)
+        const promptHeading = document.getElementById('languagePromptHeading');
+        if (promptHeading && translations[lang].languagePromptHeading) {
+            promptHeading.textContent = translations[lang].languagePromptHeading;
+        }
+
+
+        document.querySelectorAll('[data-translate-placeholder]').forEach(element => {
+            const key = element.getAttribute('data-translate-placeholder');
+            if (translations[lang][key]) {
+                element.placeholder = translations[lang][key];
+            } else {
+                if (translations.en[key]) { // Fallback to English for this key if missing
+                    element.placeholder = translations.en[key];
+                }
+                console.warn(`Placeholder key "${key}" not found for lang "${lang}".`);
+            }
+        });
+
+        document.documentElement.lang = lang; // Update HTML lang attribute
+        localStorage.setItem('preferredLanguage', lang); // Persist choice
+    }
+
+    // --- Function to Scroll to Form ---
+    function scrollToForm() {
+        registrationFormSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    // --- Event Listeners for Language Buttons ---
+    languageButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const selectedLang = button.getAttribute('data-lang');
+            applyTranslations(selectedLang);
+            scrollToForm();
+        });
+    });
+
+    // --- Event Listener for "Skip to Form" Link ---
+    // The href="#registrationFormSection" handles basic jump.
+    // This JS adds smooth scroll if preferred, but CSS `scroll-behavior: smooth` is better.
+    // If you remove `html { scroll-behavior: smooth; }` from CSS, you can enable this:
+    /*
+    if (skipToFormLink) {
+        skipToFormLink.addEventListener('click', (event) => {
+            event.preventDefault(); // Prevent default jump to use smooth scroll
+            scrollToForm();
+        });
+    }
+    */
+
+    // --- Initial Language Setup ---
+    function initializeLanguage() {
+        const preferredLanguage = localStorage.getItem('preferredLanguage');
+        const browserLanguage = navigator.language.split('-')[0]; // e.g., "en-US" -> "en"
+        let langToLoad = 'en'; // Default
+
+        if (preferredLanguage && translations[preferredLanguage]) {
+            langToLoad = preferredLanguage;
+        } else if (translations[browserLanguage]) {
+            langToLoad = browserLanguage;
+        }
+        applyTranslations(langToLoad);
+    }
+
+    initializeLanguage(); // Set initial language on page load
+
+    // Handle form submission (example)
+    const regForm = document.getElementById('registrationForm');
+    if (regForm) {
+        regForm.addEventListener('submit', (event) => {
+            event.preventDefault(); // Prevent actual submission for this demo
+            alert(`Form submitted in ${currentLanguage}! Username: ${document.getElementById('username').value}`);
+            // Here you would typically send the data to a server
+        });
+    }
+});
+    </script>
+</head>
+<body>
+
+    <!-- Language Selection Section -->
+    <section id="languageSelectorSection" class="page-section">
+        <h2 id="languagePromptHeading">Choose Your Language</h2>
+        <div class="language-buttons">
+            <button data-lang="en">English</button>
+            <button data-lang="es">Español</button>
+            <button data-lang="fr">Français</button>
+            <!-- Add more language buttons as needed -->
+        </div>
+        <p class="skip-link-container">
+            <a href="#registrationFormSection" id="skipToFormLink" data-translate="skip_to_form">Skip to Form</a>
+        </p>
+    </section>
+
+<!-- login form -->
+<section id="registrationFormSection" class="container page-section" style="margin-top:2%;width:400px;margin-left:auto;margin-right:auto;">
+    <div class="title" style="font-weight: bold;">
+        <span><img src="./../icons/star-symbol-icon.svg" alt="icon" class="cs-icon" aria-hidden="true" decoding="async" width="30" height="30"></img></span>
+        <span>New Users Register and get all paid service for 15 days</span>
+    </div>
+      <h1>Find your match</h1>
+      <div class="form-outer">
+        <form action="/create-profile" method="POST">
+          <div class="page slide-page">
+            <div class="field">
+              <div class="label">Looking for</div>
+              <select name="looking[]" id="looking"  required>
+                <option value="self" >Self</option>
+                <option value="son" >Son</option>
+                <option value="daughter" style="">Daughter</option>
+              </select>
+            </div>
+            <div class="field">
+              <div class="label">Email id</div>
+              <input type="text" name="emailid" id="emailid"  placeholder="kandan@gmail.com" required>
+            </div>
+            <div class="field">
+              <div class="label">Phone</div>
+              <input type="text" name="Phone" id="Phone"  placeholder="+918248204733" required>
+            </div>
+            <div class="field btns">
+              <button type="submit" class="submit">Find</button>
+            </div>
+            <a href="/new-user">Login Now</a>
+          </div>
+        </form>
+      </div>
+    </div>
+</section>
+
+    <script src="script.js"></script>
+</body>
+</html>

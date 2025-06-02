@@ -1,0 +1,228 @@
+/*-- -------------------------- -->
+<---           Stats            -->
+<--- -------------------------- -*/
+
+/* Mobile - 360px */
+@media only screen and (min-width: 0rem) {
+    #stats-1229 {
+        padding: var(--sectionPadding);
+        position: relative;
+        z-index: 1;
+    }
+    #stats-1229:before {
+        content: "";
+        position: absolute;
+        display: block;
+        height: 100%;
+        width: 100%;
+        background: url("https://csimg.nyc3.cdn.digitaloceanspaces.com/Icons/chevron-pattern-light3.svg");
+        background-position: center;
+        background-size: auto;
+        background-repeat: repeat;
+        opacity: 0.3;
+        top: 0;
+        left: 0;
+        z-index: -1;
+    }
+    #stats-1229 .cs-container {
+        /* changes to 1280px at desktop */
+        max-width: 36.5rem;
+        width: 100%;
+        margin: auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        /* 48px - 64px */
+        gap: clamp(3rem, 6vw, 4rem);
+    }
+    #stats-1229 .cs-content {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 2rem;
+    }
+    #stats-1229 .cs-flex {
+        /* set text align to left if content needs to be left aligned */
+        text-align: left;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        /* centers content horizontally, set to flex-start to left align */
+        align-items: flex-start;
+    }
+
+    #stats-1229 .cs-title {
+        max-width: 20ch;
+    }
+    #stats-1229 .cs-card-group {
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        display: grid;
+        grid-template-columns: repeat(12, 1fr);
+        /* 16px - 20px */
+        gap: clamp(1rem, 2vw, 1.25rem);
+    }
+    #stats-1229 .cs-item {
+        list-style: none;
+        width: 100%;
+        /* prevents padding and border from affecting height and width */
+        /* 16px - 40px top & bottom */
+        /* 16px - 32px left & right */
+        padding: clamp(1rem, 3vw, 2.5rem) clamp(1rem, 2.5vw, 2rem);
+        box-sizing: border-box;
+        background: #f7f7f7;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        position: relative;
+        gap: 0.75rem;
+        /* clips cs-icon overflowing */
+        overflow: hidden;
+        grid-column: span 6;
+    }
+    #stats-1229 .cs-icon {
+        /* 32px - 40px */
+        width: clamp(2rem, 3vw, 2.5rem);
+        height: auto;
+        margin: 0;
+        flex: none;
+    }
+    #stats-1229 .cs-h3 {
+        /* 16px - 25px */
+        font-size: clamp(1rem, 2vw, 1.5625rem);
+        line-height: 1.2em;
+        font-weight: 900;
+        width: 100%;
+        margin: 0;
+        color: var(--headerColor);
+        /* wraps longer words on the smallest screen sizes */
+        overflow-wrap: break-word;
+    }
+    #stats-1229 .cs-stat-group {
+        width: 100%;
+        margin: auto;
+        padding: 0;
+        display: grid;
+        justify-content: center;
+        align-items: center;
+        grid-template-columns: repeat(6, 1fr);
+    }
+    #stats-1229 .cs-stat {
+        list-style: none;
+        margin: 0;
+        /* 16px - 40px */
+        padding: clamp(1rem, 3vw, 2.5rem) 1rem;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: relative;
+        grid-column: span 2;
+        /* border code */
+        /* remove the border on the far-right elements */
+        /* makes the last two items span across multiple columns. changes at desktop to one line */
+    }
+    #stats-1229 .cs-stat:before {
+        content: "";
+        width: 2px;
+        height: 100%;
+        background: linear-gradient(
+            0deg,
+            rgba(72, 72, 72, 0) 0%,
+            #484848 50%,
+            rgba(72, 72, 72, 0) 100%
+        );
+        position: absolute;
+        top: 0;
+        right: 0;
+    }
+    #stats-1229 .cs-stat:nth-of-type(3):before,
+    #stats-1229 .cs-stat:nth-of-type(5):before {
+        content: none;
+    }
+    #stats-1229 .cs-stat:nth-of-type(4),
+    #stats-1229 .cs-stat:nth-of-type(5) {
+        grid-column: span 3;
+    }
+    #stats-1229 .cs-desc {
+        font-size: var(--bodyFontSize);
+        line-height: 1.5em;
+        text-align: center;
+        /* keeps the width of the stat description from overflowing onto the border */
+        /* 88px - 176px */
+        width: clamp(5.5rem, 20vw, 11rem);
+        margin-bottom: 0.5rem;
+        color: #858585;
+        display: block;
+    }
+    #stats-1229 .cs-number {
+        /* 25px - 49px */
+        font-size: clamp(1.5625rem, 3vw, 3.0625rem);
+        line-height: 1.2em;
+        font-weight: 900;
+        margin: 0;
+        color: var(--headerColor);
+        display: block;
+    }
+}
+/* Tablet - 650px */
+@media only screen and (min-width: 40.625rem) {
+    #stats-1229 .cs-container {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+    #stats-1229 .cs-card-group {
+        display: grid;
+        /* makes all grid items stretch to have the same height if their content isn't all the same height */
+        align-items: stretch;
+        grid-template-columns: repeat(2, 1fr);
+    }
+    #stats-1229 .cs-item {
+        grid-column: span 1;
+        flex-direction: row;
+        align-items: center;
+    }
+    #stats-1229 .cs-stat-group {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+}
+/* Small Desktop - 1024px */
+@media only screen and (min-width: 64rem) {
+    #stats-1229 .cs-container {
+        max-width: 80rem;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+    #stats-1229 .cs-content {
+        flex-direction: row;
+        align-items: center;
+    }
+    #stats-1229 .cs-title,
+    #stats-1229 .cs-text {
+        max-width: none;
+    }
+    #stats-1229 .cs-card-group {
+        width: 50%;
+        /* prevents flexbox from squishing it */
+        flex: none;
+    }
+    #stats-1229 .cs-stat-group {
+        max-width: 80rem;
+        grid-template-columns: repeat(5, 1fr);
+    }
+    #stats-1229 .cs-stat {
+        grid-column: span 1;
+    }
+    #stats-1229 .cs-stat:nth-of-type(4),
+    #stats-1229 .cs-stat:nth-of-type(5) {
+        grid-column: span 1;
+    }
+    #stats-1229 .cs-stat:nth-of-type(3):before {
+        content: "";
+    }
+}
+                                

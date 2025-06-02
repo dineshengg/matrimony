@@ -1,0 +1,112 @@
+/* body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+    color: #333;
+    line-height: 1.6;
+} */
+
+.page-section {
+    padding: 40px 20px;
+    min-height: 50vh; /* Make sections take up some space for scrolling demo */
+    text-align: center;
+    border-bottom: 1px solid #eee;
+}
+
+#languageSelectorSection {
+    background-color: #eef;
+}
+
+#registrationFormSection {
+    background-color: #fee;
+    padding-top: 60px; /* Give some space if header is fixed, or just for visual separation */
+}
+
+
+h2 {
+    margin-top: 0;
+    margin-bottom: 25px;
+}
+
+.language-buttons button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    margin: 8px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.2s;
+}
+
+.language-buttons button:hover {
+    background-color: #0056b3;
+}
+
+.skip-link-container {
+    margin-top: 20px;
+}
+
+.skip-link-container a {
+    color: #007bff;
+    text-decoration: none;
+}
+.skip-link-container a:hover {
+    text-decoration: underline;
+}
+
+
+/* Form Styles */
+#registrationForm {
+    max-width: 450px;
+    margin: 0 auto;
+    background-color: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    text-align: left;
+}
+
+#registrationForm div {
+    margin-bottom: 15px;
+}
+
+#registrationForm label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+#registrationForm input[type="text"],
+#registrationForm input[type="email"],
+#registrationForm input[type="password"] {
+    width: calc(100% - 22px); /* Account for padding */
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+#registrationForm button[type="submit"] {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1.1em;
+    width: 100%;
+    margin-top: 10px;
+    transition: background-color 0.2s;
+}
+
+#registrationForm button[type="submit"]:hover {
+    background-color: #218838;
+}
+
+/* For smooth scrolling */
+html {
+    scroll-behavior: smooth;
+}
