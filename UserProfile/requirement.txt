@@ -7,3 +7,27 @@ Add centralized loggin server for monitoring and observability
 How go in handling multiple request in the handler any optimization needed
 bootstrap the initialization for db, redis client, configuration, any other dependencies services health check, telemetry, metrics
 fasthttp, fiber are other frameworks available
+
+
+
+- Home page
+ - Adding language translation will be done at each page
+ - fixing all the api endpoints
+ - static file loading create a separate service for optimization of user profile service
+ - logo image kandan matrimony
+ - About - add a vision and mission statements
+ - contact forms - to report or any suggestions
+ - login now and find should load the static page
+ - send email and sms with otp to validate the provided email id and phone no
+ - all messages should be translated
+
+- Over all
+  - Need to capture photo in mobile and desktop, laptop to make sure no fake profile
+  - integrate with chat agent for auto profile creation and queries
+
+- Add static server for static file serving
+ - Add both http and https endpoint
+
+-------------------------------------------------------------------------------------------------------------------------------------------
+ # url for icons - https://uxwing.com/wedding-groom-icon/ free for commercial without any attribution
+ # home page is built using https://codestitch.app/ using free templates available no license required - core.css, contactfaq.html

@@ -1,326 +1,949 @@
 <!DOCTYPE html>
-<html lang="en"> <!-- Default, will be updated -->
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registration with Language Choice</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="./../css/profile.css">
-    <style>
-        body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f9f9f9;
-    color: #333;
-    line-height: 1.6;
-}
+<html>
 
-.page-section {
-    padding: 40px 20px;
-    min-height: 25vh; /* Make sections take up some space for scrolling demo */
-    text-align: center;
-    border-bottom: 1px solid #eee;
-}
+<link rel="stylesheet" href="/static/css/core.css">
+<link rel="stylesheet" href="/static/css/profile.css">
+<link rel="stylesheet" href="/static/css/footer.css">
+<link rel="stylesheet" href="/static/css/login.css">
+<link rel="stylesheet" href="/static/css/searchbox.css">
+<link rel="stylesheet" href="/static/css/allinfo.css">
 
-#languageSelectorSection {
-    background-color: #eef;
-}
+<!-- ============================================ -->
+<!--                 Navigation                   -->
+<!-- ============================================ -->
 
-#registrationFormSection {
-    background-color: #fee;
-    padding-top: 60px; /* Give some space if header is fixed, or just for visual separation */
-}
-
-
-h2 {
-    margin-top: 0;
-    margin-bottom: 25px;
-}
-
-.language-buttons button {
-    background-color: #ff6a3e;
-    color: white;
-    border: none;
-    padding: 12px 25px;
-    margin: 8px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 1em;
-    transition: background-color 0.2s;
-}
-
-.language-buttons button:hover {
-    background-color: #f5f7f9;
-    color:#ff6a3e;
-}
-
-.skip-link-container {
-    margin-top: 20px;
-}
-
-.skip-link-container a {
-    color: #ff6a3e;
-    text-decoration: none;
-}
-.skip-link-container a:hover {
-    text-decoration: underline;
-}
-
-
-/* Form Styles */
-#registrationForm {
-    max-width: 450px;
-    margin: 0 auto;
-    background-color: white;
-    padding: 30px;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    text-align: left;
-}
-
-#registrationForm div {
-    margin-bottom: 15px;
-}
-
-#registrationForm label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
-}
-
-#registrationForm input[type="text"],
-#registrationForm input[type="email"],
-#registrationForm input[type="password"] {
-    width: calc(100% - 22px); /* Account for padding */
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    box-sizing: border-box;
-}
-
-#registrationForm button[type="submit"] {
-    background-color: #28a745;
-    color: white;
-    border: none;
-    padding: 12px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 1.1em;
-    width: 100%;
-    margin-top: 10px;
-    transition: background-color 0.2s;
-}
-
-#registrationForm button[type="submit"]:hover {
-    background-color: #218838;
-}
-
-/* For smooth scrolling */
-html {
-    scroll-behavior: smooth;
-}
-    </style>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-    const languageButtons = document.querySelectorAll('#languageSelectorSection .language-buttons button');
-    const registrationFormSection = document.getElementById('registrationFormSection');
-    const skipToFormLink = document.getElementById('skipToFormLink');
-    let currentLanguage = 'en'; // Default language
-
-    // --- Translations Store ---
-    const translations = {
-        en: {
-            languagePromptHeading: "Choose Your Language",
-            skip_to_form: "Skip to Form",
-            form_title: "Register Your Account",
-            label_username: "Username:",
-            placeholder_username: "Enter your username",
-            label_email: "Email:",
-            placeholder_email: "Enter your email address",
-            label_password: "Password:",
-            placeholder_password: "Choose a strong password",
-            button_submit: "Create Account"
-        },
-        es: {
-            languagePromptHeading: "Elija su Idioma",
-            skip_to_form: "Ir al Formulario",
-            form_title: "Registre su Cuenta",
-            label_username: "Nombre de Usuario:",
-            placeholder_username: "Ingrese su nombre de usuario",
-            label_email: "Correo Electrónico:",
-            placeholder_email: "Ingrese su dirección de correo electrónico",
-            label_password: "Contraseña:",
-            placeholder_password: "Elija una contraseña segura",
-            button_submit: "Crear Cuenta"
-        },
-        fr: {
-            languagePromptHeading: "Choisissez Votre Langue",
-            skip_to_form: "Passer au Formulaire",
-            form_title: "Créez votre Compte",
-            label_username: "Nom d'utilisateur:",
-            placeholder_username: "Entrez votre nom d'utilisateur",
-            label_email: "Email:",
-            placeholder_email: "Entrez votre adresse e-mail",
-            label_password: "Mot de passe:",
-            placeholder_password: "Choisissez un mot de passe fort",
-            button_submit: "Créer un compte"
-        }
-        // Add more languages as needed
-    };
-
-    // --- Function to Apply Translations ---
-    function applyTranslations(lang) {
-        if (!translations[lang]) {
-            console.warn(`Language ${lang} not found. Defaulting to '${currentLanguage}'.`);
-            lang = currentLanguage; // Fallback to current or default if new lang is invalid
-        }
-        currentLanguage = lang; // Store the current language
-
-        document.querySelectorAll('[data-translate]').forEach(element => {
-            const key = element.getAttribute('data-translate');
-            if (translations[lang][key]) {
-                element.textContent = translations[lang][key]; // Use textContent for simple text
-            } else {
-                // If specific element has no key in current language, try default or leave as is
-                if(element.id === "languagePromptHeading" && translations[lang].languagePromptHeading){
-                    element.textContent = translations[lang].languagePromptHeading;
-                } else if (translations.en[key]) { // Fallback to English for this key if missing
-                    element.textContent = translations.en[key];
-                }
-                console.warn(`Translation key "${key}" not found for lang "${lang}".`);
-            }
-        });
-        // Translate the language prompt heading itself, if needed (though it's often kept multi-lingual)
-        const promptHeading = document.getElementById('languagePromptHeading');
-        if (promptHeading && translations[lang].languagePromptHeading) {
-            promptHeading.textContent = translations[lang].languagePromptHeading;
-        }
-
-
-        document.querySelectorAll('[data-translate-placeholder]').forEach(element => {
-            const key = element.getAttribute('data-translate-placeholder');
-            if (translations[lang][key]) {
-                element.placeholder = translations[lang][key];
-            } else {
-                if (translations.en[key]) { // Fallback to English for this key if missing
-                    element.placeholder = translations.en[key];
-                }
-                console.warn(`Placeholder key "${key}" not found for lang "${lang}".`);
-            }
-        });
-
-        document.documentElement.lang = lang; // Update HTML lang attribute
-        localStorage.setItem('preferredLanguage', lang); // Persist choice
-    }
-
-    // --- Function to Scroll to Form ---
-    function scrollToForm() {
-        registrationFormSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-
-    // --- Event Listeners for Language Buttons ---
-    languageButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            const selectedLang = button.getAttribute('data-lang');
-            applyTranslations(selectedLang);
-            scrollToForm();
-        });
-    });
-
-    // --- Event Listener for "Skip to Form" Link ---
-    // The href="#registrationFormSection" handles basic jump.
-    // This JS adds smooth scroll if preferred, but CSS `scroll-behavior: smooth` is better.
-    // If you remove `html { scroll-behavior: smooth; }` from CSS, you can enable this:
-    /*
-    if (skipToFormLink) {
-        skipToFormLink.addEventListener('click', (event) => {
-            event.preventDefault(); // Prevent default jump to use smooth scroll
-            scrollToForm();
-        });
-    }
-    */
-
-    // --- Initial Language Setup ---
-    function initializeLanguage() {
-        const preferredLanguage = localStorage.getItem('preferredLanguage');
-        const browserLanguage = navigator.language.split('-')[0]; // e.g., "en-US" -> "en"
-        let langToLoad = 'en'; // Default
-
-        if (preferredLanguage && translations[preferredLanguage]) {
-            langToLoad = preferredLanguage;
-        } else if (translations[browserLanguage]) {
-            langToLoad = browserLanguage;
-        }
-        applyTranslations(langToLoad);
-    }
-
-    initializeLanguage(); // Set initial language on page load
-
-    // Handle form submission (example)
-    const regForm = document.getElementById('registrationForm');
-    if (regForm) {
-        regForm.addEventListener('submit', (event) => {
-            event.preventDefault(); // Prevent actual submission for this demo
-            alert(`Form submitted in ${currentLanguage}! Username: ${document.getElementById('username').value}`);
-            // Here you would typically send the data to a server
-        });
-    }
-});
-    </script>
-</head>
-<body>
-
-    <!-- Language Selection Section -->
-    <section id="languageSelectorSection" class="page-section">
-        <h2 id="languagePromptHeading">Choose Your Language</h2>
-        <div class="language-buttons">
-            <button data-lang="en">English</button>
-            <button data-lang="es">Español</button>
-            <button data-lang="fr">Français</button>
-            <!-- Add more language buttons as needed -->
+<header id="cs-navigation">
+    <div class="cs-container">
+        <!--Nav Logo-->
+        <!--Logo is turned white in the css with a filter on dark mode-->
+        <a href="" class="cs-logo" aria-label="back to home" style="text-decoration: none;font-weight: bold;">
+            <img src="/static/images/vel.png" alt="logo" width="600" height="120" aria-hidden="true" decoding="async" >
+            Kandan Matrimony
+        </a>
+        <!--Navigation List-->
+        <nav class="cs-nav" role="navigation">
+            <!--Mobile Nav Toggle-->
+            <button class="cs-toggle" aria-label="mobile menu toggle">
+                <div class="cs-box" aria-hidden="true">
+                    <span class="cs-line cs-line1" aria-hidden="true"></span>
+                    <span class="cs-line cs-line2" aria-hidden="true"></span>
+                    <span class="cs-line cs-line3" aria-hidden="true"></span>
+                </div>
+            </button>
+            <!-- We need a wrapper div so we can set a fixed height on the cs-ul in case the nav list gets too long from too many dropdowns being opened and needs to have an overflow scroll. This wrapper acts as the background so it can go the full height of the screen and not cut off any overflowing nav items while the cs-ul stops short of the bottom of the screen, which keeps all nav items in view no matter how mnay there are-->
+            <div class="cs-ul-wrapper">
+                <ul id="cs-expanded" class="cs-ul" aria-expanded="false">
+                    <li class="cs-li">
+                        <a href="/api/home" class="cs-li-link cs-active" id="nav-home">Home</a>
+                    </li>
+                    <li class="cs-li">
+                        <a href="/api/about" class="cs-li-link" id="nav-about">About</a>
+                    </li>
+                    <li class="cs-li cs-dropdown" tabindex="0">
+                        <span class="cs-li-link" id="nav-bridesgroom">
+                            Brides/Groom
+                            <img class="cs-drop-icon" src="/static/icons/down-gold.svg" alt="dropdown icon" width="15" height="15" decoding="async" aria-hidden="true">
+                        </span>
+                        <ul class="cs-drop-ul">
+                            <li class="cs-drop-li">
+                                <a href="/static/login/newuser.html" class="cs-li-link cs-drop-link" id="nav-newreg">New Registration for Users</a>
+                            </li>
+                            <li class="cs-drop-li">
+                                <a href="/static/login/login.html" class="cs-li-link cs-drop-link" id="nav-loginexist">Login for Existing Users</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="cs-li">
+                        <a href="/static/profile/subscription.html" class="cs-li-link" id="nav-pricing">Pricing</a>
+                    </li>
+                    <li class="cs-li">
+                        <a href="/api/contact-form" class="cs-li-link" id="nav-contact">Contact</a>
+                    </li>
+                    <li class="cs-li cs-dropdown" tabindex="0" id="languages">
+                        <label style="font-weight:bold;" id="nav-language-label">🌐 Language:</label>
+                        <ul class="cs-drop-ul" id="lang-list">
+                            <li class="cs-drop-li">
+                                <a class="cs-li-link cs-drop-link lang-option active" data-lang="en" id="lang-en">English</a>
+                            </li>
+                            <li class="cs-drop-li">
+                                <a class="cs-li-link cs-drop-link lang-option" data-lang="ta" id="lang-ta">Tamil</a>
+                            </li>
+                            <li class="cs-drop-li">
+                                <a class="cs-li-link cs-drop-link lang-option" data-lang="hi" id="lang-hi">Hindi</a>
+                            </li>
+                            <li class="cs-drop-li">
+                                <a class="cs-li-link cs-drop-link lang-option" data-lang="te" id="lang-te">Telugu</a>
+                            </li>
+                            <li class="cs-drop-li">
+                                <a class="cs-li-link cs-drop-link lang-option" data-lang="kn" id="lang-kn">Kanada</a>
+                            </li>
+                            <li class="cs-drop-li">
+                                <a class="cs-li-link cs-drop-link lang-option" data-lang="ml" id="lang-ml">Malayalam</a>
+                            </li>
+                            <li class="cs-drop-li">
+                                <a class="cs-li-link cs-drop-link lang-option" data-lang="tulu" id="lang-tulu">Thulu</a>
+                            </li>
+                        </ul>
+                        <span class="cs-li-link">
+                            <img class="cs-drop-icon" src="/static/icons/down-gold.svg" alt="dropdown icon" width="15" height="15" decoding="async" aria-hidden="true">
+                        </span>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <div class="cs-contact-group">
+            <a href="tel:9500008040" class="cs-phone" id="nav-phone">
+                <img class="cs-phone-icon" src="/static/icons/phone-1a.svg" alt="logo" width="24" height="24" aria-hidden="true" decoding="async">
+                <span id="nav-phone-number">+91 9500008040</span>
+            </a>
+            <div class="cs-social">
+                <a href="https://facebook.com" class="cs-social-link" target="_blank" id="nav-facebook">
+                    <img class="cs-social-icon" src="/static/icons/facebook-1a.svg" alt="logo" width="12" height="12" aria-hidden="true" decoding="async">
+                </a>
+                <a href="https://twitter.com" class="cs-social-link" target="_blank" id="nav-twitter">
+                    <img class="cs-social-icon" src="/static/icons/twitter-1a.svg" alt="logo" width="12" height="12" aria-hidden="true" decoding="async">
+                </a>
+                <a href="https://instagram.com" class="cs-social-link" target="_blank" id="nav-instagram">
+                    <img class="cs-social-icon" src="/static/icons/instagram1a.svg" alt="logo" width="12" height="12" aria-hidden="true" decoding="async">
+                </a>
+                <a href="https://youtube.com" class="cs-social-link" target="_blank" id="nav-youtube">
+                    <img class="cs-social-icon" src="/static/icons/youtube1a.svg" alt="logo" width="12" height="12" aria-hidden="true" decoding="async">
+                </a>
+            </div>
         </div>
-        <p class="skip-link-container">
-            <a href="#registrationFormSection" id="skipToFormLink" data-translate="skip_to_form">Skip to Form</a>
-        </p>
-    </section>
-
-<!-- login form -->
-<section id="registrationFormSection" class="container page-section" style="margin-top:2%;width:400px;margin-left:auto;margin-right:auto;">
-    <div class="title" style="font-weight: bold;">
-        <span><img src="./../icons/star-symbol-icon.svg" alt="icon" class="cs-icon" aria-hidden="true" decoding="async" width="30" height="30"></img></span>
-        <span>New Users Register and get all paid service for 15 days</span>
+        <!--Dark Mode toggle, uncomment button code if you want to enable a dark mode toggle-->
+        <!--D<button id="dark-mode-toggle" aria-label="dark mode toggle">
+            <svg class="cs-moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 480" style="enable-background:new 0 0 480 480" xml:space="preserve"><path d="M459.782 347.328c-4.288-5.28-11.488-7.232-17.824-4.96-17.76 6.368-37.024 9.632-57.312 9.632-97.056 0-176-78.976-176-176 0-58.4 28.832-112.768 77.12-145.472 5.472-3.712 8.096-10.4 6.624-16.832S285.638 2.4 279.078 1.44C271.59.352 264.134 0 256.646 0c-132.352 0-240 107.648-240 240s107.648 240 240 240c84 0 160.416-42.688 204.352-114.176 3.552-5.792 3.04-13.184-1.216-18.496z"/></svg>
+            <img class="cs-sun" aria-hidden="true" src="https://csimg.nyc3.cdn.digitaloceanspaces.com/Icons%2Fsun.svg" decoding="async" alt="moon" width="15" height="15">
+        </button>-->
     </div>
-      <h1>Find your match</h1>
+    <!-- Language Selector 
+    <div style="text-align:right; margin-bottom: 8px;">
+        <label for="lang-select" style="font-weight:bold;">🌐 Language:</label>
+        <select id="lang-select">
+            <option value="en">English</option>
+            <option value="ta">தமிழ்</option>
+            <option value="hi">हिन्दी</option>
+        </select>
+    </div>-->
+</header>
+
+<!-- Body -->
+<body>
+<!-- login form -->
+<section class="container page-section" style="margin-top:10%;width:400px;margin-left:auto;margin-right:auto;">
+    <div class="title" style="font-weight: bold;">
+        <span><img src="/static/icons/star-symbol-icon.svg" alt="icon" class="cs-icon" aria-hidden="true" decoding="async" width="30" height="30"></img></span>
+        <span id="register-offer">New Users Register and get all paid service for 15 days</span>
+    </div>
+      <h1 id="find-match-title">Find your match</h1>
       <div class="form-outer">
-        <form action="/create-profile" method="POST">
+        <form action="/api/profile/login" method="POST">
           <div class="page slide-page">
             <div class="field">
-              <div class="label">Looking for</div>
-              <select name="looking[]" id="looking"  required>
-                <option value="self" >Self</option>
-                <option value="son" >Son</option>
-                <option value="daughter" style="">Daughter</option>
+              <div class="label" id="looking-for-label">Looking for</div>
+              <select name="looking" id="looking" style="width:200px;" required>
+                <option value="self" id="opt-self">Self</option>
+                <option value="son" id="opt-son">Son</option>
+                <option value="daughter" id="opt-daughter">Daughter</option>
               </select>
             </div>
             <div class="field">
-              <div class="label">Email id</div>
-              <input type="text" name="emailid" id="emailid"  placeholder="kandan@gmail.com" required>
+              <div class="label" id="email-label">Email id</div>
+              <input type="text" name="emailid" id="emailid" placeholder="kandan@gmail.com" required>
             </div>
             <div class="field">
-              <div class="label">Phone</div>
-              <input type="text" name="Phone" id="Phone"  placeholder="+918248204733" required>
+              <div class="label" id="phone-label">Phone</div>
+              <input type="text" name="Phone" id="Phone" placeholder="+918248204733" required>
             </div>
             <div class="field btns">
-              <button type="submit" class="submit">Find</button>
+              <button type="submit" class="submit" id="find-btn">Find</button>
             </div>
-            <a href="/new-user">Login Now</a>
+            <a href="/static/login/login.html" id="login-now-link">Login Now</a>
           </div>
         </form>
       </div>
     </div>
 </section>
+<!-- search box -->
+<div class="search">
+    <form method="POST" action="/api/search">
+    <div class="preference-search">
+    <div>
+        <label for="lookingFor" id="lookingfor-label">I'm looking for a</label>
+        <select id="lookingFor" name="gender">
+        <option value="Female" id="opt-woman">Woman</option>
+        <option value="Male" id="opt-man">Man</option>
+        </select>
+    </div>
+    <div>
+        <label id="aged-label">aged</label>
+        <div>
+        <select name="age-min">
+            <option>18</option>
+            <option>19</option>
+            <option>20</option>
+            <option>21</option>
+            <option>22</option>
+            <option>23</option>
+            <option>24</option>
+            <option>25</option>
+            <option>26</option>
+            <option>27</option>
+            <option>28</option>
+            <option>29</option>
+            <option>30</option>
+        </select>
+        <span id="to-label">to</span>
+        <select name="age-max">
+            <option>22</option>
+            <option>23</option>
+            <option>24</option>
+            <option>25</option>
+            <option>26</option>
+            <option>27</option>
+            <option>28</option>
+            <option>29</option>
+            <option>30</option>
+            <option>31</option>
+            <option>32</option>
+            <option>33</option>
+            <option>34</option>
+            <option>35</option>
+        </select>
+        </div>
+    </div>
+    <div>
+        <label for="religion" id="religion-label">of religion</label>
+        <select id="religion" name="religion">
+        <option value="" id="opt-select-religion">Select</option>
+        <option value="Hindu" id="opt-hindu">Hindu</option>
+        <option value="Muslim" id="opt-muslim">Muslim</option>
+        <option value="Christian" id="opt-christian">Christian</option>
+        <option value="Sikh" id="opt-sikh">Sikh</option>
+        <option value="Other" id="opt-other-religion">Other</option>
+        </select>
+    </div>
+    <div>
+        <label for="motherTongue" id="mother-tongue-label">and mother tongue</label>
+        <select id="motherTongue" name="motherTongue">
+        <option value="" id="opt-select-mother">Select</option>
+        <option value="Tamil" id="opt-tamil">Tamil</option>
+        <option value="Hindi" id="opt-hindi">Hindi</option>
+        <option value="Telugu" id="opt-telugu">Telugu</option>
+        <option value="Malayalam" id="opt-malayalam">Malayalam</option>
+        <option value="Kannada" id="opt-kannada">Kannada</option>
+        <option value="Bengali" id="opt-bengali">Bengali</option>
+        <option value="Other" id="opt-other-mother">Other</option>
+        </select>
+    </div>
+    <div>
+        <label>&nbsp;</label>
+        <button type="submit" class="btn btn-primary" id="lets-begin-btn">Let's Begin</button>
+    </div>
+    </div>
+    </form>
+</div>
+<!-- ============================================ -->
+<!--                    Stats                     -->
+<!-- ============================================ -->
+<section id="stats-1229">
+    <div class="cs-container">
+        <div class="cs-content">
+            <div class="cs-flex">
+                <span class="cs-topper" id="stats-topper">upcoming matrimony with a vission to make 1 billion marriages in next 3 years</span>
+                <h2 class="cs-title" id="stats-title">All the Paid Features are Free for 15 days after Profile Created</h2>
+                <p class="cs-text" id="stats-desc">
+                    In the new era of technology we look in the future with certainty and pride for our company and business. consider all the drivers of change gives you the blocks & pride for our components you need to change to create a truly professional website era.
+                </p>
+            </div>
+            <ul class="cs-card-group">
+                <li class="cs-item">
+                    <img src="/static/icons/safety-icon.svg" alt="icon"
+                        class="cs-icon" aria-hidden="true" decoding="async" width="60" height="60">
+                    <h3 class="cs-h3" id="stats-secure">Secured Data</h3>
+                </li>
+                <li class="cs-item">
+                    <img src="/static/icons/good-icon.svg" alt="icon"
+                        class="cs-icon" aria-hidden="true" decoding="async" width="60" height="60">
+                    <h3 class="cs-h3" id="stats-trust">Trust</h3>
+                </li>
+                <li class="cs-item">
+                    <img src="/static/icons/helping-hands-icon.svg" alt="icon" class="cs-icon"
+                        aria-hidden="true" decoding="async" width="60" height="60">
+                    <h3 class="cs-h3" id="stats-service">Service</h3>
+                </li>
+                <li class="cs-item">
+                    <img src="/static/icons/eye-color-icon.svg" alt="icon"
+                        class="cs-icon" aria-hidden="true" decoding="async" width="60" height="60">
+                    <h3 class="cs-h3" id="stats-transparency">Transparency</h3>
+                </li>
+            </ul>
+        </div>
+        <ul class="cs-stat-group">
+            <li class="cs-stat">
+                <span class="cs-desc" id="stats-offices">Individual Offices</span>
+                <span class="cs-number" id="stats-offices-num">15+</span>
+            </li>
+            <li class="cs-stat">
+                <span class="cs-desc" id="stats-years">Years of Experiences</span>
+                <span class="cs-number" id="stats-years-num">12+</span>
+            </li>
+            <li class="cs-stat">
+                <span class="cs-desc" id="stats-team">Professional Team</span>
+                <span class="cs-number" id="stats-team-num">350</span>
+            </li>
+            <li class="cs-stat">
+                <span class="cs-desc" id="stats-projects">Projects Completed</span>
+                <span class="cs-number" id="stats-projects-num">375</span>
+            </li>
+            <li class="cs-stat">
+                <span class="cs-desc" id="stats-clients">Happy Clients</span>
+                <span class="cs-number" id="stats-clients-num">2.5k+</span>
+            </li>
+        </ul>
+    </div>
+</section>
 
-    <script src="script.js"></script>
+
+
 </body>
-</html>
+<!-- ============================================ -->
+<!--                   Footer                     -->
+<!-- ============================================ -->
+
+<footer id="cs-footer-1292">
+    <div class="cs-container">      
+        <!-- Logo Group -->
+        <div class="cs-logo-group">
+            <a aria-label="go back to home" class="cs-logo" href="">
+                <img class="cs-logo-img" aria-hidden="true" loading="lazy" decoding="async" src="https://csimg.nyc3.digitaloceanspaces.com/Footer/logo.svg" alt="logo" width="240" height="32">
+            </a>
+            <p class="cs-text" id="footer-desc">
+                We planning, designing, financing, and executing projects.
+            </p>
+            <a href="mailto:info@mail.com" class="cs-link" id="footer-mail">
+                <img class="cs-link-icon" aria-hidden="true" loading="lazy" decoding="async" src="https://csimg.nyc3.cdn.digitaloceanspaces.com/Icons/construction-mail.svg" alt="icon" width="24" height="24">
+                <span id="footer-mail-text">hi@stitchconstruction.com</span>
+            </a>
+        </div>
+        <!-- Links -->
+        <ul class="cs-nav">
+            <li class="cs-nav-li">
+                <span class="cs-header" id="footer-services">Services</span>
+            </li>
+            <li class="cs-nav-li">
+                <a class="cs-nav-link" href="" id="footer-email">Email Marketing</a>
+            </li>
+            <li class="cs-nav-li">
+                <a class="cs-nav-link" href="" id="footer-branding">Brandings</a>
+            </li>
+            <li class="cs-nav-li">
+                <a class="cs-nav-link" href="" id="footer-campaign">Campaign</a>
+            </li>
+            <li class="cs-nav-li">
+                <a class="cs-nav-link" href="" id="footer-offline">Offline</a>
+            </li>
+        </ul>
+        <ul class="cs-nav">
+            <li class="cs-nav-li">
+                <span class="cs-header" id="footer-about">About</span>
+            </li>
+            <li class="cs-nav-li">
+                <a class="cs-nav-link" href="" id="footer-story">Our Story</a>
+            </li>
+            <li class="cs-nav-li">
+                <a class="cs-nav-link" href="" id="footer-benefits">Benefits</a>
+            </li>
+            <li class="cs-nav-li">
+                <a class="cs-nav-link" href="" id="footer-team">Team</a>
+            </li>
+            <li class="cs-nav-li">
+                <a class="cs-nav-link" href="" id="footer-career">Career</a>
+            </li>
+        </ul>
+        <ul class="cs-nav">
+            <li class="cs-nav-li">
+                <span class="cs-header" id="footer-contact">Contact</span>
+            </li>
+            <li class="cs-nav-li">
+                <a class="cs-nav-link" href="" id="footer-facebook">Facebook</a>
+            </li>
+            <li class="cs-nav-li">
+                <a class="cs-nav-link" href="" id="footer-instagram">Instagram</a>
+            </li>
+            <li class="cs-nav-li">
+                <a class="cs-nav-link" href="" id="footer-linkedin">LinkedIn</a>
+            </li>
+        </ul>
+        <ul class="cs-nav">
+            <li class="cs-nav-li">
+                <span class="cs-header" id="footer-help">Help</span>
+            </li>
+            <li class="cs-nav-li">
+                <a class="cs-nav-link" href="" id="footer-faq">FAQ</a>
+            </li>
+            <li class="cs-nav-li">
+                <a class="cs-nav-link" href="" id="footer-contactus">Contact us</a>
+            </li>
+        </ul>
+    </div>
+    <div class="cs-bottom">
+        <span class="cs-copyright">
+            <span id="footer-copyright">Copyright© 2023.</span>
+            <a class="cs-copyright-link" href="" id="footer-copyright-link">Stitch Construction.</a>
+            <span id="footer-allrights">All Right Reserved.</span>
+        </span>
+        <a href="" class="cs-copyright-link" id="footer-terms">Terms of Service</a>
+        <a href="" class="cs-copyright-link" id="footer-privacy">Privacy Policy</a>
+    </div>
+    <!--Floating Cirlces-->
+    <div class="cs-floater" aria-hidden="true"></div>
+</footer>
+<script>
+const translations = {
+  en: {
+    "register-offer": "New Users Register and get all paid service for 15 days",
+    "find-match-title": "Find your match",
+    "looking-for-label": "Looking for",
+    "opt-self": "Self",
+    "opt-son": "Son",
+    "opt-daughter": "Daughter",
+    "email-label": "Email id",
+    "phone-label": "Phone",
+    "find-btn": "Find",
+    "login-now-link": "Login Now",
+    "lookingfor-label": "I'm looking for a",
+    "opt-woman": "Woman",
+    "opt-man": "Man",
+    "aged-label": "aged",
+    "to-label": "to",
+    "religion-label": "of religion",
+    "opt-select-religion": "Select",
+    "opt-hindu": "Hindu",
+    "opt-muslim": "Muslim",
+    "opt-christian": "Christian",
+    "opt-sikh": "Sikh",
+    "opt-other-religion": "Other",
+    "mother-tongue-label": "and mother tongue",
+    "opt-select-mother": "Select",
+    "opt-tamil": "Tamil",
+    "opt-hindi": "Hindi",
+    "opt-telugu": "Telugu",
+    "opt-malayalam": "Malayalam",
+    "opt-kannada": "Kannada",
+    "opt-bengali": "Bengali",
+    "opt-other-mother": "Other",
+    "lets-begin-btn": "Let's Begin",
+    "nav-home": "Home",
+    "nav-about": "About",
+    "nav-bridesgroom": "Brides/Groom",
+    "nav-newreg": "New Registration for Users",
+    "nav-loginexist": "Login for Existing Users",
+    "nav-pricing": "Pricing",
+    "nav-contact": "Contact",
+    "nav-language-label": "🌐 Language:",
+    "lang-en": "English",
+    "lang-ta": "Tamil",
+    "lang-hi": "Hindi",
+    "lang-te": "Telugu",
+    "lang-kn": "Kanada",
+    "lang-ml": "Malayalam",
+    "lang-tulu": "Thulu",
+    "nav-phone-number": "+91 9500008040",
+    "stats-topper": "upcoming matrimony with a vission to make 1 billion marriages in next 3 years",
+    "stats-title": "All the Paid Features are Free for 15 days after Profile Created",
+    "stats-desc": "In the new era of technology we look in the future with certainty and pride for our company and business. consider all the drivers of change gives you the blocks & pride for our components you need to change to create a truly professional website era.",
+    "stats-secure": "Secured Data",
+    "stats-trust": "Trust",
+    "stats-service": "Service",
+    "stats-transparency": "Transparency",
+    "stats-offices": "Individual Offices",
+    "stats-offices-num": "15+",
+    "stats-years": "Years of Experiences",
+    "stats-years-num": "12+",
+    "stats-team": "Professional Team",
+    "stats-team-num": "350",
+    "stats-projects": "Projects Completed",
+    "stats-projects-num": "375",
+    "stats-clients": "Happy Clients",
+    "stats-clients-num": "2.5k+",
+    "footer-desc": "We planning, designing, financing, and executing projects.",
+    "footer-mail-text": "hi@stitchconstruction.com",
+    "footer-services": "Services",
+    "footer-email": "Email Marketing",
+    "footer-branding": "Brandings",
+    "footer-campaign": "Campaign",
+    "footer-offline": "Offline",
+    "footer-about": "About",
+    "footer-story": "Our Story",
+    "footer-benefits": "Benefits",
+    "footer-team": "Team",
+    "footer-career": "Career",
+    "footer-contact": "Contact",
+    "footer-facebook": "Facebook",
+    "footer-instagram": "Instagram",
+    "footer-linkedin": "LinkedIn",
+    "footer-help": "Help",
+    "footer-faq": "FAQ",
+    "footer-contactus": "Contact us",
+    "footer-copyright": "Copyright© 2023.",
+    "footer-copyright-link": "Stitch Construction.",
+    "footer-allrights": "All Right Reserved.",
+    "footer-terms": "Terms of Service",
+    "footer-privacy": "Privacy Policy"
+  },
+  ta: {
+    "register-offer": "புதிய பயனர்கள் பதிவு செய்து 15 நாட்களுக்கு அனைத்து சேவைகளும் இலவசம்",
+    "find-match-title": "உங்கள் இணையை கண்டறியுங்கள்",
+    "looking-for-label": "யாருக்காக தேடுகிறீர்கள்",
+    "opt-self": "நான்",
+    "opt-son": "மகன்",
+    "opt-daughter": "மகள்",
+    "email-label": "மின்னஞ்சல்",
+    "phone-label": "தொலைபேசி",
+    "find-btn": "தேடு",
+    "login-now-link": "உள்நுழையவும்",
+    "lookingfor-label": "நான் தேடுவது",
+    "opt-woman": "பெண்",
+    "opt-man": "ஆண்",
+    "aged-label": "வயது",
+    "to-label": "இற்கு",
+    "religion-label": "மதம்",
+    "opt-select-religion": "தேர்வு செய்க",
+    "opt-hindu": "இந்து",
+    "opt-muslim": "முஸ்லிம்",
+    "opt-christian": "கிறிஸ்துவர்",
+    "opt-sikh": "சிக்ஸ்",
+    "opt-other-religion": "மற்றவை",
+    "mother-tongue-label": "மொழி",
+    "opt-select-mother": "தேர்வு செய்க",
+    "opt-tamil": "தமிழ்",
+    "opt-hindi": "ஹிந்தி",
+    "opt-telugu": "தெலுங்கு",
+    "opt-malayalam": "மலையாளம்",
+    "opt-kannada": "கன்னடம்",
+    "opt-bengali": "பெங்காலி",
+    "opt-other-mother": "மற்றவை",
+    "lets-begin-btn": "தொடங்குங்கள்",
+    "nav-home": "முகப்பு",
+    "nav-about": "பற்றி",
+    "nav-bridesgroom": "மணமகன்/மணமகள்",
+    "nav-newreg": "புதிய பயனர்களுக்கான பதிவு",
+    "nav-loginexist": "இருக்கும் பயனர்களுக்கான உள்நுழைவு",
+    "nav-pricing": "விலை",
+    "nav-contact": "தொடர்பு",
+    "nav-language-label": "🌐 மொழி:",
+    "lang-en": "ஆங்கிலம்",
+    "lang-ta": "தமிழ்",
+    "lang-hi": "ஹிந்தி",
+    "lang-te": "தெலுங்கு",
+    "lang-kn": "ಕನ್ನಡ",
+    "lang-ml": "മലയാളം",
+    "lang-tulu": "തുടു",
+    "nav-phone-number": "+91 9500008040",
+    "stats-topper": "எதிர்வரும் திருமணங்கள் 1 பில்லியன் திருமணங்களை அடுத்த 3 ஆண்டுகளில் செய்யும் நோக்குடன்",
+    "stats-title": "பதிவு செய்யப்பட்ட பிறகு 15 நாட்களுக்கு அனைத்து பணியாளர்களும் இலவசம்",
+    "stats-desc": "புதிய தொழில்நுட்பத்தின் காலத்தில், எங்கள் நிறுவனம் மற்றும் வணிகத்திற்கு எதிர்காலத்தை நம்பிக்கையுடன் மற்றும் பெருமையுடன் பார்க்கிறோம். மாற்றத்தின் அனைத்து இயக்குனர்களையும் கருத்தில் கொண்டு, உங்கள் வலைத்தளத்தை உருவாக்க தேவையான அனைத்து கூறுகளுக்கும் நீங்கள் மாற்ற வேண்டிய கட்டுப்பாடுகள் மற்றும் பெருமையை வழங்குகிறது.",
+    "stats-secure": "பாதுகாப்பான தரவுகள்",
+    "stats-trust": "நம்பிக்கை",
+    "stats-service": "சேவை",
+    "stats-transparency": "தெளிவுத்தன்மை",
+    "stats-offices": "தனிப்பட்ட அலுவலகங்கள்",
+    "stats-offices-num": "15+",
+    "stats-years": "அனுபவம்",
+    "stats-years-num": "12+",
+    "stats-team": "தொழில்முறை குழு",
+    "stats-team-num": "350",
+    "stats-projects": "முடிக்கப்பட்ட திட்டங்கள்",
+    "stats-projects-num": "375",
+    "stats-clients": "சந்தோஷமான கிளையன்கள்",
+    "stats-clients-num": "2.5k+",
+    "footer-desc": "நாங்கள் திட்டமிடுதல், வடிவமைத்தல், நிதியமைத்தல் மற்றும் செயல்படுத்துதல்.",
+    "footer-mail-text": "hi@stitchconstruction.com",
+    "footer-services": "சேவைகள்",
+    "footer-email": "மின்னஞ்சல் மார்க்கெட்டிங்",
+    "footer-branding": "பிராண்டிங்",
+    "footer-campaign": "முதற்கட்டம்",
+    "footer-offline": "ஆஃப்லைன்",
+    "footer-about": "பற்றி",
+    "footer-story": "எங்கள் கதை",
+    "footer-benefits": "நன்மைகள்",
+    "footer-team": "குழு",
+    "footer-career": "வேலை வாய்ப்பு",
+    "footer-contact": "தொடர்பு",
+    "footer-facebook": "முகநூல்",
+    "footer-instagram": "இன்ஸ்டாகிராம்",
+    "footer-linkedin": "லிங்க்டின்",
+    "footer-help": "உதவி",
+    "footer-faq": "அடிக்கடி கேட்கப்படும் கேள்விகள்",
+    "footer-contactus": "எங்களை தொடர்புகொள்ளவும்",
+    "footer-copyright": "காப்புரிமை© 2023.",
+    "footer-copyright-link": "Stitch Construction.",
+    "footer-allrights": "அனைத்து உரிமைகளும் பாதுகாக்கப்பட்டவை.",
+    "footer-terms": "சேவைகளின் விதிமுறைகள்",
+    "footer-privacy": "தனியுரிமை கொள்கை"
+  },
+  hi: {
+    "register-offer": "नए उपयोगकर्ता पंजीकरण करें और 15 दिनों के लिए सभी सेवाएँ मुफ्त पाएं",
+    "find-match-title": "अपना साथी खोजें",
+    "looking-for-label": "किसके लिए खोज रहे हैं",
+    "opt-self": "स्वयं",
+    "opt-son": "पुत्र",
+    "opt-daughter": "पुत्री",
+    "email-label": "ईमेल आईडी",
+    "phone-label": "फोन",
+    "find-btn": "खोजें",
+    "login-now-link": "लॉगिन करें",
+    "lookingfor-label": "मैं खोज रहा हूँ",
+    "opt-woman": "महिला",
+    "opt-man": "पुरुष",
+    "aged-label": "आयु",
+    "to-label": "से",
+    "religion-label": "धर्म",
+    "opt-select-religion": "चुनें",
+    "opt-hindu": "हिन्दू",
+    "opt-muslim": "मुस्लिम",
+    "opt-christian": "ईसाई",
+    "opt-sikh": "सिख",
+    "opt-other-religion": "अन्य",
+    "mother-tongue-label": "मातृभाषा",
+    "opt-select-mother": "चुनें",
+    "opt-tamil": "तमिल",
+    "opt-hindi": "हिन्दी",
+    "opt-telugu": "तेलुगु",
+    "opt-malayalam": "मलयालम",
+    "opt-kannada": "कन्नड़",
+    "opt-bengali": "बंगाली",
+    "opt-other-mother": "अन्य",
+    "lets-begin-btn": "शुरू करें",
+    "nav-home": "होम",
+    "nav-about": "के बारे में",
+    "nav-bridesgroom": "दुल्हन/दूल्हा",
+    "nav-newreg": "नए उपयोगकर्ताओं के लिए पंजीकरण",
+    "nav-loginexist": "मौजूदा उपयोगकर्ताओं के लिए लॉगिन",
+    "nav-pricing": "मूल्य निर्धारण",
+    "nav-contact": "संपर्क करें",
+    "nav-language-label": "🌐 भाषा:",
+    "lang-en": "अंग्रेज़ी",
+    "lang-ta": "तमिल",
+    "lang-hi": "हिन्दी",
+    "lang-te": "तेलुगु",
+    "lang-kn": "ಕನ್ನಡ",
+    "lang-ml": "മലയാളം",
+    "lang-tulu": "തുടു",
+    "nav-phone-number": "+91 9500008040",
+    "stats-topper": "आगामी विवाह 1 बिलियन विवाहों को अगले 3 वर्षों में करने के दृष्टिकोण के साथ",
+    "stats-title": "प्रोफ़ाइल बनाने के बाद 15 दिनों के लिए सभी भुगतान सुविधाएँ मुफ्त हैं",
+    "stats-desc": "प्रौद्योगिकी के नए युग में, हम अपने कंपनी और व्यवसाय के लिए निश्चितता और गर्व के साथ भविष्य की ओर देखते हैं। परिवर्तन के सभी चालकों पर विचार करना आपको उन ब्लॉकों और गर्व को देता है जिनकी आपको आवश्यकता होती है ताकि आप एक सच्चे पेशेवर वेबसाइट युग को बनाने के लिए परिवर्तन कर सकें।",
+    "stats-secure": "सुरक्षित डेटा",
+    "stats-trust": "विश्वास",
+    "stats-service": "सेवा",
+    "stats-transparency": "पारदर्शिता",
+    "stats-offices": "व्यक्तिगत कार्यालय",
+    "stats-offices-num": "15+",
+    "stats-years": "अनुभव के वर्ष",
+    "stats-years-num": "12+",
+    "stats-team": "पेशेवर टीम",
+    "stats-team-num": "350",
+    "stats-projects": "पूर्ण परियोजनाएँ",
+    "stats-projects-num": "375",
+    "stats-clients": "खुश ग्राहक",
+    "stats-clients-num": "2.5k+",
+    "footer-desc": "हम योजना बना रहे हैं, डिजाइन कर रहे हैं, वित्तपोषण कर रहे हैं, और परियोजनाओं को निष्पादित कर रहे हैं।",
+    "footer-mail-text": "hi@stitchconstruction.com",
+    "footer-services": "सेवाएँ",
+    "footer-email": "ईमेल मार्केटिंग",
+    "footer-branding": "ब्रांडिंग",
+    "footer-campaign": "अभियान",
+    "footer-offline": "ऑफलाइन",
+    "footer-about": "के बारे में",
+    "footer-story": "हमारी कहानी",
+    "footer-benefits": "लाभ",
+    "footer-team": "टीम",
+    "footer-career": "करियर",
+    "footer-contact": "संपर्क करें",
+    "footer-facebook": "फेसबुक",
+    "footer-instagram": "इंस्टाग्राम",
+    "footer-linkedin": "लिंक्डइन",
+    "footer-help": "मदद",
+    "footer-faq": "अक्सर पूछे जाने वाले प्रश्न",
+    "footer-contactus": "हमसे संपर्क करें",
+    "footer-copyright": "कॉपीराइट© 2023.",
+    "footer-copyright-link": "Stitch Construction.",
+    "footer-allrights": "सभी अधिकार सुरक्षित हैं.",
+    "footer-terms": "सेवा की शर्तें",
+    "footer-privacy": "गोपनीयता नीति"
+  },
+  te: {
+    "register-offer": "కొత్త వినియోగదారులు నమోదు చేసుకుని 15 రోజులకు అన్ని సేవలు ఉచితం",
+    "find-match-title": "మీ జోడిని కనుగొనండి",
+    "looking-for-label": "ఎవరికి వెతుకుతున్నారు",
+    "opt-self": "నేను",
+    "opt-son": "కుమారుడు",
+    "opt-daughter": "కుమార్తె",
+    "email-label": "ఇమెయిల్",
+    "phone-label": "ఫోన్",
+    "find-btn": "వెతకండి",
+    "login-now-link": "లాగిన్ చేయండి",
+    "lookingfor-label": "నేను వెతుకుతున్నాను",
+    "opt-woman": "మహిళ",
+    "opt-man": "పురుషుడు",
+    "aged-label": "వయస్సు",
+    "to-label": "నుంచి",
+    "religion-label": "మతం",
+    "opt-select-religion": "ఎంచుకోండి",
+    "opt-hindu": "హిందూ",
+    "opt-muslim": "ముస్లిం",
+    "opt-christian": "క్రైస్తవుడు",
+    "opt-sikh": "సిక్",
+    "opt-other-religion": "ఇతరులు",
+    "mother-tongue-label": "మాతృభాష",
+    "opt-select-mother": "ఎంచుకోండి",
+    "opt-tamil": "తమిళ్",
+    "opt-hindi": "హిందీ",
+    "opt-telugu": "తెలుగు",
+    "opt-malayalam": "మలయాళం",
+    "opt-kannada": "కన్నడ",
+    "opt-bengali": "బెంగాలీ",
+    "opt-other-mother": "ఇతరులు",
+    "lets-begin-btn": "ప్రారంభించండి",
+    "nav-home": "హోమ్",
+    "nav-about": "గురించి",
+    "nav-bridesgroom": "కన్యాకుమారుడు/కన్యాకుమార్తె",
+    "nav-newreg": "కొత్త వినియోగదారుల కోసం నమోదు",
+    "nav-loginexist": "ఉన్న వినియోగదారుల కోసం లాగిన్",
+    "nav-pricing": "ధరలు",
+    "nav-contact": "సంప్రదించండి",
+    "nav-language-label": "🌐 భాష:",
+    "lang-en": "ఆంగ్లం",
+    "lang-ta": "తమిళ్",
+    "lang-hi": "హిందీ",
+    "lang-te": "తెలుగు",
+    "lang-kn": "ಕನ್ನಡ",
+    "lang-ml": "മലയാളം",
+    "lang-tulu": "തുടు",
+    "nav-phone-number": "+91 9500008040",
+    "stats-topper": "రాబోయే వివాహాలు 1 బిలియన్ వివాహాలను తదుపరి 3 సంవత్సరాలలో చేయడానికి దృష్టితో",
+    "stats-title": "ప్రొఫైల్ సృష్టించిన తర్వాత 15 రోజుల పాటు అన్ని చెల్లింపు ఫీచర్లు ఉచితం",
+    "stats-desc": "సాంకేతికత యొక్క కొత్త యుగంలో, మా సంస్థ మరియు వ్యాపారానికి భవిష్యత్తును నమ్మకంతో మరియు గర్వంతో చూస్తున్నాము. మార్పు యొక్క అన్ని డ్రైవర్లను పరిగణనలోకి తీసుకోవడం మీకు అవసరమైన బ్లాక్‌లు మరియు గర్వాన్ని అందిస్తుంది కాబట్టి మీరు నిజంగా ప్రొఫెషనల్ వెబ్‌సైట్ యుగాన్ని సృష్టించడానికి మార్పు చేయాలి.",
+    "stats-secure": "సురక్షితమైన డేటా",
+    "stats-trust": "నమ్మకం",
+    "stats-service": "సేవ",
+    "stats-transparency": "పారదర్శకత",
+    "stats-offices": "వ్యక్తిగత కార్యాలయాలు",
+    "stats-offices-num": "15+",
+    "stats-years": "అనుభవం సంవత్సరాలు",
+    "stats-years-num": "12+",
+    "stats-team": "ప్రొఫెషనల్ టీమ్",
+    "stats-team-num": "350",
+    "stats-projects": "పూర్తి అయిన ప్రాజెక్టులు",
+    "stats-projects-num": "375",
+    "stats-clients": "సంతోషకరమైన క్లయింట్లు",
+    "stats-clients-num": "2.5k+",
+    "footer-desc": "మేము ప్రణాళిక, రూపకల్పన, ఆర్థిక మరియు అమలు చేస్తున్నాము.",
+    "footer-mail-text": "hi@stitchconstruction.com",
+    "footer-services": "సేవలు",
+    "footer-email": "ఇమెయిల్ మార్కెటింగ్",
+    "footer-branding": "బ్రాండింగ్",
+    "footer-campaign": "ప్రచారం",
+    "footer-offline": "ఆఫ్‌లైన్",
+    "footer-about": "గురించి",
+    "footer-story": "మా కథ",
+    "footer-benefits": "ప్రయోజనాలు",
+    "footer-team": "జట్టు",
+    "footer-career": "ఉద్యోగం",
+    "footer-contact": "సంప్రదించండి",
+    "footer-facebook": "ఫేస్‌బుక్",
+    "footer-instagram": "ఇన్‌స్టాగ్రామ్",
+    "footer-linkedin": "లింక్డ్ఇన్",
+    "footer-help": "సహాయం",
+    "footer-faq": "అడిగే ప్రశ్నలు",
+    "footer-contactus": "మమ్మల్ని సంప్రదించండి",
+    "footer-copyright": "కాపీహక్కు© 2023.",
+    "footer-copyright-link": "Stitch Construction.",
+    "footer-allrights": "అన్ని హక్కులు రిజర్వ్ చేయబడ్డాయి.",
+    "footer-terms": "సేవా నిబంధనలు",
+    "footer-privacy": "గోప్యతా విధానం"
+  },
+  kn: {
+    "register-offer": "ಹೊಸ ಬಳಕೆದಾರರು ನೋಂದಾಯಿಸಿ 15 ದಿನಗಳ ಕಾಲ ಎಲ್ಲಾ ಸೇವೆಗಳು ಉಚಿತ",
+    "find-match-title": "ನಿಮ್ಮ ಜೋಡಿಯನ್ನು ಹುಡುಕಿ",
+    "looking-for-label": "ಯಾರಿಗಾಗಿ ಹುಡುಕುತ್ತಿದ್ದೀರಿ",
+    "opt-self": "ನಾನು",
+    "opt-son": "ಮಗ",
+    "opt-daughter": "ಮಗಳು",
+    "email-label": "ಇಮೇಲ್",
+    "phone-label": "ಫೋನ್",
+    "find-btn": "ಹುಡುಕಿ",
+    "login-now-link": "ಲಾಗಿನ್ ಮಾಡಿ",
+    "lookingfor-label": "ನಾನು ಹುಡುಕುತ್ತಿರುವುದು",
+    "opt-woman": "ಮಹಿಳೆ",
+    "opt-man": "ಪುರುಷ",
+    "aged-label": "ವಯಸ್ಸು",
+    "to-label": "ಇಂದ",
+    "religion-label": "ಧರ್ಮ",
+    "opt-select-religion": "ಆಯ್ಕೆಮಾಡಿ",
+    "opt-hindu": "ಹಿಂದೂ",
+    "opt-muslim": "ಮುಸ್ಲಿಂ",
+    "opt-christian": "ಕ್ರೈಸ್ತ",
+    "opt-sikh": "ಸಿಖ್",
+    "opt-other-religion": "ಇತರೆ",
+    "mother-tongue-label": "ಮಾತೃಭಾಷೆ",
+    "opt-select-mother": "ಆಯ್ಕೆಮಾಡಿ",
+    "opt-tamil": "ತಮಿಳು",
+    "opt-hindi": "ಹಿಂದಿ",
+    "opt-telugu": "ತೆಲುಗು",
+    "opt-malayalam": "ಮಲಯಾಳಂ",
+    "opt-kannada": "ಕನ್ನಡ",
+    "opt-bengali": "ಬೆಂಗಾಲಿ",
+    "opt-other-mother": "ಇತರೆ",
+    "lets-begin-btn": "ಪ್ರಾರಂಭಿಸಿ",
+    "nav-home": "ಮನೆ",
+    "nav-about": "ಬಗ್ಗೆ",
+    "nav-bridesgroom": "ಕನ್ಯಾ/ಕನ್ಯಾಕುಮಾರ",
+    "nav-newreg": "ಹೊಸ ಬಳಕೆದಾರರಿಗಾಗಿ ನೋಂದಣಿ",
+    "nav-loginexist": "ಇಲ್ಲಿರುವ ಬಳಕೆದಾರರಿಗಾಗಿ ಲಾಗಿನ್",
+    "nav-pricing": "ಬೆಲೆ",
+    "nav-contact": "ಸಂಪರ್ಕಿಸಿ",
+    "nav-language-label": "🌐 ಭಾಷೆ:",
+    "lang-en": "ಇಂಗ್ಲಿಷ್",
+    "lang-ta": "ತಮಿಳು",
+    "lang-hi": "ಹಿಂದಿ",
+    "lang-te": "ತೆಲುಗು",
+    "lang-kn": "ಕನ್ನಡ",
+    "lang-ml": "മലയാളം",
+    "lang-tulu": "ತುದು",
+    "nav-phone-number": "+91 9500008040",
+    "stats-topper": "ಬರುವ ವಿವಾಹಗಳು 1 ಬಿಲಿಯನ್ ವಿವಾಹಗಳನ್ನು ಮುಂದಿನ 3 ವರ್ಷಗಳಲ್ಲಿ ಮಾಡಲು ದೃಷ್ಟಿ ಹೊಂದಿವೆ",
+    "stats-title": "ಪ್ರೊಫೈಲ್ ರಚನೆಯಾದ ನಂತರ 15 ದಿನಗಳ ಕಾಲ ಎಲ್ಲಾ ಪಾವತಿ ವೈಶಿಷ್ಟ್ಯಗಳು ಉಚಿತ",
+    "stats-desc": "ತಂತ್ರಜ್ಞಾನ的新 ಯುಗದಲ್ಲಿ, ನಮ್ಮ ಕಂಪನಿಯು ಮತ್ತು ವ್ಯಾಪಾರವು ಭವಿಷ್ಯವನ್ನು ವಿಶ್ವಾಸ ಮತ್ತು ಹೆಮ್ಮೆfulnessನೊಂದಿಗೆ ನೋಡುತ್ತವೆ. ಬದಲಾವಣೆಯ ಎಲ್ಲಾ ಚಾಲಕರನ್ನು ಪರಿಗಣಿಸುವುದು ನಿಮ್ಮ ಬ್ಲಾಕ್‌ಗಳನ್ನು ಮತ್ತು ಹೆಮ್ಮೆfulnessನನ್ನು ನೀಡುತ್ತದೆ ನೀವು ವಾಸ್ತವವಾಗಿ ವೃತ್ತಿಪರ ವೆಬ್‌ಸೈಟ್ ಯುಗವನ್ನು ನಿರ್ಮಿಸಲು ಬದಲಾವಣೆ ಮಾಡಬೇಕು.",
+    "stats-secure": "ಭದ್ರವಾದ ಡೇಟಾ",
+    "stats-trust": "ನಂಬಿಕೆ",
+    "stats-service": "ಸೇವೆ",
+    "stats-transparency": "ಪಾರದರ್ಶಕತೆ",
+    "stats-offices": "ವೈಯಕ್ತಿಕ ಕಚೇರಿಗಳು",
+    "stats-offices-num": "15+",
+    "stats-years": "ಅನುಭವದ ವರ್ಷಗಳು",
+    "stats-years-num": "12+",
+    "stats-team": "ವೃತ್ತಿಪರ ತಂಡ",
+    "stats-team-num": "350",
+    "stats-projects": "ಪೂರ್ಣಗೊಂಡ ಯೋಜನೆಗಳು",
+    "stats-projects-num": "375",
+    "stats-clients": "ಸಂತೋಷದ ಕ್ಲೈಂಟ್‌ಗಳು",
+    "stats-clients-num": "2.5k+",
+    "footer-desc": "ನಾವು ಯೋಜನೆ, ವಿನ್ಯಾಸ, ಹಣಕಾಸು ಮತ್ತು ಕಾರ್ಯಗತಗೊಳಿಸುತ್ತೇವೆ.",
+    "footer-mail-text": "hi@stitchconstruction.com",
+    "footer-services": "ಸೇವೆಗಳು",
+    "footer-email": "ಇಮೇಲ್ ಮಾರ್ಕೆಟಿಂಗ್",
+    "footer-branding": "ಬ್ರಾಂಡಿಂಗ್",
+    "footer-campaign": "ಪ್ರಚಾರ",
+    "footer-offline": "ಆಫ್‌ಲೈನ್",
+    "footer-about": "ಬಗ್ಗೆ",
+    "footer-story": "ನಮ್ಮ ಕಥೆ",
+    "footer-benefits": "ಲಾಭಗಳು",
+    "footer-team": "ತಂಡ",
+    "footer-career": "ಕೋಶ",
+    "footer-contact": "ಸಂಪರ್ಕಿಸಿ",
+    "footer-facebook": "ಫೇಸ್‌ಬುಕ್",
+    "footer-instagram": "ಇನ್‌ಸ್ಟಾಗ್ರಾಮ್",
+    "footer-linkedin": "ಲಿಂಕ್‌ಡಿನ್",
+    "footer-help": "ಸಹಾಯ",
+    "footer-faq": "ಅನುವಾದಿತ ಪ್ರಶ್ನೆಗಳು",
+    "footer-contactus": "ನಮ್ಮನ್ನು ಸಂಪರ್ಕಿಸಿ",
+    "footer-copyright": "ಕಾಪಿರೈಟ್© 2023.",
+    "footer-copyright-link": "Stitch Construction.",
+    "footer-allrights": "ಎಲ್ಲಾ ಹಕ್ಕುಗಳು ಕಾಯ್ದಿರಿಸಲಾಗಿದೆ.",
+    "footer-terms": "ಸೇವಾ ನಿಯಮಗಳು",
+    "footer-privacy": "ಗೋಪ್ಯತಾ ನೀತಿ"
+  },
+  ml: {
+    "register-offer": "പുതിയ ഉപയോക്താക്കൾ രജിസ്റ്റർ ചെയ്ത് 15 ദിവസത്തേക്ക് എല്ലാ സേവനങ്ങളും സൗജന്യം",
+    "find-match-title": "നിങ്ങളുടെ കൂട്ടാളിയെ കണ്ടെത്തൂ",
+    "looking-for-label": "ആർക്കായി തിരയുന്നു",
+    "opt-self": "ഞാൻ",
+    "opt-son": "മകൻ",
+    "opt-daughter": "മകൾ",
+    "email-label": "ഇമെയിൽ",
+    "phone-label": "ഫോൺ",
+    "find-btn": "തിരയുക",
+    "login-now-link": "ലോഗിൻ ചെയ്യുക",
+    "lookingfor-label": "ഞാൻ തിരയുന്നത്",
+    "opt-woman": "സ്ത്രീ",
+    "opt-man": "പുരുഷൻ",
+    "aged-label": "പ്രായം",
+    "to-label": "ഇൽ",
+    "religion-label": "മതം",
+    "opt-select-religion": "തിരഞ്ഞെടുക്കുക",
+    "opt-hindu": "ഹിന്ദു",
+    "opt-muslim": "മുസ്ലിം",
+    "opt-christian": "ക്രിസ്ത്യാനി",
+    "opt-sikh": "സിഖ്",
+    "opt-other-religion": "മറ്റുള്ളവർ",
+    "mother-tongue-label": "മാതൃഭാഷ",
+    "opt-select-mother": "തിരഞ്ഞെടുക്കുക",
+    "opt-tamil": "തമിഴ്",
+    "opt-hindi": "ഹിന്ദി",
+    "opt-telugu": "തെലുങ്ക്",
+    "opt-malayalam": "മലയാളം",
+    "opt-kannada": "കന്നഡ",
+    "opt-bengali": "ബംഗാളി",
+    "opt-other-mother": "മറ്റുള്ളവർ",
+    "lets-begin-btn": "ആരംഭിക്കുക",
+    "nav-home": "മുൻപത്തെ",
+    "nav-about": "കുറിച്ച്",
+    "nav-bridesgroom": "വധുവും വധുവും",
+    "nav-newreg": "പുതിയ രജിസ്ട്രേഷൻ",
+    "nav-loginexist": "ലോഗിൻ ചെയ്യുക",
+    "nav-pricing": "വില",
+    "nav-contact": "ബന്ധപ്പെടുക",
+    "nav-language-label": "🌐 ഭാഷ:",
+    "lang-en": "ഇംഗ്ലീഷ്",
+    "lang-ta": "തമിഴ്",
+    "lang-hi": "ഹിന്ദി",
+    "lang-te": "തെലുങ്ക്",
+    "lang-kn": "ಕನ್ನಡ",
+    "lang-ml": "മലയാളം",
+    "lang-tulu": "തുടു",
+    "nav-phone-number": "+91 9500008040",
+    "stats-topper": "വരുന്ന വിവാഹങ്ങൾ 1 ബില്യൺ വിവാഹങ്ങൾ അടുത്ത 3 വർഷങ്ങളിൽ നടത്താനുള്ള ദർശനത്തോടെ",
+    "stats-title": "പ്രൊഫൈൽ സൃഷ്ടിച്ച ശേഷം 15 ദിവസങ്ങൾക്കുള്ളിൽ എല്ലാ പെയ്ഡ് ഫീച്ചറുകളും സൗജന്യമാണ്",
+    "stats-desc": "ടെക്‌നോളജിയുടെ പുതിയ കാലഘട്ടത്തിൽ, ഞങ്ങൾ ഭാവിയെ വിശ്വാസത്തോടും അഭിമാനത്തോടും കൂടി നോക്കുന്നു. മാറ്റത്തിന്റെ എല്ലാ ഡ്രൈവറുകളും പരിഗണിക്കുന്നത് നിങ്ങൾക്ക് ഒരു യാഥാർത്ഥ്യമായ പ്രൊഫഷണൽ വെബ്‌സൈറ്റ് കാലഘട്ടം സൃഷ്ടിക്കാൻ ആവശ്യമായ ബ്ലോക്കുകളും അഭിമാനവും നൽകുന്നു.",
+    "stats-secure": "സുരക്ഷിതമായ ഡാറ്റ",
+    "stats-trust": "വിശ്വാസം",
+    "stats-service": "സേവനം",
+    "stats-transparency": "പാരദർശകത",
+    "stats-offices": "വ്യക്തിഗത ഓഫിസുകൾ",
+    "stats-offices-num": "15+",
+    "stats-years": "അനുഭവത്തിന്റെ വർഷങ്ങൾ",
+    "stats-years-num": "12+",
+    "stats-team": "പ്രൊഫഷണൽ ടീം",
+    "stats-team-num": "350",
+    "stats-projects": "പൂർണ്ണമായ പദ്ധതികൾ",
+    "stats-projects-num": "375",
+    "stats-clients": "സന്തോഷമുള്ള ക്ലയന്റുകൾ",
+    "stats-clients-num": "2.5k+",
+    "footer-desc": "ഞങ്ങൾ പദ്ധതിയിടുന്നു, രൂപകൽപ്പന ചെയ്യുന്നു, ധനസഹായം ചെയ്യുന്നു, നടപ്പാക്കുന്നു.",
+    "footer-mail-text": "hi@stitchconstruction.com",
+    "footer-services": "സേവനങ്ങൾ",
+    "footer-email": "ഇമെയിൽ മാർക്കറ്റിംഗ്",
+    "footer-branding": "ബ്രാൻഡിംഗ്",
+    "footer-campaign": "പ്രചരണം",
+    "footer-offline": "ഓഫ്‌ലൈനിൽ",
+    "footer-about": "കുറിച്ച്",
+    "footer-story": "ഞങ്ങളുടെ കഥ",
+    "footer-benefits": "ലാഭങ്ങൾ",
+    "footer-team": "ടീം",
+    "footer-career": "വ്യവസായം",
+    "footer-contact": "ബന്ധപ്പെടുക",
+    "footer-facebook": "ഫേസ്ബുക്ക്",
+    "footer-instagram": "ഇൻസ്റ്റാഗ്രാം",
+    "footer-linkedin": "ലിങ്ക്ഡ്ഇൻ",
+    "footer-help": "സഹായം",
+    "footer-faq": "പൊതുവായി ചോദിക്കുന്ന ചോദ്യങ്ങൾ",
+    "footer-contactus": "ഞങ്ങളെ ബന്ധപ്പെടുക",
+    "footer-copyright": "കാപ്പിരൈറ്റ്© 2023.",
+    "footer-copyright-link": "Stitch Construction.",
+    "footer-allrights": "എല്ലാ അവകാശങ്ങളും സംരക്ഷിതമാണ്.",
+    "footer-terms": "സേവനത്തിന്റെ നിബന്ധനകൾ",
+    "footer-privacy": "ഗോപി

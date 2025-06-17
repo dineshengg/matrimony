@@ -4,13 +4,23 @@
     <meta charset="utf-8">
     <title>Matrimony registration form</title>
     <link rel="stylesheet" href="style.css">
-    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <link rel="stylesheet" href="/static/css/header.css">
   </head>
+
+  <header id="cs-navigation">
+    <div class="cs-container">
+        <!--Nav Logo-->
+        <a href="/home/home.html" class="cs-logo" aria-label="Back to home">
+            < Back to home
+        </a>
+    </div>
+  </header>
+
   <body>
     <div class="container">
       <header>Login to your profile</header>
       <div class="form-outer">
-        <form action="/login" method="POST">
+        <form action="/api/new-profile/create-account" method="POST">
           <div class="page slide-page">
             <div class="title">Account details</div>
             <div class="field">
@@ -24,12 +34,66 @@
             <div class="field btns">
               <button type="submit" class="submit">Submit</button>
             </div>
+            <div id="error-message" hidden></div>
             <a href="/forgot-password">Forgot Password</a>
           </div>
         </form>
       </div>
     </div>
-    <script src="script.js"></script>
+
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const form = document.querySelector("form");
+        const submit = document.getElementById("submit");
+        form.addEventListener("submit", function (e) {
+          // Remove previous error messages
+          document.querySelectorAll(".error-message").forEach(el => el.remove());
+
+          let valid = true;
+
+          // Email validation
+          const emailInput = document.getElementById("emailid");
+          const email = emailInput.value.trim();
+          const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+          if (email === "" || !emailPattern.test(email)) {
+            showError("Please enter a valid email address.");
+            valid = false;
+          }
+
+          // Password validation
+          const passwordInput = document.getElementById("password");
+          const password = passwordInput.value.trim();
+          if (password === "") {
+            showError("Please enter your password.");
+            valid = false;
+          }
+
+          if (!valid) {
+            e.preventDefault();
+          }
+        });
+
+        function showError(message) {
+          const error = document.getElementById("error-message");
+          if (error) {
+            error.textContent = message;
+            error.hidden = false;
+            error.style.color = "red";
+            error.style.marginTop = "0.2em";
+            error.style.fontWeight = "bold";
+          }
+
+          // const error = document.createElement("div");
+          // error.className = "error-message";
+          // error.style.color = "red";
+          // error.style.fontSize = "0.95em";
+          // error.style.marginTop = "0.2em";
+          // error.textContent = message;
+          // input.parentNode.appendChild(error);
+        }
+      });
+    </script>
 
   </body>
 </html>

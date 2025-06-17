@@ -1,9 +1,11 @@
 /* Search Section Styles */
 .search {
-  /*display: flex;*/
+  display: flex;
   justify-content: center;
-  margin: 360px 0 24px 0;
-  display:none;
+  margin:auto;
+  margin-top:10%;
+  margin-left:8%;
+  /*display:none;*/
 }
 
 .preference-search {
