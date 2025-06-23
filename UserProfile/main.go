@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/dineshengg/matrimony/common/config"
 	"github.com/dineshengg/matrimony/common/utils"
 
 	"github.com/dineshengg/matrimony/userprofile/login"
@@ -13,6 +12,7 @@ import (
 
 	"os/signal"
 
+	_ "github.com/dineshengg/matrimony/common/config"
 	_ "github.com/lib/pq"
 	routing "github.com/qiangxue/fasthttp-routing"
 	log "github.com/sirupsen/logrus"
@@ -52,7 +52,7 @@ func main() {
 	//err := config.LoadConfig()
 
 	//Bind the environment variables and command line argurments
-	config.BindFlags()
+	//config.BindFlags()
 	log.SetLevel(log.DebugLevel)
 
 	defer clean()
@@ -64,15 +64,15 @@ func main() {
 			viper.GetString("db.postgres.user"), viper.GetString("db.postgres.password"), viper.GetString("db.postgres.name"),
 			viper.GetInt("db.postgres.port"))
 
-		redisAddressStr := fmt.Sprintf("%s:%s", viper.GetString("db.redis.host"), viper.GetString("db.redis.port"))
+		//redisAddressStr := fmt.Sprintf("%s:%s", viper.GetString("db.redis.host"), viper.GetString("db.redis.port"))
 		db = utils.NewDatabaseClient(dbConnStr)
-		redisClient = utils.NewRedisClient(redisAddressStr)
+		// redisClient = utils.NewRedisClient(redisAddressStr)
 
-		if db == nil || redisClient == nil {
-			log.Errorf("Failed to initialize database  - %v, or redis client - %v", db, redisClient)
-			panic("Failed to initialize database or redis client")
+		// if db == nil || redisClient == nil {
+		// 	log.Errorf("Failed to initialize database  - %v, or redis client - %v", db, redisClient)
+		// 	panic("Failed to initialize database or redis client")
 
-		}
+		// }
 
 		if !utils.IsTelemetryInit() {
 			log.Error("Telemtery is not initialized")

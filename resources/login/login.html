@@ -10,8 +10,8 @@
   <header id="cs-navigation">
     <div class="cs-container">
         <!--Nav Logo-->
-        <a href="/home/home.html" class="cs-logo" aria-label="Back to home">
-            < Back to home
+        <a href="/static/home/home.html" class="cs-logo" aria-label="Back to home">
+            <img src="/static/icons/work-from-home-icon.svg" style="width:42px;height:42x;"> Back to home
         </a>
     </div>
   </header>
@@ -20,22 +20,22 @@
     <div class="container">
       <header>Login to your profile</header>
       <div class="form-outer">
-        <form action="/api/new-profile/create-account" method="POST">
+        <form action="/api/new-profile/login" method="POST">
           <div class="page slide-page">
             <div class="title">Account details</div>
             <div class="field">
               <div class="label">Email id</div>
-              <input type="text" name="emailid" id="emailid" onfocus="this.value=''" value="kandan@gmail.com">
+              <input type="text" name="emailid" id="email" placeholder="e.g - kandan@gmail.com" required>
             </div>
             <div class="field">
               <div class="label">Password</div>
-              <input type="password" name="password" id="password" >
+              <input type="password" name="password" id="password" placeholder="Enter your password" required>
             </div>
             <div class="field btns">
               <button type="submit" class="submit">Submit</button>
             </div>
             <div id="error-message" hidden></div>
-            <a href="/forgot-password">Forgot Password</a>
+            <a href="/static/login/forgot.html">Forgot Password</a>
           </div>
         </form>
       </div>

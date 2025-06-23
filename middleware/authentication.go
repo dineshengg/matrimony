@@ -2,6 +2,7 @@ package middleware
 
 import (
 	"fmt"
+	"time"
 
 	"sync"
 
@@ -38,9 +39,10 @@ type ProfileInfo struct {
 }
 
 type Enroll struct {
-	Email                string `json:"email"`
-	MatrimonyID          string `json:"matrimonyid"`
-	jwt.RegisteredClaims `json:"registeredclaims"`
+	Email       string `json:"email"`
+	Phone       string `json:"phone"`
+	Looking     string `json:"looking"`
+	MatrimonyID string `json:"matrimonyid"`
 }
 
 func NewAuthentication(router *routing.RouteGroup) *Authentication {
@@ -91,7 +93,7 @@ func (auth *Authentication) Authenticate(ctx *routing.Context) error {
 	log.Printf("Profile Info: %+v\n", claims)
 	// If you want to use ctx.Set, you need to define a custom context or use a map
 
-	if claims.FirstName == "" || claims.SecondName == "" {
+	if claims.FirstName == "" || claims.SecondName == "" || claims.FirstName == "newuser" || claims.SecondName == "newuser" {
 		ctx.SetUserValue(Tokentype, EnrollTokenType)
 	} else {
 		ctx.SetUserValue(Tokentype, ProfileTokenType)
@@ -108,10 +110,8 @@ func (auth *Authentication) CreateJWTToken(ctx *routing.Context) error {
 	//4. Successful login => redirect to profile dashboard
 	log.Debug("create jwt token for user")
 	var profile ProfileInfo
-	var EnrollToken Enroll
-	var claims interface{} = &EnrollToken
 	jwtRegisteredClaims := jwt.RegisteredClaims{
-		ExpiresAt: jwt.NewNumericDate(ctx.Time().Add(24 * 3600)), // Set expiration to 24 hours
+		ExpiresAt: jwt.NewNumericDate(ctx.Time().Add(time.Hour * 48)), // Set expiration to 48 hours
 		IssuedAt:  jwt.NewNumericDate(ctx.Time()),
 		Issuer:    "kandanmatrimony.com",
 		Subject:   string(ctx.FormValue("email")), // Use email as subject
@@ -122,14 +122,8 @@ func (auth *Authentication) CreateJWTToken(ctx *routing.Context) error {
 	tokentype := ctx.Value(Tokentype)
 	switch tokentype {
 	case EnrollTokenType:
-		log.Debug("creating enroll token")
-		// Handle Enroll Token Creation
-		EnrollToken = Enroll{
-			Email:            string(ctx.FormValue("email")),
-			MatrimonyID:      string(ctx.FormValue("matrimonyid")),
-			RegisteredClaims: jwtRegisteredClaims,
-		}
-		claims = &EnrollToken
+		log.Debug("creating enroll token not supported yet")
+		panic("Enroll token creation is not supported yet, please use profile token creation")
 	case ProfileTokenType:
 		// Handle Profile Token Creation
 		// TODO - Get the current enroll token from request and form the whole claims after user creates all mandatory fields
@@ -137,32 +131,37 @@ func (auth *Authentication) CreateJWTToken(ctx *routing.Context) error {
 		log.Debug("creating profile token")
 		firstname := string(ctx.FormValue("firstname"))
 		secondname := string(ctx.FormValue("secondname"))
-		jwt_token := ctx.Request.Header.Cookie("jwt_token")
-		if len(jwt_token) == 0 {
-			ctx.SetStatusCode(fasthttp.StatusUnauthorized)
-			return fmt.Errorf("Previous enroll JWT token is missing")
-		}
 
-		//unmarshal the JWT token to get the profile info
-		enroll_temp := Enroll{}
-		_, err := jwt.ParseWithClaims(string(jwt_token), &enroll_temp, func(token *jwt.Token) (interface{}, error) {
-			// Validate the signing method
-			if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
-				return nil, fmt.Errorf("unexpected signing method: %v", token.Header["alg"])
-			}
-			return []byte(secret_key), nil // Use the same secret as used during token generation
-		})
-		if err != nil {
-			ctx.SetStatusCode(fasthttp.StatusUnauthorized)
-			return fmt.Errorf("JWT token is invalid or tampered: %v", err)
-		}
+		// jwt_token := ctx.Request.Header.Cookie("jwt_token")
+		// if len(jwt_token) == 0 {
+		// 	ctx.SetStatusCode(fasthttp.StatusUnauthorized)
+		// 	return fmt.Errorf("Previous enroll JWT token is missing")
+		// }
+
+		// //unmarshal the JWT token to get the profile info
+		// enroll_temp := Enroll{}
+		// _, err := jwt.ParseWithClaims(string(jwt_token), &enroll_temp, func(token *jwt.Token) (interface{}, error) {
+		// 	// Validate the signing method
+		// 	if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
+		// 		return nil, fmt.Errorf("unexpected signing method: %v", token.Header["alg"])
+		// 	}
+		// 	return []byte(secret_key), nil // Use the same secret as used during token generation
+		// })
+		// if err != nil {
+		// 	ctx.SetStatusCode(fasthttp.StatusUnauthorized)
+		// 	return fmt.Errorf("JWT token is invalid or tampered: %v", err)
+		// }
 		profile = ProfileInfo{
-			FirstName:        firstname,
-			SecondName:       secondname,
-			EnrollToken:      enroll_temp,
+			FirstName:  firstname,
+			SecondName: secondname,
+			EnrollToken: Enroll{
+				Email:       string(ctx.FormValue("email")),
+				MatrimonyID: string(ctx.FormValue("matrimonyid")),
+				Phone:       string(ctx.FormValue("phone")),
+				Looking:     string(ctx.FormValue("looking")),
+			},
 			RegisteredClaims: jwtRegisteredClaims,
 		}
-		claims = &profile
 	default:
 		log.Debug("unknown token type")
 		return fmt.Errorf("Unknown token type")
@@ -172,7 +171,7 @@ func (auth *Authentication) CreateJWTToken(ctx *routing.Context) error {
 	var token *jwt.Token
 	if tokentype == EnrollTokenType {
 		//reduce signing method to 256 if there is a latency
-		token = jwt.NewWithClaims(jwt.SigningMethodHS512, EnrollToken)
+		//token = jwt.NewWithClaims(jwt.SigningMethodHS512, EnrollToken)
 	} else {
 		//use 512 bit signing method for profile token
 		token = jwt.NewWithClaims(jwt.SigningMethodHS512, profile)
@@ -185,8 +184,8 @@ func (auth *Authentication) CreateJWTToken(ctx *routing.Context) error {
 	}
 
 	//set this context to be used by other handlers like
-	ctx.Set(Token, claims)
-	log.Debugf("generated JWT token: %s,  %v", tokenString, claims)
+	ctx.Set(Token, profile)
+	log.Debugf("generated JWT token: %s,  %v", tokenString, profile)
 	// Set JWT as a cookie (optional, you can also send in response body)
 	cookie := fasthttp.AcquireCookie()
 	cookie.SetKey("jwt_token")

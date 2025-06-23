@@ -1,12 +1,18 @@
 package config
 
 import (
+	"os"
+
+	log "github.com/sirupsen/logrus"
 	flag "github.com/spf13/pflag"
 	"github.com/spf13/viper"
 )
 
 func init() {
+	log.Info("Loading configuration...")
 	LoadConfig()
+	BindFlags()
+	log.Info("Configuration loaded successfully")
 }
 
 // LoadConfig loads the configuration from a JSON file
@@ -20,12 +26,11 @@ func LoadConfig() {
 	flagset.Int("db.postgres.port", 5432, "Database port")
 	flag.CommandLine.AddFlagSet(flagset)
 
-	//redis configurations
-	flagset = flag.NewFlagSet("db.redis", flag.ExitOnError)
-	flagset.String("db.redis.host", "localhost", "Redis host")
-	flagset.Int("db.redis.port", 6379, "Redis port")
-	flagset.String("db.redis.password", "", "Redis password")
-	flagset.String("db.redis.usename", "default", "Redis username")
+	//memcache configurations
+	flagset = flag.NewFlagSet("memcache.servers", flag.ExitOnError)
+	flagset.StringSlice("memcache.servers", []string{"127.0.0.1:11211"}, "Memcache servers (comma separated)")
+	flagset.Duration("memcache.timeout", 1000, "Memcache operation timeout in milliseconds")
+	flagset.Int("memcache.max_idle_conns", 10, "Maximum idle connections for memcache")
 	flag.CommandLine.AddFlagSet(flagset)
 
 	//server configurations
@@ -33,6 +38,26 @@ func LoadConfig() {
 	flagset.String("server.host", "localhost", "Server host")
 	flagset.Int("server.port", 8080, "Server port")
 	flagset.String("server.static_dir", "../resources", "Static files directory")
+	flag.CommandLine.AddFlagSet(flagset)
+
+	//grafana loki configurations
+	flagset = flag.NewFlagSet("grafanaloki", flag.ExitOnError)
+	flagset.String("loki.app", "userprofile", "Application name using this grafana loki service")
+	flagset.String("loki.environment", "development", "Environment used by this application")
+	flag.CommandLine.AddFlagSet(flagset)
+
+	//resources file path
+	exePath, err := os.Executable()
+	if err != nil {
+		//TODO - Hardcode server path
+	}
+	log.Info("Setting resources file path to: ", exePath)
+	exePath = exePath[:len(exePath)-len("Userprofile/main")]
+	log.Info("Setting resources file path to: ", exePath)
+
+	flagset = flag.NewFlagSet("resources", flag.ExitOnError)
+	flagset.String("resources.filepath", exePath, "Path to the resources directory")
+	flag.CommandLine.AddFlagSet(flagset)
 
 }
 

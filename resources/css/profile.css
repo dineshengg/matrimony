@@ -694,6 +694,7 @@ form .page .btns button.next{
     z-index: 10000;
     transform: translateX(-50%);
     transition: top 0.3s, border-radius 0.3s, width 0.3s, max-width 0.3s;
+    border: 1px solid rgba(0, 0, 0, 0.1);
   }
   #cs-navigation .cs-container {
     width: 100%;

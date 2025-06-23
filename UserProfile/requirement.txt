@@ -24,6 +24,7 @@ fasthttp, fiber are other frameworks available
 - Over all
   - Need to capture photo in mobile and desktop, laptop to make sure no fake profile
   - integrate with chat agent for auto profile creation and queries
+  - Need rate limiter as middleware to avoid DDOS attack
 
 - Add static server for static file serving
  - Add both http and https endpoint
@@ -31,3 +32,4 @@ fasthttp, fiber are other frameworks available
 -------------------------------------------------------------------------------------------------------------------------------------------
  # url for icons - https://uxwing.com/wedding-groom-icon/ free for commercial without any attribution
  # home page is built using https://codestitch.app/ using free templates available no license required - core.css, contactfaq.html
+ # https://github.com/zrepl/zrepl - using it for ZFS snapshot of filesystem to ssh remote host.

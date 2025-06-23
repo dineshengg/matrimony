@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <title>Matrimony registration form</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="/static/css/style.css">
     <link rel="stylesheet" href="/static/css/header.css">
     <!--
     <script src="https://kit.fontawesome.com/a076d05399.js"></script>
@@ -14,7 +14,7 @@
     <div class="cs-container">
         <!--Nav Logo-->
         <a href="/home/home.html" class="cs-logo" aria-label="Back to home">
-            < Back to home
+            <img src="/static/icons/work-from-home-icon.svg" style="width:42px;height:42x;"> Back to home
         </a>
     </div>
   </header>
@@ -48,7 +48,11 @@
       <div class="form-outer">
         <form action="/api/new-profile/create-account" method="POST">
           <div class="page slide-page">
-            <div class="title">Basic Info:</div>
+            <h3>Welcome New User: {{if .EnrollToken.MatrimonyID }} {{.EnrollToken.MatrimonyID}} {{end}}</h3>
+            <div class="field">
+              <div class="label">Matrimony ID</div>
+              <input type="text" name="matrimonyid" id="matrimonyid" {{if .EnrollToken.MatrimonyID }} value={{.EnrollToken.MatrimonyID}} {{end}}>
+            </div>
             <div class="field">
               <div class="label">First Name</div>
               <input type="text" name="firstname" id="firstname">
@@ -59,11 +63,11 @@
             </div>
             <div class="field">
               <div class="label">Email Address</div>
-              <input type="text" name="email" id="email">
+              <input type="text" name="email" id="email" {{if .EnrollToken.Email }} value={{.EnrollToken.Email}} {{end}}>
             </div>
             <div class="field">
-              <div class="label">Phone Number</div>
-              <input type="Number" name="phone" id="phone">
+              <div class="label"> Phone Number</div>
+              <input type="Number" name="phone" id="phone" {{if .EnrollToken.Phone }}  value={{.EnrollToken.Phone}} {{end}}>
             </div>
             <div class="field">
               <button class="firstNext next">Next</button>

@@ -51,7 +51,7 @@
                         </span>
                         <ul class="cs-drop-ul">
                             <li class="cs-drop-li">
-                                <a href="/static/login/newuser.html" class="cs-li-link cs-drop-link">New Registration for Users</a>
+                                <a href="/static/login/blankuser.html" class="cs-li-link cs-drop-link">New Registration for Users</a>
                             </li>
                             <li class="cs-drop-li">
                                 <a href="/static/login/login.html" class="cs-li-link cs-drop-link">Login for Existing Users</a>
@@ -75,22 +75,22 @@
                                 <a class="cs-li-link cs-drop-link lang-option active" data-lang="en">English</a>
                             </li>
                             <li class="cs-drop-li">
-                                <a class="cs-li-link cs-drop-link lang-option" data-lang="ta">Tamil</a>
+                                <a class="cs-li-link cs-drop-link lang-option" data-lang="ta">தமிழ்</a>
                             </li>
                             <li class="cs-drop-li">
-                                <a class="cs-li-link cs-drop-link lang-option" data-lang="hi">Hindi</a>
+                                <a class="cs-li-link cs-drop-link lang-option" data-lang="hi">हिन्दी</a>
                             </li>
                             <li class="cs-drop-li">
-                                <a class="cs-li-link cs-drop-link lang-option" data-lang="te">Telugu</a>
+                                <a class="cs-li-link cs-drop-link lang-option" data-lang="te">తెలుగు</a>
                             </li>
                             <li class="cs-drop-li">
-                                <a class="cs-li-link cs-drop-link lang-option" data-lang="kn">Kanada</a>
+                                <a class="cs-li-link cs-drop-link lang-option" data-lang="kn">ಕನ್ನಡ</a>
                             </li>
                             <li class="cs-drop-li">
-                                <a class="cs-li-link cs-drop-link lang-option" data-lang="ml">Malayalam</a>
+                                <a class="cs-li-link cs-drop-link lang-option" data-lang="ml">മലയാളം</a>
                             </li>
                             <li class="cs-drop-li">
-                                <a class="cs-li-link cs-drop-link lang-option" data-lang="tulu">Thulu</a>
+                                <a class="cs-li-link cs-drop-link lang-option" data-lang="tulu">ತುಳು</a>
                             </li>
                         </ul>
                         <span class="cs-li-link">
@@ -160,25 +160,25 @@
             </div>
             <div class="field">
               <div class="label" id="email-label">Email id</div>
-              <input type="text" name="email" id="email"  placeholder="kandan@gmail.com" required>
+              <input type="text" name="email" id="email"  placeholder="e.g - kandan@gmail.com" required>
             </div>
             <div class="field">
               <div class="label" id="phone-label">Phone</div>
-              <input type="text" name="phone" id="phone"  placeholder="+918248204733" required>
+              <input type="text" name="phone" id="phone"  placeholder="e.g - +918248204733" required>
             </div>
             <div class="field btns">
               <button type="submit" class="submit" id="find-btn">Find</button>
             </div>
-            <div class="field">
+            <div class="field" id="error-field" style="display:none;">
               <div class="label" id="error" hidden style="color:red">Error : </div>
             </div>
-            <a href="/static/login/login.html" id="login-now-link">Login Now</a>
+            <a href="/static/login/login.html" id="login-now-link" style="margin:10px;">Login Now</a>
           </div>
         </form>
       </div>
     </div>
 </section>
-<!-- search box -->
+<!-- search box 
 <div class="search">
     <form method="POST" action="/api/search">
     <div class="preference-search">
@@ -256,7 +256,7 @@
     </div>
     </div>
     </form>
-</div>
+</div> -->
 <!-- ============================================ -->
 <!--                    Stats                     -->
 <!-- ============================================ -->
@@ -613,7 +613,7 @@ const translations = {
     "opt-hindi": "ഹിന്ദി",
     "opt-telugu": "തെലുങ്ക്",
     "opt-malayalam": "മലയാളം",
-    "opt-kannada": "കന്നഡ",
+    "opt-kannada": "ಕನ್ನಡ",
     "opt-bengali": "ബംഗാളി",
     "opt-other-mother": "മറ്റുള്ളവർ",
     "lets-begin-btn": "ആരംഭിക്കുക"
@@ -670,6 +670,8 @@ function setLanguage(lang) {
 
 //show error message in this form
 const errorDiv = document.getElementById('error');
+const errorField = document.getElementById('error-field');
+errorField.style.display = "none";
 function showError(input, message) {
   if (input && input.tagName === "INPUT") {
     input.value = "";
@@ -677,10 +679,12 @@ function showError(input, message) {
     input.style.borderColor = "red";
     input.style.outline = "none";
     input.style.fontSize = "14px";
+    input.style.display = "block";
     input.focus();
   }
   else {
     if (errorDiv) {
+      errorField.style.display = "block";
       errorDiv.textContent = message;
       errorDiv.hidden = false;
     }
@@ -734,30 +738,37 @@ document.addEventListener("DOMContentLoaded", function() {
             valid = false;
             return;
         }
-        submitForm();
+        submitForm(event);
     });
-    async function submitForm() {
+    async function submitForm(event) {
         const formData = new FormData(form);
-
         try {
             const response = await fetch(form.action, {
                 method: 'POST',
                 body: formData,
             });
 
+            if (response.redirected) {
+                // If server responds with a redirect, follow it
+                window.location.href = response.url;
+                return;
+            }
+
             if (response.ok) {
-                // Successful submission
+                // Successful submission, optionally handle success
                 console.log('Form submitted successfully');
+                // Optionally, redirect to a success page:
+                // window.location.href = "/your-success-url";
             } else {
                 // Handle errors
-                const errorData = await response.text(); // Or .text() if server sends plain text
-                //alert(errorData);
+                const errorData = await response.text();
                 console.error('Form submission error:', errorData);
-                showError(null, errorData); // Function to show error messages
+                showError(null, errorData);
             }
         } catch (error) {
+            event.preventDefault();
             console.error('Fetch error:', error);
-            showError(null, 'An error occurred during submission.'); // Handle network errors
+            showError(null, 'An error occurred during submission.');
         }
    }
 });
