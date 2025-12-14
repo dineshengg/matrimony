@@ -12,6 +12,11 @@ CREATE TABLE enrolls (
 	created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
+select * from enrolls;
+insert into enrolls (email, phone) values ('kandan@gmail.com','01123456789');
+delete from enrolls where id > 0;
+SELECT COUNT(*) FROM enroll WHERE email = 'dineshengg@gmail.com' OR phone = '9500008040';
+
 create table profiles (
 	id SERIAL primary key,
 	matrimonyid VARCHAR(25) unique not NULL,
@@ -25,22 +30,43 @@ create table profiles (
 	country VARCHAR(25),
 	religion VARCHAR(25),
 	language VARCHAR(25),
-	password VARCHAR(25)
+	password VARCHAR(25),
+	created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 	);
-
+insert into profiles (email, phone) values ('kandan@gmail.com','01123456789');
 drop table profiles;
+select * from profiles;
+
+---
+
+create table counters (
+	matid_category VARCHAR(24),
+	counter integer
+	
+);
+
+select * from counters;
+drop table counters;
+
+---
+create table globalcounters (
+	category VARCHAR(24) unique not null,
+	counter integer
+);
+select * from globalcounters;
+insert into globalcounters (category, counter) values ('mathtt', 1) on conflict (category) do update set category=EXCLUDED.category, counter=EXCLUDED.counter;
+select counter from globalcounters order by counter desc limit 1;
+drop table globalcounters;
+
+----
+
 
 alter table enroll add create_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP;
 alter table enroll drop matrimonyid;
 alter table enroll add matrimonyid VARCHAR(25);
 alter table enroll add looking VARCHAR(25);
-select * from enrolls;
-delete from enrolls where id > 0;
 
-insert into enrolls (email, phone) values ('kandan@gmail.com','01123456789');
-insert into profiles (email, phone) values ('kandan@gmail.com','01123456789');
-delete from enroll where id > 0;
-select * from profiles;
+
 -- First, create the trigger function
 CREATE OR REPLACE FUNCTION set_matrimonyid()
 RETURNS TRIGGER AS $$
@@ -63,4 +89,3 @@ EXECUTE FUNCTION set_matrimonyid();
 
 
 
-SELECT COUNT(*) FROM enroll WHERE email = 'dineshengg@gmail.com' OR phone = '9500008040';

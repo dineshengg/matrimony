@@ -19,7 +19,7 @@ const passwordInput = document.getElementById("password");
 const confirmPasswordInput = document.getElementById("confirmpassword");
 const errorDiv = document.getElementById('error');
 const errorField = document.getElementById('error-field');
-errorField.style.display = "none";
+//errorField.style.display = "none";
 
 [firstnameinput, secondnameinput, emailidinput, phonenoinput, dateinput, passwordInput, confirmPasswordInput].forEach(function(input) {
   input.addEventListener("input", function() {
@@ -143,8 +143,8 @@ submitBtn.addEventListener("click", function(){
 
   // Password validation regex: at least 8 chars, includes allowed special chars
   const passwordPattern = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@;#$%^&*])[A-Za-z\d@;#$%^&*]{8,}$/;
-  const password = passwordInput.value.trim();
-  const confirmPassword = confirmPasswordInput.value.trim();
+  const password = passwordInput.value;
+  const confirmPassword = confirmPasswordInput.value;
 
   //validate the passwords
   if (password === "" || !passwordPattern.test(password)) {

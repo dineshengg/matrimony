@@ -119,7 +119,7 @@ func (auth *Authentication) CreateJWTToken(ctx *routing.Context) error {
 		ID:        fmt.Sprintf("%d", ctx.Time().UnixNano()), // Unique ID for the token
 		Audience:  []string{"profileusers"},
 	}
-	tokentype := ctx.Value(Tokentype)
+	tokentype := ctx.UserValue(Tokentype)
 	switch tokentype {
 	case EnrollTokenType:
 		log.Debug("creating enroll token not supported yet")

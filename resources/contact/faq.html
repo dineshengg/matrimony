@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Contact Form - Free Bulma template</title>
+	<link rel="shortcut icon" href="../images/vel.png" type="image/x-icon">
+    	<!-- Bulma Version 1-->
+	<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
+		integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+	<link rel="stylesheet" href="../css/contactfaq.css">
+    <link rel="stylesheet" href="../css/core.css">
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const faqItems = Array.from(document.querySelectorAll('.cs-faq-item'));
+            for (const item of faqItems) {
+                const button = item.querySelector('.cs-button');
+                button.setAttribute('aria-expanded', 'false'); // Add aria-expanded attribute
+                button.addEventListener('click', () => {
+                    const isActive = item.classList.toggle('active');
+                    button.setAttribute('aria-expanded', isActive); // Update aria-expanded
+                });
+            }
+        });
+    </script>
+</head>
+
+<!-- ============================================ -->
+<!--                   Contact                    -->
+<!-- ============================================ -->
+
+<section id="contact-1333">
+    <div class="cs-container">
+        <!--Form-->
+        <form class="cs-form" id="cs-form-1333" name="Contact Form" method="post">
+            <div class="cs-content">
+                <span class="cs-topper">Contact Us</span>
+                <h2 class="cs-title">Submit your queries</h2>
+            </div>
+            <label class="cs-label">
+                Name *
+                <input class="cs-input" required type="text" id="name-1333" name="name" placeholder="Name" required>
+            </label>
+            <label class="cs-label cs-email">
+                Email *
+                <input class="cs-input" required type="email" id="email-1333" name="email" placeholder="Email" required>
+            </label>
+            <label class="cs-label cs-phone">
+                Phone 
+                <input class="cs-input" required type="tel" id="phone-1333" name="phone" placeholder="Phone">
+            </label>
+            <label class="cs-label">
+                    Category
+                    <select class="cs-input" name="category">
+                        <option value="" disabled selected>Select</option>
+                        <option value="Problem with website">Problem with website</option>
+                        <option value="Problem with profile">Problem with profile</option>
+                        <option value="Suggestions for improvement">Suggestion for improvement</option>
+                        <option value="Others">Others</option>
+                    </select>
+            </label>
+            <label class="cs-label">
+                Message
+                <textarea class="cs-input cs-textarea" required name="Message" id="message-1333" placeholder="Write message..." required></textarea>
+            </label>
+            <button class="cs-button-solid cs-submit" type="submit">Submit</button>
+        </form>
+        <div class="cs-content">
+            <span class="cs-topper">Asked Questions</span>
+            <h2 class="cs-title">Frequently Asked Questions</h2>
+            <ul class="cs-faq-group">
+                <!-- Active class added as default -->
+                <li class="cs-faq-item active">
+                    <button class="cs-button">
+                        <span class="cs-button-text">
+                            How to enroll in Kandan Matrimony?
+                        </span>
+                    </button>
+                    <p class="cs-item-p">
+                        Go to the login page, fill in the email and phone number, and click on the "Find" button to enroll in our matrimony services. It's that simple.
+                    </p>
+                </li>
+                <li class="cs-faq-item">
+                    <button class="cs-button">
+                        <span class="cs-button-text">
+                            Why to submit this form?
+                        </span>
+                    </button>
+                    <p class="cs-item-p">
+                        If you have any issues with profile creations or any fake profiles you found in our site let us know we will remove it immediately. Also if you have any suggestions for our site improvement will take this at most care in reviewing and fixing it.
+                    </p>
+                </li>
+                <li class="cs-faq-item">
+                    <button class="cs-button">
+                        <span class="cs-button-text">
+                            What after we create our profile for a match finding?
+                        </span>
+                    </button>
+                    <p class="cs-item-p">
+                        We will verify if your profile is genuine by calling you. Once we confirm all the required details are verified, we will approve your profile for others to search. In the meantime, you can search and give interest but can't send messages.
+                    </p>
+                </li>
+                <li class="cs-faq-item">
+                    <button class="cs-button">
+                        <span class="cs-button-text">
+                            How to subscribe for premimum membership?
+                        </span>
+                    </button>
+                    <p class="cs-item-p">
+                        You can subscribe for premium membership using the subscriptions option present in your profile or home page and fill in the required details. Once you make the payment, we will verify from our end and enable membership features as mentioned.
+                    </p>
+                </li>
+                <li class="cs-faq-item">
+                    <button class="cs-button">
+                        <span class="cs-button-text">
+                            How can I get in touch with preferred matches which I like?
+                        </span>
+                    </button>
+                    <p class="cs-item-p">
+                        You can send interest or message to the profiles you like using the contact option present in that profile. Once they accept and reply to message with their contact number you can contact them if they provide in message. If you need to contact immediately we encourage you to get the phone number present in the profile. However there is a limit in the no of phone number you can view.
+                    </p>
+                </li>
+                <li class="cs-faq-item">
+                    <button class="cs-button">
+                        <span class="cs-button-text">
+                            How safe is my profile and personnel data?
+                        </span>
+                    </button>
+                    <p class="cs-item-p">
+                        We take security and privacy seriously and will not share your details with anyone without your consent. If you opt to hide your phone or email, it will be completely hidden. Our site uses TLS 1.2/1.3, which is so secure that your data can't be hacked in transit. Your phone number and email are stored securely so no one can tamper with or hack your personal data.
+                    </p>
+                </li>
+            </ul>
+        </div>
+    </div>
+</section>
+</html>

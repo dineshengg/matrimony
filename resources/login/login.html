@@ -20,16 +20,16 @@
     <div class="container">
       <header>Login to your profile</header>
       <div class="form-outer">
-        <form action="/api/new-profile/login" method="POST">
+        <form action="/api/new-profile/login" method="POST" enctype="multipart/form-data">
           <div class="page slide-page">
             <div class="title">Account details</div>
             <div class="field">
               <div class="label">Email id</div>
-              <input type="text" name="emailid" id="email" placeholder="e.g - kandan@gmail.com" required>
+              <input type="text" name="email" id="email" placeholder="e.g - kandan@gmail.com" required>
             </div>
             <div class="field">
               <div class="label">Password</div>
-              <input type="password" name="password" id="password" placeholder="Enter your password" required>
+              <input type="password" name="password" id="password" placeholder="Enter your password" required minlength="8">
             </div>
             <div class="field btns">
               <button type="submit" class="submit">Submit</button>

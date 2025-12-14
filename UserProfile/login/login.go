@@ -29,15 +29,17 @@ func LoginRoutingFunctions(router *routing.RouteGroup) {
 	//all below end points needs middleware both authentication, centralized logging and request logging
 	//TODO - Need to add rate limiting to prevent DDOS attacks
 	profileGroup := router.Group("/profile")
-	_ = middleware.NewMiddleWare(profileGroup, true, true, true)
+	//_ = middleware.NewMiddleWare(profileGroup, true, true, true)
 	auth := middleware.NewAuthentication(profileGroup)
-	profileGroup.Get("/dashboard", dashboardHandler)
-	profileGroup.Get("/newprofiledetails", newProfileDetails, auth.CreateJWTToken)
+	profileGroup.Get("/dashboard", auth.Authenticate, dashboardHandler)
+	profileGroup.Get("/newprofiledetails", auth.Authenticate, newProfileDetails)
 
 	//Doesnt need authentication middleware and hence creating a separate group end points
 	newProfile := router.Group("/new-profile")
-	_ = middleware.NewMiddleWare(newProfile, true, true, false)
-	newProfile.Post("/login", Timeouthandler{handler: loginHandler}.TimeOutHandler, auth.CreateJWTToken)
+	//_ = middleware.NewMiddleWare(newProfile, true, true, false)
+	//auth1 := middleware.NewAuthentication(newProfile)
+	newProfile.Post("/login", loginHandler, auth.CreateJWTToken)
+	//newProfile.Post("/login", Timeouthandler{handler: loginHandler}.TimeOutHandler, auth.CreateJWTToken)
 	// handler to add new profile from home page with email and phone number
 	newProfile.Post("/create-account", createAccountHandler, auth.CreateJWTToken)
 	// handler to add new profile from nav bar with full profile details
@@ -46,8 +48,11 @@ func LoginRoutingFunctions(router *routing.RouteGroup) {
 
 	//no authentication flow where jwt token check is not required
 	noauth := router.Group("/noauth")
-	_ = middleware.NewMiddleWare(noauth, true, true, false)
+	//_ = middleware.NewMiddleWare(noauth, true, true, false)
 	noauth.Post("/forgot-password", forgotPasswordHandler)
+	//show the reset password page
+	noauth.Post("/reset-link/<guid>", resetLinkHandler)
+	noauth.Post("/reset-password/<guid>", resetPasswordHandler)
 
 }
 
@@ -85,36 +90,60 @@ func loginHandler(ctx *routing.Context) error {
 	//5. If user is unsuccessfull after 5 attempts => show error page with message user password is invalid try resetting the password with form
 
 	// Verify username and password from PostgreSQL
-	emailid := ctx.FormValue("emailid")
+	emailid := ctx.FormValue("email")
 	password := ctx.FormValue("password")
 	if len(emailid) == 0 || len(password) == 0 {
 		ctx.SetStatusCode(fasthttp.StatusBadRequest)
 		ctx.Write([]byte("Email and password are required"))
 		log.Debug("Email and password are required")
-		return nil
+		return fmt.Errorf("Email and password are required")
 	}
 
 	// Check if the user exists in the database
-	var firstname, secondname, email, hs_Password string
+	var firstname, secondname, email, phone, hs_Password, matrimonyid, looking string
 	db := utils.GetDB()
-	err := db.Exec("SELECT firstname, secondname, email, password FROM users WHERE email = ?", emailid).Row().Scan(&firstname, &secondname, &email, &hs_Password)
+	err := db.Raw("SELECT matrimonyid, firstname, secondname, email, phone, password, looking FROM profiles WHERE email = ?", string(emailid)).
+		Row().Scan(&matrimonyid, &firstname, &secondname, &email, &phone, &hs_Password, &looking)
+
 	if err != nil {
 		ctx.SetStatusCode(fasthttp.StatusUnauthorized)
 		ctx.Write([]byte("User not found or invalid credentials"))
 		log.Debugf("User not found or invalid credentials - %v", err)
-		return nil
+		return fmt.Errorf("User not found or invalid credentials - %v", err)
 	}
 
 	if err = bcrypt.CompareHashAndPassword([]byte(hs_Password), []byte(password)); err != nil {
 		ctx.SetStatusCode(fasthttp.StatusUnauthorized)
 		ctx.Write([]byte("Invalid username or password"))
 		log.Debugf("Invalid username or password - %v", err)
-		return nil
+		return fmt.Errorf("Invalid username or password - %v", err)
+	}
+
+	// Get or create multipart form to add values
+	mf, err1 := ctx.MultipartForm()
+	if err1 != nil {
+		// If multipart form doesn't exist, create form values manually
+		ctx.Request.PostArgs().Set("matrimonyid", matrimonyid)
+		ctx.Request.PostArgs().Set("firstname", firstname)
+		ctx.Request.PostArgs().Set("secondname", secondname)
+		ctx.Request.PostArgs().Set("phone", phone)
+		ctx.Request.PostArgs().Set("looking", looking)
+		ctx.Request.PostArgs().Set("email", email)
+	} else {
+		// Add values to existing multipart form
+		mf.Value["matrimonyid"] = []string{matrimonyid}
+		mf.Value["firstname"] = []string{firstname}
+		mf.Value["secondname"] = []string{secondname}
+		mf.Value["phone"] = []string{phone}
+		mf.Value["looking"] = []string{looking}
+		mf.Value["email"] = []string{email}
 	}
 
 	// Redirect to profile dashboard
-	//ctx.Response.Header.Set("Location", "/profile/dashboard")
-	ctx.SetStatusCode(fasthttp.StatusOK)
+	ctx.SetUserValue(middleware.Tokentype, middleware.ProfileTokenType)
+	fmt.Println("token type", ctx.UserValue(middleware.Tokentype))
+	utils.Redirect(ctx, "/api/profile/dashboard")
+	ctx.SetStatusCode(fasthttp.StatusSeeOther)
 	return nil
 
 }
@@ -240,16 +269,24 @@ func createAccountHandler(ctx *routing.Context) error {
 	log.Debugf("user account created in db - %v", *enrolledUser)
 	//auto create matrimony id is populated in the form to be used in cookie and jwt creation
 	mf, err1 := ctx.MultipartForm()
+	enrolledUser.Matrimonyid = fmt.Sprintf("KAN%018d", enrolledUser.Id)
+	if err1 != nil {
+		// If multipart form doesn't exist, create form values manually
+		ctx.Request.PostArgs().Set("matrimonyid", enrolledUser.Matrimonyid)
+		ctx.Request.PostArgs().Set("firstname", "newuser")
+		ctx.Request.PostArgs().Set("secondname", "newuser")
+	} else {
+		// Add values to existing multipart form
+		mf.Value["matrimonyid"] = []string{enrolledUser.Matrimonyid}
+		mf.Value["firstname"] = []string{"newuser"}
+		mf.Value["secondname"] = []string{"newuser"}
+	}
 	if err1 != nil {
 		ctx.SetStatusCode(fasthttp.StatusInternalServerError)
 		//ctx.Write([]byte("Failed to process multipart form data"))
 		log.Debugf("Failed to process multipart form data - %v", err1)
 		return fmt.Errorf("Failed to process multipart form data - %v", err1)
 	}
-	enrolledUser.Matrimonyid = fmt.Sprintf("KAN%06d", enrolledUser.Id)
-	mf.Value["matrimonyid"] = []string{enrolledUser.Matrimonyid}
-	mf.Value["firstname"] = []string{"newuser"}
-	mf.Value["secondname"] = []string{"newuser"}
 
 	ctx.SetStatusCode(fasthttp.StatusCreated)
 	ctx.Write([]byte("User account created successfully!"))
@@ -261,6 +298,7 @@ func createAccountHandler(ctx *routing.Context) error {
 	log.Infof("User account created successfully for email: %s", user.Email)
 	//Passing token type to auth middleware to create enroll token
 	ctx.SetUserValue(middleware.Tokentype, middleware.ProfileTokenType)
+	fmt.Println("token type", ctx.UserValue(middleware.Tokentype))
 	utils.Redirect(ctx, "/api/profile/newprofiledetails")
 	return nil
 }
@@ -270,34 +308,124 @@ func forgotPasswordHandler(ctx *routing.Context) error {
 	//2. Email id is not present => show error message that email id doesnt exists and provide a link to create account
 	//3. Any other error happens => show error message its not your fault please come after some time
 
-	var req struct {
-		Email string `json:"email"`
-	}
-	err := json.Unmarshal(ctx.PostBody(), &req)
-	if err != nil {
-		ctx.SetStatusCode(fasthttp.StatusBadRequest)
-		ctx.Write([]byte("Invalid request body"))
-		log.Debugf("Invalid request body - %v", err)
-		return nil
-	}
+	Email := string(ctx.FormValue("email"))
 
 	// Validate if email exists
-	exists, err := checkIfUserExists(req.Email, "")
+	exists, err := checkIfUserExists(Email, "")
 	if err != nil {
 		ctx.SetStatusCode(fasthttp.StatusInternalServerError)
 		ctx.Write([]byte("Failed to check user existence"))
 		log.Debugf("Failed to check user existence - %v", err)
-		return nil
+		return fmt.Errorf("Failed to check user existence - %v", err)
 	}
 	if exists {
 		// TODO: Send email to this email id
-		ctx.Write([]byte(fmt.Sprintf("Email id exists, email was sent to this id")))
-		ctx.Response.Header.Set("Location", "/services/sent-email")
+		ctx.Write([]byte(fmt.Sprintf("Email id exists, email was sent to this id %s with reset password link", Email)))
+		//ctx.Response.Header.Set("Location", "/services/sent-email")
+		//store in the forgot table and the no of times reset password was requested
+		resetPassword(Email, "KANDAN0001")
+
 	} else {
 		ctx.SetStatusCode(fasthttp.StatusSeeOther)
-		ctx.Write([]byte(fmt.Sprintf("Email id doesnt exists, please register here <a href=\"/new-profile/create-account\">Create Account</a>")))
+		ctx.Write([]byte(fmt.Sprintf("Email id doesnt exists, redirecting to create account page .....")))
 	}
 	return nil
+}
+
+func resetLinkHandler(ctx *routing.Context) error {
+	GUID := ctx.Param("guid")
+	var userEmail string
+	if GUID == "" {
+		ctx.SetStatusCode(fasthttp.StatusBadRequest)
+		ctx.Write([]byte("Reset password GUID is missing"))
+		log.Debug("Reset password GUID is missing")
+		return fmt.Errorf("Reset password GUID is missing")
+	}
+
+	// Check if the GUID exists in the forgot table
+	query := `SELECT email FROM forgot WHERE guid = $1`
+	err := utils.GetDB().Raw(query, GUID).Scan(&userEmail).Error
+	if err != nil {
+		ctx.SetStatusCode(fasthttp.StatusBadRequest)
+		ctx.Write([]byte("Invalid or expired reset password link"))
+		log.Debugf("Invalid or expired reset password link - %v", err)
+		return fmt.Errorf("Invalid or expired reset password link - %v", err)
+	}
+
+	if page, err := utils.RenderTemplatePage(ctx, "resources/login/forgot.html", map[string]interface{}{"GUID": GUID}); err == nil {
+		ctx.SetContentType("text/html; charset=utf-8")
+		ctx.Write(page)
+		ctx.SetStatusCode(fasthttp.StatusOK)
+		return nil
+	}
+
+	return nil
+}
+
+func resetPasswordHandler(ctx *routing.Context) error {
+	//1. Guid is valid and present => allow user to reset password
+	//2. Guid is not valid or not present => show error message that reset link is invalid
+	//3. Any other error happens => show error message its not your fault please come after some time
+
+	guid := ctx.Param("guid")
+	var userEmail string
+	if guid == "" {
+		ctx.SetStatusCode(fasthttp.StatusBadRequest)
+		ctx.Write([]byte("Reset password GUID is missing"))
+		log.Debug("Reset password GUID is missing")
+		return fmt.Errorf("Reset password GUID is missing")
+	}
+
+	// Check if the GUID exists in the forgot table
+	query := `SELECT email FROM forgot WHERE guid = $1`
+	err := utils.GetDB().Raw(query, guid).Scan(&userEmail).Error
+	if err != nil {
+		ctx.SetStatusCode(fasthttp.StatusBadRequest)
+		ctx.Write([]byte("Invalid or expired reset password link"))
+		log.Debugf("Invalid or expired reset password link - %v", err)
+		return fmt.Errorf("Invalid or expired reset password link - %v", err)
+	}
+
+	// Allow user to reset password
+	newPassword := string(ctx.FormValue("newpassword"))
+	confirmPassword := string(ctx.FormValue("confirmpassword"))
+
+	if newPassword == "" || confirmPassword == "" {
+		ctx.SetStatusCode(fasthttp.StatusBadRequest)
+		ctx.Write([]byte("New password and confirm password are required"))
+		log.Debug("New password and confirm password are required")
+		return fmt.Errorf("New password and confirm password are required")
+	}
+
+	if newPassword != confirmPassword {
+		ctx.SetStatusCode(fasthttp.StatusBadRequest)
+		ctx.Write([]byte("New password and confirm password do not match"))
+		log.Debug("New password and confirm password do not match")
+		return fmt.Errorf("New password and confirm password do not match")
+	}
+
+	// Hash the new password
+	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(newPassword), bcrypt.DefaultCost)
+	if err != nil {
+		ctx.SetStatusCode(fasthttp.StatusInternalServerError)
+		ctx.Write([]byte("Failed to hash new password"))
+		log.Debugf("Failed to hash new password - %v", err)
+		return fmt.Errorf("Failed to hash new password - %v", err)
+	}
+
+	// Update the user's password in the profiles table
+	updateQuery := `UPDATE profiles SET password = $1 WHERE email = $2`
+	err = utils.GetDB().Exec(updateQuery, string(hashedPassword), userEmail).Error
+	if err != nil {
+		ctx.SetStatusCode(fasthttp.StatusInternalServerError)
+		ctx.Write([]byte("Failed to update password"))
+		log.Debugf("Failed to update password - %v", err)
+		return fmt.Errorf("Failed to update password - %v", err)
+	}
+
+	ctx.Write([]byte("Password has been reset successfully"))
+	return nil
+
 }
 
 // This is home page new user handler to create an account in database and to check if user already exists.
@@ -331,23 +459,44 @@ func createFullProfileAccountHandler(ctx *routing.Context) error {
 	profile.Gender = string(ctx.FormValue("gender"))
 	profile.Country = string(ctx.FormValue("country"))
 	profile.Religion = string(ctx.FormValue("religion"))
+	profile.Language = string(ctx.FormValue("language"))
 	profile.Password = string(ctx.FormValue("password"))
 	ConfirmPassword := string(ctx.FormValue("confirmpassword"))
 
-	log.Println("received", string(ctx.PostBody()))
+	log.Println("received", ctx.PostBody())
+	log.Println("password", string(ctx.FormValue("password")))
+
+	// Validate password before any database operations
+	if len(profile.Password) == 0 || len(ConfirmPassword) == 0 {
+		ctx.SetStatusCode(fasthttp.StatusBadRequest)
+		log.Debug("Password or confirm password is empty")
+		return fmt.Errorf("Password or confirm password is empty")
+	}
 
 	if profile.Password != ConfirmPassword {
 		ctx.SetStatusCode(fasthttp.StatusBadRequest)
 		log.Debug("Password and confirm password do not match")
 		return fmt.Errorf("Password and confirm password do not match")
-
 	}
+
+	if len(profile.Password) < 8 {
+		ctx.SetStatusCode(fasthttp.StatusBadRequest)
+		log.Debug("Password must be at least 8 characters long")
+		return fmt.Errorf("Password must be at least 8 characters long")
+	}
+
+	// Validate password complexity (A-Z, a-z, 0-9, special chars)
+	// passwordRegex := regexp.MustCompile(`^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$%^&*]).{8,}$`)
+	// if !passwordRegex.MatchString(profile.Password) {
+	// 	ctx.SetStatusCode(fasthttp.StatusBadRequest)
+	// 	log.Debug("Password must include A-Z, a-z, 0-9, and special characters (@#$%^&*)")
+	// 	return fmt.Errorf("Password must include A-Z, a-z, 0-9, and special characters")
+	// }
 
 	if len(profile.Email) <= 0 || len(profile.Phone) <= 0 {
 		ctx.SetStatusCode(fasthttp.StatusBadRequest)
-		//ctx.Write([]byte("User input is empty"))
-		log.Debug("User input is empty - email, phone or password")
-		return fmt.Errorf("User input is empty - email, phone or password")
+		log.Debug("User input is empty - email or phone")
+		return fmt.Errorf("User input is empty - email or phone")
 	}
 
 	// Validate if email or phone already exists
@@ -371,7 +520,7 @@ func createFullProfileAccountHandler(ctx *routing.Context) error {
 
 	// Hash the password
 	var hashedPassword []byte
-	if len(profile.Password) > 8 {
+	if len(profile.Password) >= 8 {
 		hashedPassword, err = bcrypt.GenerateFromPassword([]byte(profile.Password), bcrypt.DefaultCost)
 		if err != nil {
 			ctx.SetStatusCode(fasthttp.StatusInternalServerError)
@@ -381,6 +530,7 @@ func createFullProfileAccountHandler(ctx *routing.Context) error {
 		}
 	}
 	profile.Password = string(hashedPassword)
+	log.Println("hashed password length", len(profile.Password))
 
 	// Insert user into the database
 	enrolledUser, err := createFullProfile(&profile)

@@ -88,16 +88,16 @@
               <input type="date" name="dob" id="dob">
             </div>
             <div class="field">
-              <div class="label" name="gender" id="gender">Gender</div>
-              <select>
+              <div class="label">Gender</div>
+              <select name="gender" id="gender">
                 <option>Male</option>
                 <option>Female</option>
                 <option>Other</option>
               </select>
             </div>
             <div class="field">
-              <div class="label" name="country" id="country">Country</div>
-              <select>
+              <div class="label">Country</div>
+              <select name="country" id="country">
                 <option>India</option>
                 <option>United States</option>
                 <option>Canada</option>
@@ -107,8 +107,8 @@
               </select>
             </div>
             <div class="field">
-              <div class="label" name="religion" id="religion">Religion</div>
-              <select>
+              <div class="label">Religion</div>
+              <select name="religion" id="religion">
                 <option>Hindu</option>
                 <option>Christian</option>
                 <option>Muslim</option>
@@ -116,8 +116,8 @@
               </select>
             </div>
             <div class="field">
-              <div class="label" name="language" id="language">Language</div>
-              <select>
+              <div class="label">Language</div>
+              <select name="language" id="language">
                 <option>Tamil</option>
                 <option>Hindi</option>
                 <option>Telugu</option>
@@ -137,16 +137,18 @@
             <p>8 characters must including A-Z,a-z,0-9,@;#$%^&*</p>
             <div class="field">
               <div class="label">Password</div>
-              <input type="password" name="password" id="password">
+              <input type="password" name="password" id="password" minlength="8" required>
             </div>
             <div class="field">
               <div class="label">Confirm Password</div>
-              <input type="password" name="confirmpassword" id="confirmpassword">
+              <input type="password" name="confirmpassword" id="confirmpassword" minlength="8" required>
+            </div>
+            <div class="field" id="error-field-3" style="display:none;">
+              <div class="label" id="error-3" hidden style="color:red">Error : </div>
             </div>
             <div class="field btns">
-              <button class="prev-2 prev">Previous</button>
+              <button type="button" class="prev-2 prev">Previous</button>
               <button type="submit" class="submit">Submit</button>
-              
             </div>
             <div class="field btns">
             <button type="reset" class="reset">Reset</button>

@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/beevik/guid"
 	"github.com/dineshengg/matrimony/common/utils"
 	log "github.com/sirupsen/logrus"
 	"gorm.io/datatypes"
@@ -35,13 +36,45 @@ type Profiles struct {
 	CreatedAt   time.Time      `gorm:"column:created_at"`
 }
 
+func resetPassword(email string) error {
+	//validate the input before quering
+	if email == "" {
+		return fmt.Errorf("email is empty")
+	}
+
+	var query string
+	query = `SELECT times FROM forgot WHERE email = $1`
+	var count int = 0
+	err := utils.GetDB().Raw(query, email).Scan(&count).Error
+	if err != nil {
+		return fmt.Errorf("failed to query forgot password existence: %v", err)
+	}
+	log.Debugf("Forgot password request count for email - %d", count)
+	if count == 0 {
+		//insert new record
+		query = `INSERT INTO forgot (email, reset_at, times, guid) VALUES ($1, $2, $3, $4)`
+		err := utils.GetDB().Exec(query, email, time.Now(), 1, guid.NewString()).Error
+		if err != nil {
+			return fmt.Errorf("failed to insert forgot password record: %v", err)
+		}
+	} else {
+		//update existing record
+		query = `UPDATE forgot SET reset_at = $1, guid = $2, times = times + 1 WHERE email = $3`
+		err := utils.GetDB().Exec(query, time.Now(), guid.NewString(), email).Error
+		if err != nil {
+			return fmt.Errorf("failed to update forgot password record: %v", err)
+		}
+	}
+	return nil
+}
+
 func checkIfUserExists(email, phone string) (bool, error) {
 	//validate the input before quering
 	if email == "" && phone == "" {
 		return false, fmt.Errorf("email or phone is empty")
 	}
 
-	query := `SELECT COUNT(*) FROM enrolls WHERE email = $1 OR phone = $2`
+	query := `SELECT COUNT(*) FROM profiles WHERE email = $1 OR phone = $2`
 	var count int = 0
 	err := utils.GetDB().Raw(query, email, phone).Scan(&count).Error
 	if err != nil {

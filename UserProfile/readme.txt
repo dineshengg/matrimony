@@ -140,3 +140,12 @@ Used sqlDB.Ping() to ensure the database connection is active.
 Graceful Shutdown:
 
 Updated CloseDB to close the GORM database connection properly.
+
+
+
+////////////////////////////////////////
+PGM:
+Login flow - dev tested please test multiple times
+Password reset flow
+ - code done in backend not tested ********
+ - python code for job worker needs to be written ********
