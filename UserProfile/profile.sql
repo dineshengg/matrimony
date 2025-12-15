@@ -55,6 +55,8 @@ alter table profiles add caste VARCHAR(25);
 alter table profiles add pref_caste VARCHAR(25);
 alter table profiles add pref_location VARCHAR(25);
 alter table profiles add hobbies VARCHAR(25);
+alter table profiles add location VARCHAR(25);
+alter table profiles add city VARCHAR(40);
 ---
 
 create table counters (
@@ -86,7 +88,42 @@ alter table enroll drop matrimonyid;
 alter table enroll add matrimonyid VARCHAR(25);
 alter table enroll add looking VARCHAR(25);
 
+-------
+create table contactus (
+	id SERIAL primary key,
+	name VARCHAR(80),
+	email VARCHAR(40),
+	phone VARCHAR(20),
+	category VARCHAR(40),
+	message VARCHAR(256),
+	created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
 
+create table forgot (
+	id SERIAL primary key,
+	email VARCHAR(40),
+	reset_at TIMESTAMP,
+	times INT4,
+	guid VARCHAR(36),
+	matrimonyid VARCHAR(25)
+	);
+
+create table interests (
+	id SERIAL primary key,
+	sender_matid VARCHAR(25),
+	receiver_matid VARCHAR(25),
+	accepted BOOL,
+	created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+create table messages (
+	id SERIAL primary key,
+	sender_matid VARCHAR(25),
+	receiver_matid VARCHAR(25),
+	message VARCHAR(256),
+	created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+	
 -- First, create the trigger function
 CREATE OR REPLACE FUNCTION set_matrimonyid()
 RETURNS TRIGGER AS $$
@@ -106,6 +143,11 @@ CREATE TRIGGER before_insert_profiles
 BEFORE INSERT ON profiles
 FOR EACH ROW
 EXECUTE FUNCTION set_matrimonyid();
+
+
+
+------------
+
 
 
 
