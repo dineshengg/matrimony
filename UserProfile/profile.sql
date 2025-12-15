@@ -31,12 +31,30 @@ create table profiles (
 	religion VARCHAR(25),
 	language VARCHAR(25),
 	password VARCHAR(25),
-	created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+	created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	status VARCHAR(15),
+	subscription_type VARCHAR(15),
+	verified BOOL,
+	last_active TIMESTAMP,
+	pref_age_min INT,
+	pref_age_max INT,
+	pref_religion VARCHAR(25),
+	caste VARCHAR(25,
+	pref_caste VARCHAR(25),
+	pref_location VARCHAR(25),
+	hobbies VARCHAR(25)
 	);
 insert into profiles (email, phone) values ('kandan@gmail.com','01123456789');
 drop table profiles;
 select * from profiles;
 alter table profile add status VARCHAR(15);
+alter table profiles add pref_age_min INT;
+alter table profiles add pref_age_max INT;
+alter table profiles add pref_religion VARCHAR(25);
+alter table profiles add caste VARCHAR(25);
+alter table profiles add pref_caste VARCHAR(25);
+alter table profiles add pref_location VARCHAR(25);
+alter table profiles add hobbies VARCHAR(25);
 ---
 
 create table counters (
