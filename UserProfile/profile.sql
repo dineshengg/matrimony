@@ -36,7 +36,7 @@ create table profiles (
 insert into profiles (email, phone) values ('kandan@gmail.com','01123456789');
 drop table profiles;
 select * from profiles;
-
+alter table profile add status VARCHAR(15);
 ---
 
 create table counters (
@@ -59,8 +59,10 @@ select counter from globalcounters order by counter desc limit 1;
 drop table globalcounters;
 
 ----
-
-
+UPDATE forgot SET  guid = 'asdfghjkl', times =  1 WHERE email = 'techlearningbox@gmail.com';
+SELECT email, guid FROM forgot WHERE times > 0;
+alter table forgot add matrimonyid VARCHAR(25);
+---------
 alter table enroll add create_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP;
 alter table enroll drop matrimonyid;
 alter table enroll add matrimonyid VARCHAR(25);

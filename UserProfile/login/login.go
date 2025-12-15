@@ -119,6 +119,12 @@ func loginHandler(ctx *routing.Context) error {
 		return fmt.Errorf("Invalid username or password - %v", err)
 	}
 
+	// Update user status to active and set last_active timestamp
+	if err := updateUserActivityStatus(matrimonyid, "active"); err != nil {
+		log.Warnf("Failed to update user activity status: %v", err)
+		// Don't fail login if status update fails
+	}
+
 	// Get or create multipart form to add values
 	mf, err1 := ctx.MultipartForm()
 	if err1 != nil {
@@ -614,4 +620,16 @@ func checkIfUserExistsHandler(ctx *routing.Context) error {
 	log.Debugf("User existence check completed for email: %s, phone: %s", Email, Phone)
 	return nil
 
+}
+
+// Add this function at the end of the file
+func updateUserActivityStatus(matrimonyid string, status string) error {
+	db := utils.GetDB()
+	query := `UPDATE profiles SET status = ?, last_active = NOW() WHERE matrimonyid = ?`
+	err := db.Exec(query, status, matrimonyid).Error
+	if err != nil {
+		log.Debugf("Failed to update user activity status - %v", err)
+		return fmt.Errorf("Failed to update user activity status - %v", err)
+	}
+	return nil
 }
