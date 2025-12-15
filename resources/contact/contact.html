@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Contact Form - Free Bulma template</title>
+	<link rel="shortcut icon" href="../images/vel.png" type="image/x-icon">
+    	<!-- Bulma Version 1-->
+    <link rel="stylesheet" href="../css/bulma.min.css"/>
+	<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
+		integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+	<link rel="stylesheet" href="../css/contact.css">
+</head>
+
+<body>
+	<!-- START NAV -->
+	<nav class="navbar">
+		<div class="container">
+			<div class="navbar-brand">
+				<a class="navbar-item">
+					<img src="../images/vel.png" alt="Logo">
+				</a>
+				
+			</div>
+			<div id="navbarMenu" class="navbar-menu">
+				<div class="navbar-end">
+					<a class="navbar-item is-active" href="../home/home.html">Home</a>
+					<a class="navbar-item">Login</a>
+					<a class="navbar-item">Success stories</a>
+					<a class="navbar-item">Partners</a>
+					<a class="navbar-item">Office</a>
+					<a class="navbar-item">Support</a>
+				</div>
+			</div>
+		</div>
+	</nav>
+	<!-- END NAV -->    
+	<section class="hero is-fullheight">
+		<div class="hero-body">
+			<div class="container has-text-centered">
+				<div class="columns is-8 is-variable ">
+					<div class="column is-two-thirds has-text-left">
+						<h1 class="title is-1">Contact Us</h1>
+						<p class="is-size-4">Use this report any issues or suggest any ideas/features.</p>
+						<div class="social-media">
+							<a href="https://facebook.com" target="_blank" class="button is-light is-large"><i class="fa fa-facebook-square" aria-hidden="true"></i></a>
+							<a href="https://instagram.com" target="_blank" class="button is-light is-large"><i class="fa fa-instagram" aria-hidden="true"></i></a>
+							<a href="https://twitter.com" target="_blank" class="button is-light is-large"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+						</div>
+					</div>
+                    <form class="column is-one-third has-text-left" method="POST" action="/api/contact/submit">
+						<div class="field">
+							<label class="label">Your Name</label>
+							<div class="control">
+								<input class="input is-medium" type="text" placeholder="Enter your name" required>
+							</div>
+						</div>
+						<div class="field">
+							<label class="label">Email Id</label>
+							<div class="control">
+								<input class="input is-medium" type="text" placeholder="Enter your email" required>
+							</div>
+						</div>
+                        <div class="field">
+							<label class="label">Category</label>
+							<select name="category" required>
+                                <option><a>Problem with profile</a></option>
+                                <option><a class="is-active">Problem with website</a></option>
+                                <option><a>Suggestions for improvement</a></option>
+                                <option><a>Others</a></option>
+                            </select>
+						</div>
+                        <div class="field">
+							<label class="label">Title</label>
+							<div class="control">
+								<input class="input is-medium" type="text" placeholder="Brief about your message" required>
+							</div>
+						</div>
+						<div class="field">
+							<label class="label">Message</label>
+							<div class="control">
+								<textarea class="textarea is-medium" required></textarea>
+							</div>
+						</div>
+                        <div class="field">
+							<label class="label">Enter the security code displayed</label>
+							<div class="control">
+								<input class="input is-medium" type="text" placeholder="Brief about your message"></textarea>
+							</div>
+						</div>
+						<div class="control">
+							<button type="submit"  class="button is-link is-fullwidth has-text-weight-medium is-medium" style="background-color: orangered;">Send Message</button>
+						</div>
+                    </form>
+				</div>
+			</div>
+		</div>
+	</section>
+
+</body>
+
+</html>

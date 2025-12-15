@@ -2,10 +2,10 @@ package utils
 
 import (
 	"fmt"
-	"log"
 	"sync"
 	"time"
 
+	log "github.com/sirupsen/logrus"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
@@ -21,6 +21,15 @@ var db *MyDatabase
 var mtx sync.Mutex
 var closing bool
 
+func IsPostgresInit() bool {
+	mtx.Lock()
+	defer mtx.Unlock()
+	if db != nil && db.Database != nil {
+		return true
+	}
+	return false
+}
+
 // NewDatabaseClient initializes a new GORM database client
 func NewDatabaseClient(datasourceName string) *MyDatabase {
 	mtx.Lock()
@@ -32,6 +41,7 @@ func NewDatabaseClient(datasourceName string) *MyDatabase {
 	}
 	//Initialize the database connection
 	if db.initializeDB() != nil {
+		log.Error("failed to connect to postgresql database")
 		return nil
 	}
 	return db
@@ -77,6 +87,7 @@ func (db *MyDatabase) initializeDB() error {
 	if db.Database != nil {
 		return nil
 	}
+	log.Println("dsn - ", db.dbSourceName)
 	// Configure GORM with PostgreSQL driver
 	db.Database, err = gorm.Open(postgres.Open(db.dbSourceName), &gorm.Config{
 		Logger: logger.Default.LogMode(logger.Info), // Enable detailed logging

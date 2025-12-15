@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html>
+<link rel="stylesheet" href="../css/footer.css">
+<link rel="stylesheet" href="../css/searchbox.css">
+<link rel="stylesheet" href="../css/allinfo.css">
+<link rel="stylesheet" href="../css/bulma.min.css">
+
+<!-- ============================================ -->
+<!--                 Navigation                   -->
+<!-- ============================================ -->
+
+<header>
+    <div class="hero is-primary">
+        <!--Nav Logo-->
+        <!--Logo is turned white in the css with a filter on dark mode-->
+        <a href="" aria-label="back to home" style="text-decoration: none;font-weight: bold;">
+            <img src="./../images/vel.png" alt="logo" width="24px" height="24px" aria-hidden="true" decoding="async" >
+            Kandan Matrimony
+        </a>
+        <!--Navigation List-->
+        <nav class="tabs" role="navigation">
+            <!--Mobile Nav Toggle-->
+            <button aria-label="mobile menu toggle">
+                <div aria-hidden="true">
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                </div>
+            </button>
+            <!-- We need a wrapper div so we can set a fixed height on the cs-ul in case the nav list gets too long from too many dropdowns being opened and needs to have an overflow scroll. This wrapper acts as the background so it can go the full height of the screen and not cut off any overflowing nav items while the cs-ul stops short of the bottom of the screen, which keeps all nav items in view no matter how mnay there are-->
+            <div class="container">
+                <ul id="cs-expanded" aria-expanded="false">
+                    <li >
+                        <a href="/api/home" >
+                            Home
+                        </a>
+                    </li>
+                    <!--Copy and paste this cs-dropdown list item and replace any .cs-li with this cs-dropdown group to make a new dropdown and it will work-->
+                    <li tabindex="0">
+                        <span >
+                            Notifications
+                            <img src="../icons/down-gold.svg" alt="dropdown icon" width="15" height="15" decoding="async" aria-hidden="true">
+                        </span>
+                        <ul >
+                            <li >
+                                <a href="../login/newuser.html" >Interest Received</a>
+                            </li>
+                            <li >
+                                <a href="../login/login.html" >Message Received</a>
+                            </li>
+                            <li >
+                                <a href="../login/login.html" >Interest Sent</a>
+                            </li>
+                            <li >
+                                <a href="../login/login.html" >Message Sent</a>
+                            </li>
+                            
+                        </ul>
+                    </li>
+                    <li tabindex="1" class="is-active">
+                        <span >
+                            Match
+                            <img src="../icons/down-gold.svg" alt="dropdown icon" width="15" height="15" decoding="async" aria-hidden="true">
+                        </span>
+                        <ul >
+                            <li >
+                                <a href="../login/newuser.html" >Preference Match</a>
+                            </li>
+                            <li >
+                                <a href="../login/login.html" >Suggested Match</a>
+                            </li>
+                            <li >
+                                <a href="../login/login.html" >Newly added</a>
+                            </li>
+                            <li >
+                                <a href="../login/login.html" >Premium Profile</a>
+                            </li>
+                            <li >
+                                <a href="../login/login.html" >Advanced Search</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li >
+                        <span >
+                            Account
+                            <img  src="../icons/down-gold.svg" alt="dropdown icon" width="15" height="15" decoding="async" aria-hidden="true">
+                        </span>
+                        <ul >
+                            <li >
+                                <a href="../login/newuser.html" >Update Profile</a>
+                            </li>
+                            <li >
+                                <a href="../login/login.html" >Update Preference</a>
+                            </li>
+                            <li >
+                                <a href="../login/login.html" >Change Password</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li >
+                        <a href="/api/home" >
+                            Subscription
+                        </a>
+                    </li>
+                    <li  tabindex="0" id="languages">
+                        <label style="font-weight:bold;">🌐 Language:</label>
+                        <ul  id="lang-list">
+                            <li >
+                                <a data-lang="en" class="lang-option">English</a>
+                            </li>
+                            <li >
+                                <a data-lang="ta" class="lang-option">தமிழ்</a>
+                            </li>
+                            <li >
+                                <a data-lang="hi" class="lang-option">हिन्दी</a>
+                            </li>
+                            <li >
+                                <a data-lang="te" class="lang-option">తెలుగు</a>
+                            </li>
+                            <li >
+                                <a data-lang="kn" class="lang-option">ಕನ್ನಡ</a>
+                            </li>
+                            <li >
+                                <a data-lang="ml" class="lang-option">മലയാളം</a>
+                            </li>
+                            <li >
+                                <a data-lang="tulu" class="lang-option">ತುಳು</a>
+                            </li>
+                        </ul>
+                        <span >
+                            <img  src="../icons/down-gold.svg" alt="dropdown icon" width="15" height="15" decoding="async" aria-hidden="true">
+                        </span>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <div >
+            <div >
+                <a href="https://facebook.com"  target="_blank">
+                    <img src="../icons/facebook-1a.svg" alt="Facebook logo" width="12" height="12" aria-hidden="true" decoding="async">
+                </a>
+                <a href="https://twitter.com"  target="_blank">
+                    <img src="../icons/twitter-1a.svg" alt="Twitter logo" width="12" height="12" aria-hidden="true" decoding="async">
+                </a>
+                <a href="https://instagram.com"  target="_blank">
+                    <img src="../icons/instagram1a.svg" alt="Instagram logo" width="12" height="12" aria-hidden="true" decoding="async">
+                </a>
+                <a href="https://youtube.com"  target="_blank">
+                    <img src="../icons/youtube1a.svg" alt="YouTube logo" width="12" height="12" aria-hidden="true" decoding="async">
+                </a>
+            </div>
+        </div>
+        <!--Dark Mode toggle, uncomment button code if you want to enable a dark mode toggle-->
+        <!--D<button id="dark-mode-toggle" aria-label="dark mode toggle">
+            <svg class="cs-moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 480" style="enable-background:new 0 0 480 480" xml:space="preserve"><path d="M459.782 347.328c-4.288-5.28-11.488-7.232-17.824-4.96-17.76 6.368-37.024 9.632-57.312 9.632-97.056 0-176-78.976-176-176 0-58.4 28.832-112.768 77.12-145.472 5.472-3.712 8.096-10.4 6.624-16.832S285.638 2.4 279.078 1.44C271.59.352 264.134 0 256.646 0c-132.352 0-240 107.648-240 240s107.648 240 240 240c84 0 160.416-42.688 204.352-114.176 3.552-5.792 3.04-13.184-1.216-18.496z"/></svg>
+            <img class="cs-sun" aria-hidden="true" src="https://csimg.nyc3.cdn.digitaloceanspaces.com/Icons%2Fsun.svg" decoding="async" alt="moon" width="15" height="15">
+        </button>-->
+    </div>
+    <!-- Language Selector 
+    <div style="text-align:right; margin-bottom: 8px;">
+        <label for="lang-select" style="font-weight:bold;">🌐 Language:</label>
+        <select id="lang-select">
+            <option value="en">English</option>
+            <option value="ta">தமிழ்</option>
+            <option value="hi">हिन्दी</option>
+        </select>
+    </div>-->
+</header>
+
+<!-- Body -->
+<body>
+<!-- login form -->
+<div >
+    <section >
+      <h3 id="Profile">{{.FirstName}} {{.SecondName}}</h3>
+      <img src="../temp/muruganvallidevyani.jpg" alt="Profile Photo" id="photo" style="width:240px;height:240px;border-radius:2px;">
+      <div >
+        <form action="/api/new-profile/create-account" method="GET">
+          <div style="text-align:left;">
+            <div >
+              <div>Age : {{.Age}}</div>
+            </div>
+            <hr width="100%" size="2">
+            <div >
+              <div>Religion : {{.Religion}}</div>
+            </div>
+            <hr width="100%" size="2">
+            <div >
+              <div >Language : {{.Language}}</div>
+            </div>
+            <hr width="100%" size="2">
+            <div >
+              <div >Gender : {{.Gender}}</div>
+            </div>
+            <hr width="100%" size="2">
+            <div >
+              <div >Date of Birth : {{.DOB}}</div>
+            </div>
+            <hr width="100%" size="2">
+            <div >
+              <div >Caste : {{.Caste}}</div>
+            </div>
+            <hr width="100%" size="2">
+            <div >
+              <div >Marital Status : {{.MaritalStatus}}</div>
+            </div>
+            <hr width="100%" size="2">
+            <div >
+              <div >Location : {{.Location}}</div>
+            </div>
+            <hr width="100%" size="2">
+            <div >
+              <div >State : {{.State}}</div>
+            </div>
+            <hr width="100%" size="2">
+            <div >
+              <div >Looking for : {{.Looking}}</div>
+            </div>
+            <hr width="100%" size="2">
+            <div >
+              <div >Phone : {{.Phone}}</div>
+            </div>
+            <hr width="100%" size="2">
+            <div >
+              <div >Date of Joining  : {{.DOJ}}</div>
+            </div>
+            <hr width="100%" size="2">
+            <div >
+              <div >Father Name  : {{.FatherName}}</div>
+            </div>
+            <hr width="100%" size="2">
+            <div >
+              <div >Email  : {{.EmailId}}</div>
+            </div>
+            <hr width="100%" size="2">
+            <div >
+              <div >Mother Name : {{.MotherName}}</div>
+            </div>
+            <hr width="100%" size="2">
+            <div >
+              <div >Education  : {{.Education}}</div>
+            </div>
+            <hr width="100%" size="2">
+            <div >
+              <div >Salary  : {{.Salary}}</div>
+            </div>
+            <hr width="100%" size="2">
+            <div >
+              <div >Working  : {{.Working}}</div>
+            </div>
+            <hr width="100%" size="2">
+            <div >
+              <div >Company  : {{.Company}}</div>
+            </div>
+            <hr width="100%" size="2">
+            <div >
+              <div >Preference Age Min : {{.PrefAgeMin}}</div>
+            </div>
+            <hr width="100%" size="2">
+            <div >
+              <div >Preference Age Max  : {{.PrefAgeMax}}</div>
+            </div>
+            <hr width="100%" size="2">
+            <div >
+              <div >Preference Caste  : {{.PrefCaste}}</div>
+            </div>
+            <hr width="100%" size="2">
+            <div >
+              <div >Preference Religion  : {{.PrefReligion}}</div>
+            </div>
+            <hr width="100%" size="2">
+            <div >
+              <button type="button" id="update-btn">Update</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </section>
+<!-- search box -->
+    <div>
+        <form method="POST" action="/api/search">
+            <div>
+            <div>
+                <label for="lookingFor" id="lookingfor-label">I'm looking for a</label>
+                <select id="lookingFor" name="gender">
+                <option value="Female" id="opt-woman">Woman</option>
+                <option value="Male" id="opt-man">Man</option>
+                </select>
+            </div>
+            <div>
+        <label id="aged-label">aged</label>
+        <div>
+        <select name="age-min">
+            <option>18</option>
+            <option>19</option>
+            <option>20</option>
+            <option>21</option>
+            <option>22</option>
+            <option>23</option>
+            <option>24</option>
+            <option>25</option>
+            <option>26</option>
+            <option>27</option>
+            <option>28</option>
+            <option>29</option>
+            <option>30</option>
+        </select>
+        <span id="to-label">to</span>
+        <select name="age-max">
+            <option>22</option>
+            <option>23</option>
+            <option>24</option>
+            <option>25</option>
+            <option>26</option>
+            <option>27</option>
+            <option>28</option>
+            <option>29</option>
+            <option>30</option>
+            <option>31</option>
+            <option>32</option>
+            <option>33</option>
+            <option>34</option>
+            <option>35</option>
+        </select>
+        </div>
+    </div>
+    <div>
+        <label for="religion" id="religion-label">of religion</label>
+        <select id="religion" name="religion">
+        <option value="" id="opt-select-religion">Select</option>
+        <option value="Hindu" id="opt-hindu">Hindu</option>
+        <option value="Muslim" id="opt-muslim">Muslim</option>
+        <option value="Christian" id="opt-christian">Christian</option>
+        <option value="Sikh" id="opt-sikh">Sikh</option>
+        <option value="Other" id="opt-other-religion">Other</option>
+        </select>
+    </div>
+    <div>
+        <label for="motherTongue" id="mother-tongue-label">and mother tongue</label>
+        <select id="motherTongue" name="motherTongue">
+        <option value="" id="opt-select-mother">Select</option>
+        <option value="Tamil" id="opt-tamil">Tamil</option>
+        <option value="Hindi" id="opt-hindi">Hindi</option>
+        <option value="Telugu" id="opt-telugu">Telugu</option>
+        <option value="Malayalam" id="opt-malayalam">Malayalam</option>
+        <option value="Kannada" id="opt-kannada">Kannada</option>
+        <option value="Bengali" id="opt-bengali">Bengali</option>
+        <option value="Other" id="opt-other-mother">Other</option>
+        </select>
+    </div>
+    <div>
+        <label>&nbsp;</label>
+        <button type="submit" id="lets-begin-btn">Let's Begin</button>
+    </div>
+    </div>
+        </form>
+    </div>
+</div>
+
+
+
+</body>
+<!-- ============================================ -->
+<!--                   Footer                     -->
+<!-- ============================================ -->
+
+<footer id="cs-footer-1292">
+    <div >      
+        <!-- Logo Group -->
+        <div >
+            <a aria-label="go back to home"  href="">
+                <img  aria-hidden="true" loading="lazy" decoding="async" src="" alt="logo" width="240" height="32">
+            </a>
+            <p >
+                Servicing communities across the world by finding better partner for life.
+            </p>
+            <a href="mailto:info@mail.com">
+                <img  aria-hidden="true" loading="lazy" decoding="async" src="https://csimg.nyc3.cdn.digitaloceanspaces.com/Icons/construction-mail.svg" alt="icon" width="24" height="24">
+                hi@stitchconstruction.com
+            </a>
+        </div>
+        <!-- Links -->
+        <ul >
+            <li >
+                <span >Services</span>
+            </li>
+            <li >
+                <a  href="">Email Marketing</a>
+            </li>
+            <li >
+                <a  href="">Brandings</a>
+            </li>
+            <li >
+                <a  href="">Campaign</a>
+            </li>
+            <li >
+                <a  href="">Offline</a>
+            </li>
+        </ul>
+        <ul >
+            <li >
+                <span >About</span>
+            </li>
+            <li >
+                <a  href="">Our Story</a>
+            </li>
+            <li >
+                <a  href="">Benefits</a>
+            </li>
+            <li >
+                <a  href="">Team</a>
+            </li>
+            <li >
+                <a  href="">Career</a>
+            </li>
+        </ul>
+        <ul >
+            <li >
+                <span >Contact</span>
+            </li>
+            <li >
+                <a  href="">Facebook</a>
+            </li>
+            <li >
+                <a  href="">Instagram</a>
+            </li>
+            <li >
+                <a  href="">LinkedIn</a>
+            </li>
+        </ul>
+        <ul >
+            <li >
+                <span >Help</span>
+            </li>
+            <li >
+                <a  href="">FAQ</a>
+            </li>
+            <li >
+                <a  href="">Contact us</a>
+            </li>
+        </ul>
+    </div>
+    <div >
+        <span >Copyright© 2023. 
+            <a  href="">Kandan Matrimony</a>
+            All Right Reserved.
+        </span>
+        <a href="" >Terms of Service</a>
+        <a href="" >Privacy Policy</a>
+    </div>
+    <!--Floating Cirlces-->
+    <div c aria-hidden="true"></div>
+</footer>
+<script>
+const translations = {
+  en: {
+    "register-offer": "New Users Register and get all paid service for 15 days",
+    "find-match-title": "Find your match",
+    "looking-for-label": "Looking for",
+    "opt-self": "Self",
+    "opt-son": "Son",
+    "opt-daughter": "Daughter",
+    "email-label": "Email id",
+    "phone-label": "Phone",
+    "find-btn": "Find",
+    "login-now-link": "Login Now",
+    "lookingfor-label": "I'm looking for a",
+    "opt-woman": "Woman",
+    "opt-man": "Man",
+    "aged-label": "aged",
+    "to-label": "to",
+    "religion-label": "of religion",
+    "opt-select-religion": "Select",
+    "opt-hindu": "Hindu",
+    "opt-muslim": "Muslim",
+    "opt-christian": "Christian",
+    "opt-sikh": "Sikh",
+    "opt-other-religion": "Other",
+    "mother-tongue-label": "and mother tongue",
+    "opt-select-mother": "Select",
+    "opt-tamil": "Tamil",
+    "opt-hindi": "Hindi",
+    "opt-telugu": "Telugu",
+    "opt-malayalam": "Malayalam",
+    "opt-kannada": "Kannada",
+    "opt-bengali": "Bengali",
+    "opt-other-mother": "Other",
+    "lets-begin-btn": "Let's Begin"
+  },
+  ta: {
+    "register-offer": "புதிய பயனர்கள் பதிவு செய்து 15 நாட்களுக்கு அனைத்து சேவைகளும் இலவசம்",
+    "find-match-title": "உங்கள் இணையை கண்டறியுங்கள்",
+    "looking-for-label": "யாருக்காக தேடுகிறீர்கள்",
+    "opt-self": "நான்",
+    "opt-son": "மகன்",
+    "opt-daughter": "மகள்",
+    "email-label": "மின்னஞ்சல்",
+    "phone-label": "தொலைபேசி",
+    "find-btn": "தேடு",
+    "login-now-link": "உள்நுழையவும்",
+    "lookingfor-label": "நான் தேடுவது",
+    "opt-woman": "பெண்",
+    "opt-man": "ஆண்",
+    "aged-label": "வயது",
+    "to-label": "இற்கு",
+    "religion-label": "மதம்",
+    "opt-select-religion": "தேர்வு செய்க",
+    "opt-hindu": "இந்து",
+    "opt-muslim": "முஸ்லிம்",
+    "opt-christian": "கிறிஸ்துவர்",
+    "opt-sikh": "சிக்ஸ்",
+    "opt-other-religion": "மற்றவை",
+    "mother-tongue-label": "மொழி",
+    "opt-select-mother": "தேர்வு செய்க",
+    "opt-tamil": "தமிழ்",
+    "opt-hindi": "ஹிந்தி",
+    "opt-telugu": "தெலுங்கு",
+    "opt-malayalam": "മലையாளം",
+    "opt-kannada": "ಕನ್ನಡಮ್",
+    "opt-bengali": "பெங்காலி",
+    "opt-other-mother": "மற்றவை",
+    "lets-begin-btn": "தொடங்குங்கள்"
+  },
+  hi: {
+    "register-offer": "नए उपयोगकर्ता पंजीकरण करें और 15 दिनों के लिए सभी सेवाएँ मुफ्त पाएं",
+    "find-match-title": "अपना साथी खोजें",
+    "looking-for-label": "किसके लिए खोज रहे हैं",
+    "opt-self": "स्वयं",
+    "opt-son": "पुत्र",
+    "opt-daughter": "पुत्री",
+    "email-label": "ईमेल आईडी",
+    "phone-label": "फोन",
+    "find-btn": "खोजें",
+    "login-now-link": "लॉगिन करें",
+    "lookingfor-label": "मैं खोज रहा हूँ",
+    "opt-woman": "महिला",
+    "opt-man": "पुरुष",
+    "aged-label": "आयु",
+    "to-label": "से",
+    "religion-label": "धर्म",
+    "opt-select-religion": "चुनें",
+    "opt-hindu": "हिन्दू",
+    "opt-muslim": "मुस्लिम",
+    "opt-christian": "ईसाई",
+    "opt-sikh": "सिख",
+    "opt-other-religion": "अन्य",
+    "mother-tongue-label": "मातृभाषा",
+    "opt-select-mother": "चुनें",
+    "opt-tamil": "तमिल",
+    "opt-hindi": "हिन्दी",
+    "opt-telugu": "तेलुगु",
+    "opt-malayalam": "मलयालम",
+    "opt-kannada": "कन्नड़",
+    "opt-bengali": "बंगाली",
+    "opt-other-mother": "अन्य",
+    "lets-begin-btn": "शुरू करें"
+  },
+  te: {
+    "register-offer": "కొత్త వినియోగదారులు నమోదు చేసుకుని 15 రోజులకు అన్ని సేవలు ఉచితం",
+    "find-match-title": "మీ జోడిని కనుగొనండి",
+    "looking-for-label": "ఎవరికి వెతుకుతున్నారు",
+    "opt-self": "నేను",
+    "opt-son": "కుమారుడు",
+    "opt-daughter": "కుమార్తె",
+    "email-label": "ఇమెయిల్",
+    "phone-label": "ఫోన్",
+    "find-btn": "వెతకండి",
+    "login-now-link": "లాగిన్ చేయండి",
+    "lookingfor-label": "నేను వెతుకుతున్నాను",
+    "opt-woman": "మహిళ",
+    "opt-man": "పురుషుడు",
+    "aged-label": "వయస్సు",
+    "to-label": "నుంచి",
+    "religion-label": "మతం",
+    "opt-select-religion": "ఎంచుకోండి",
+    "opt-hindu": "హిందూ",
+    "opt-muslim": "ముస్లిం",
+    "opt-christian": "క్రైస్తవుడు",
+    "opt-sikh": "సిక్",
+    "opt-other-religion": "ఇతరులు",
+    "mother-tongue-label": "మాతృభాష",
+    "opt-select-mother": "ఎంచుకోండి",
+    "opt-tamil": "తమిళ్",
+    "opt-hindi": "హిందీ",
+    "opt-telugu": "తెలుగు",
+    "opt-malayalam": "మలయాళం",
+    "opt-kannada": "కన్నడ",
+    "opt-bengali": "బెంగాలీ",
+    "opt-other-mother": "ఇతరులు",
+    "lets-begin-btn": "ప్రారంభించండి"
+  },
+  kn: {
+    "register-offer": "ಹೊಸ ಬಳಕೆದಾರರು ನೋಂದಾಯಿಸಿ 15 ದಿನಗಳ ಕಾಲ ಎಲ್ಲಾ ಸೇವೆಗಳು ಉಚಿತ",
+    "find-match-title": "ನಿಮ್ಮ ಜೋಡಿಯನ್ನು ಹುಡುಕಿ",
+    "looking-for-label": "ಯಾರಿಗಾಗಿ ಹುಡುಕುತ್ತಿದ್ದೀರಿ",
+    "opt-self": "ನಾನು",
+    "opt-son": "ಮಗ",
+    "opt-daughter": "ಮಗಳು",
+    "email-label": "ಇಮೇಲ್",
+    "phone-label": "ಫೋನ್",
+    "find-btn": "ಹುಡುಕಿ",
+    "login-now-link": "ಲಾಗಿನ್ ಮಾಡಿ",
+    "lookingfor-label": "ನಾನು ಹುಡುಕುತ್ತಿರುವುದು",
+    "opt-woman": "ಮಹಿಳೆ",
+    "opt-man": "ಪುರುಷ",
+    "aged-label": "ವಯಸ್ಸು",
+    "to-label": "ಇಂದ",
+    "religion-label": "ಧರ್ಮ",
+    "opt-select-religion": "ಆಯ್ಕೆಮಾಡಿ",
+    "opt-hindu": "ಹಿಂದೂ",
+    "opt-muslim": "ಮುಸ್ಲಿಂ",
+    "opt-christian": "ಕ್ರೈಸ್ತ",
+    "opt-sikh": "ಸಿಖ್",
+    "opt-other-religion": "ಇತರೆ",
+    "mother-tongue-label": "ಮಾತೃಭಾಷೆ",
+    "opt-select-mother": "ಆಯ್ಕೆಮಾಡಿ",
+    "opt-tamil": "ತಮಿಳು",
+    "opt-hindi": "ಹಿಂದಿ",
+    "opt-telugu": "ತೆಲುಗು",
+    "opt-malayalam": "ಮಲಯಾಳಂ",
+    "opt-kannada": "ಕನ್ನಡ",
+    "opt-bengali": "ಬೆಂಗಾಲಿ",
+    "opt-other-mother": "ಇತರೆ",
+    "lets-begin-btn": "ಪ್ರಾರಂಭಿಸಿ"
+  },
+  ml: {
+    "register-offer": "പുതിയ ഉപയോക്താക്കൾ രജിസ്റ്റർ ചെയ്ത് 15 ദിവസത്തേക്ക് എല്ലാ സേവനങ്ങളും സൗജന്യം",
+    "find-match-title": "നിങ്ങളുടെ കൂട്ടാളിയെ കണ്ടെത്തൂ",
+    "looking-for-label": "ആർക്കായി തിരയുന്നു",
+    "opt-self": "ഞാൻ",
+    "opt-son": "മകൻ",
+    "opt-daughter": "മകൾ",
+    "email-label": "ഇമെയിൽ",
+    "phone-label": "ഫോൺ",
+    "find-btn": "തിരയുക",
+    "login-now-link": "ലോഗിൻ ചെയ്യുക",
+    "lookingfor-label": "ഞാൻ തിരയുന്നത്",
+    "opt-woman": "സ്ത്രീ",
+    "opt-man": "പുരുഷൻ",
+    "aged-label": "പ്രായം",
+    "to-label": "ഇൽ",
+    "religion-label": "മതം",
+    "opt-select-religion": "തിരഞ്ഞെടുക്കുക",
+    "opt-hindu": "ഹിന്ദു",
+    "opt-muslim": "മുസ്ലിം",
+    "opt-christian": "ക്രിസ്ത്യാനി",
+    "opt-sikh": "സിഖ്",
+    "opt-other-religion": "മറ്റുള്ളവർ",
+    "mother-tongue-label": "മാതൃഭാഷ",
+    "opt-select-mother": "തിരഞ്ഞെടുക്കുക",
+    "opt-tamil": "തമിഴ്",
+    "opt-hindi": "ഹിന്ദി",
+    "opt-telugu": "തെലുങ്ക്",
+    "opt-malayalam": "മലയാളം",
+    "opt-kannada": "ಕನ್ನಡ",
+    "opt-bengali": "ബംഗാളി",
+    "opt-other-mother": "മറ്റുള്ളവർ",
+    "lets-begin-btn": "ആരംഭിക്കുക"
+  },
+  tulu: {
+    "register-offer": "ಪುತ್ತಿದ್ ಉಪಯೋಗದಾರರ್ ನೋಂದಾಯಿಸಿ 15 ದಿನದ ಪಾವತಿ ಸೇವೆ ಉಚಿತ",
+    "find-match-title": "ನಿಂಡ ಪಾತಿರ್ ಬೊಕ್ಕ್",
+    "looking-for-label": "ಯಾರ್ದ್ ಪತ್ತೆ ಪಡ್ಪುನ್ದು",
+    "opt-self": "ಯಾನ್",
+    "opt-son": "ಮಗ",
+    "opt-daughter": "ಮಗಳು",
+    "email-label": "ಇಮೇಲ್",
+    "phone-label": "ಫೋನ್",
+    "find-btn": "ಪತ್ತೆ ಪಡ್ಪು",
+    "login-now-link": "ಲಾಗಿನ್ ಮಲ್ಪು",
+    "lookingfor-label": "ಯಾನ್ ಪತ್ತೆ ಪಡ್ಪುನ್ದು",
+    "opt-woman": "ಪೊನ್ನು",
+    "opt-man": "ಗಂಡು",
+    "aged-label": "ವಯಸ್ಸು",
+    "to-label": "ಇಂದ",
+    "religion-label": "ಧರ್ಮ",
+    "opt-select-religion": "ಆಯ್ಕೆಮಾಡು",
+    "opt-hindu": "ಹಿಂದೂ",
+    "opt-muslim": "ಮುಸ್ಲಿಂ",
+    "opt-christian": "ಕ್ರೈಸ್ತ",
+    "opt-sikh": "ಸಿಖ್",
+    "opt-other-religion": "ಇತರೆ",
+    "mother-tongue-label": "ಮಾತೃಭಾಷೆ",
+    "opt-select-mother": "ಆಯ್ಕೆಮಾಡು",
+    "opt-tamil": "ತಮಿಳು",
+    "opt-hindi": "ಹಿಂದಿ",
+    "opt-telugu": "ತೆಲುಗು",
+    "opt-malayalam": "ಮಲಯಾಳಂ",
+    "opt-kannada": "ಕನ್ನಡ",
+    "opt-bengali": "ಬೆಂಗಾಲಿ",
+    "opt-other-mother": "ಇತರೆ",
+    "lets-begin-btn": "ಆರಂಭ ಮಲ್ಪು"
+  }
+};
+
+function setLanguage(lang) {
+  for (const key in translations[lang]) {
+    const el = document.getElementById(key);
+    if (el) {
+      if (el.tagName === "INPUT" || el.tagName === "BUTTON") {
+        el.value = translations[lang][key];
+        if (el.tagName === "BUTTON") el.textContent = translations[lang][key];
+      } else {
+        el.textContent = translations[lang][key];
+      }
+    }
+  }
+}
+
+//show error message in this form
+const errorDiv = document.getElementById('error');
+function showError(input, message) {
+  if (input && input.tagName === "INPUT") {
+    input.value = "";
+    input.placeholder = message;
+    input.style.borderColor = "red";
+    input.style.outline = "none";
+    input.style.fontSize = "14px";
+    input.focus();
+  }
+  else {
+    if (errorDiv) {
+      errorDiv.textContent = message;
+      errorDiv.hidden = false;
+    }
+  }
+}
+
+// Language dropdown logic
+document.addEventListener("DOMContentLoaded", function() {
+  const langLinks = document.querySelectorAll('.lang-option');
+  let currentLang = 'en';
+  langLinks.forEach(link => {
+    link.addEventListener('click', function(e) {
+      e.preventDefault();
+      langLinks.forEach(l => l.classList.remove('active'));
+      this.classList.add('active');
+      const lang = this.getAttribute('data-lang');
+      // Only translate if supported
+      if (translations[lang]) {
+        setLanguage(lang);
+        currentLang = lang;
+      } else {
+        setLanguage('en');
+        currentLang = 'en';
+      }
+    });
+  });
+    // Set default language
+    setLanguage(currentLang);
+    const form = document.querySelector("form");
+    form.addEventListener('submit', function(event) {
+      event.preventDefault();
+      errorDiv.textContent = " ";
+      errorDiv.hidden = true;
+      let valid = true; // Initialize valid variable
+      const emailidinput = document.getElementById('email');
+      const phonenoinput = document.getElementById('phone');
+      const emailid = emailidinput.value.trim();
+      const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (emailid === "" || !emailPattern.test(emailid)) {
+        showError(emailidinput, "Please enter a valid email address.");
+        emailidinput.focus();
+        valid = false;
+        return;
+      }
+      const phonePattern = /^[0-9]{8,15}$/;
+      const phoneno = phonenoinput.value.trim();
+      if (phoneno === "" || !phonePattern.test(phoneno)) {
+        showError(phonenoinput, "Please enter your correct phone number");
+        valid = false;
+        return;
+      }
+      if (valid) {
+        submitForm();
+      }
+    });
+    async function submitForm() {
+        const formData = new FormData(form);
+
+        try {
+            const response = await fetch(form.action, {
+                method: 'POST',
+                body: formData,
+            });
+
+            if (response.ok) {
+                // Successful submission
+                console.log('Form submitted successfully');
+            } else {
+                // Handle errors
+                const errorData = await response.text(); // Or .text() if server sends plain text
+                //alert(errorData);
+                console.error('Form submission error:', errorData);
+                showError(null, errorData); // Function to show error messages
+            }
+        } catch (error) {
+            console.error('Fetch error:', error);
+            showError(null, 'An error occurred during submission.'); // Handle network errors
+        }
+   }
+});
+</script>

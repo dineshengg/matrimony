@@ -23,12 +23,29 @@ body{
   background: #d43f8d;
 }
 .container{
-  width: 330px;
+  width: auto;
   background: #fff;
   text-align: center;
   border-radius: 5px;
   padding: 50px 35px 10px 35px;
 }
+.dashboard-flex-wrapper {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 40px; /* space between profile and search */
+    justify-content: flex-start;
+    }
+
+.dashboard-flex-wrapper .container.page-section {
+    width: 400px; /* or your preferred width */
+    margin: 0;
+    }
+
+.dashboard-flex-wrapper .search {
+    min-width: 350px;
+    max-width: auto;
+    }
 .container header{
   font-size: 35px;
   font-weight: 600;
@@ -54,8 +71,13 @@ body{
 .form-outer form .page .field{
   width: 330px;
   height: 45px;
-  margin: 45px 0;
-  display: flex;
+  margin: 25px 0;
+  position: relative;
+}
+.form-outer form .page .field-min{
+  width: 330px;
+  height: auto;
+  margin: 20px 0;
   position: relative;
 }
 form .page .field .label{
@@ -672,6 +694,7 @@ form .page .btns button.next{
     z-index: 10000;
     transform: translateX(-50%);
     transition: top 0.3s, border-radius 0.3s, width 0.3s, max-width 0.3s;
+    border: 1px solid rgba(0, 0, 0, 0.1);
   }
   #cs-navigation .cs-container {
     width: 100%;
@@ -853,6 +876,13 @@ form .page .btns button.next{
 @media only screen and (min-width: 81.25rem) {
   #cs-navigation .cs-social {
     display: flex;
+  }
+}
+/*small screen - 900px*/
+@media (max-width: 900px) {
+    .dashboard-flex-wrapper {
+    flex-direction: column;
+    align-items: stretch;
   }
 }
                                 

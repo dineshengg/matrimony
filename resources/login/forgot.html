@@ -4,27 +4,64 @@
     <meta charset="utf-8">
     <title>Matrimony registration form</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+      #cs-navigation {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        padding: 10px 0;
+        background: white;
+        border-bottom: 1px solid #ddd;
+        z-index: 1000;
+      }
+      .cs-container {
+        padding: 0 20px;
+      }
+      .cs-logo {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        text-decoration: none;
+      }
+      body {
+        margin-top: 80px; /* Push content down to avoid overlap with fixed header */
+      }
+    </style>
     <script src="https://kit.fontawesome.com/a076d05399.js"></script>
   </head>
+  
+  <header id="cs-navigation">
+    <div class="cs-container">
+        <!--Nav Logo-->
+        <a href="/home/home.html" class="cs-logo" aria-label="Back to home">
+            <img src="/static/icons/work-from-home-icon.svg" style="width:42px;height:42px;" alt="Home icon"> Back to home
+        </a>
+    </div>
+  </header>
+
   <body>
     <div class="container">
       <header>Login to your profile</header>
       <div class="form-outer">
-        <form action="/forgot-password" method="POST">
+        <form>
           <div class="page slide-page">
             <div class="title">Account details</div>
             <div class="field">
               <div class="label">Email id</div>
-              <input type="text" name="emailid" id="emailid" onfocus="this.value=''" value="kandan@gmail.com">
+              <input type="text" name="email" id="email" onfocus="this.value=''" value="kandan@gmail.com">
             </div>
             <div class="field btns">
               <button type="submit" class="submit">Submit</button>
+            </div>
+            <div class="field" id="error-field" style="display:none; padding-top:25px;">
+              <div class="label" id="error" hidden style="color:red">Error : </div>
             </div>
           </div>
         </form>
       </div>
     </div>
-    <script src="script.js"></script>
+    <script src="/static/login/forgot.js"></script>
 
   </body>
 </html>

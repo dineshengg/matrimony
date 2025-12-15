@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Matrimony registration form</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/header.css">
+    <!--
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    -->
+  </head>
+
+  <header id="cs-navigation">
+    <div class="cs-container">
+        <!--Nav Logo-->
+        <a href="/home/home.html" class="cs-logo" aria-label="Back to home">
+            <img src="/static/icons/work-from-home-icon.svg" style="width:42px;height:42x;"> Back to home
+        </a>
+    </div>
+  </header>
+
+  <body>
+    <div class="container">
+      <header>New Account</header>
+      <div class="progress-bar">
+        <div class="step">
+          <p>About</p>
+          <div class="bullet">
+            <span>1</span>
+          </div>
+          <div class="check fas fa-check"></div>
+        </div>
+        <div class="step">
+          <p>Birth</p>
+          <div class="bullet">
+            <span>2</span>
+          </div>
+          <div class="check fas fa-check"></div>
+        </div>
+        <div class="step">
+          <p>Submit</p>
+          <div class="bullet">
+            <span>3</span>
+          </div>
+          <div class="check fas fa-check"></div>
+        </div>
+      </div>
+      <div class="form-outer">
+        <form action="/api/new-profile/create-full-account" method="POST" enctype="multipart/form-data">
+          <div class="page slide-page">
+            <h3>Welcome New User: {{if .EnrollToken.MatrimonyID }} {{.EnrollToken.MatrimonyID}} {{end}}</h3>
+            <div class="field">
+              <div class="label">Matrimony ID</div>
+              <input type="text" name="matrimonyid" id="matrimonyid" {{if .EnrollToken.MatrimonyID }} value={{.EnrollToken.MatrimonyID}} {{end}}>
+            </div>
+            <div class="field">
+              <div class="label">First Name</div>
+              <input type="text" name="firstname" id="firstname">
+            </div>
+            <div class="field">
+              <div class="label">Last Name</div>
+              <input type="text" name="secondname" id="secondname">
+            </div>
+            <div class="field">
+              <div class="label">Email Address</div>
+              <input type="text" name="email" id="email" {{if .EnrollToken.Email }} value={{.EnrollToken.Email}} {{end}}>
+            </div>
+            <div class="field">
+              <div class="label"> Phone Number</div>
+              <input type="Number" name="phone" id="phone" {{if .EnrollToken.Phone }}  value={{.EnrollToken.Phone}} {{end}}>
+            </div>
+            <div class="field" id="error-field" style="display:none;">
+              <div class="label" id="error" hidden style="color:red">Error : </div>
+            </div>
+            <div class="field">
+              <button class="firstNext next">Next</button>
+            </div>
+          </div>
+          <div class="page">
+            <div class="title">Date of Birth:</div>
+            <div class="field">
+              <div class="label">Date</div>
+              <input type="date" name="dob" id="dob">
+            </div>
+            <div class="field">
+              <div class="label">Gender</div>
+              <select name="gender" id="gender">
+                <option>Male</option>
+                <option>Female</option>
+                <option>Other</option>
+              </select>
+            </div>
+            <div class="field">
+              <div class="label" >Country</div>
+              <select name="country" id="country">
+                <option>India</option>
+                <option>United States</option>
+                <option>Canada</option>
+              </select>
+            </div>
+            <div class="field">
+              <div class="label" >Religion</div>
+              <select name="religion" id="religion">
+                <option>Hindu</option>
+                <option>Christian</option>
+                <option>Muslim</option>
+              </select>
+            </div>
+            <div class="field">
+              <div class="label" >Language</div>
+              <select name="language" id="language">
+                <option>Tamil</option>
+                <option>Hindi</option>
+                <option>Telugu</option>
+              </select>
+            </div>
+            <div class="field" id="error-field" style="display:none;">
+              <div class="label" id="error" hidden style="color:red">Error : </div>
+            </div>
+            <div class="field btns">
+              <button class="prev-1 prev">Previous</button>
+              <button class="next-1 next">Next</button>
+            </div>
+          </div>
+
+          <div class="page">
+            <div class="title">Login Details:</div>
+            <p>8 characters must including A-Z,a-z,0-9,@;#$%^&*</p>
+            <div class="field">
+              <div class="label">Password</div>
+              <input type="password" name="password" id="password" minlength="8" required>
+            </div>
+            <div class="field">
+              <div class="label">Confirm Password</div>
+              <input type="password" name="confirmpassword" id="confirmpassword" minlength="8" required>
+            </div>
+            <div class="field" id="error-field-3" style="display:none;">
+              <div class="label" id="error-3" hidden style="color:red">Error : </div>
+            </div>
+            <div class="field btns">
+              <button class="prev-2 prev">Previous</button>
+              <button type="submit" class="submit">Submit</button>
+            </div>
+            <div class="field btns">
+            <button type="reset" class="reset">Reset</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <script src="/static/login/newuser.js" onerror="console.error('Failed to load script.js')"></script>
+  </body>
+</html>

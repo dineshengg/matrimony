@@ -1,7 +1,46 @@
 /*-- -------------------------- -->
 <---         Donations          -->
 <--- -------------------------- -*/
-
+    #subscription *{
+      color:black;
+      width:max-content;
+      font-weight: bold;
+      font-size: 1.2rem;
+    }
+    #subscription{
+      width: 110%;
+      border: 1px solid red;
+      background-color: rgb(237, 155, 77);
+      text-align: center;
+    }
+    #subscription-form{
+      margin-left: 40px;;
+    }
+    /* Form Fields */
+    .field {
+      margin-bottom: 1em;
+    }
+    label {
+      display: block;
+      margin-bottom: 0.3em;
+      font-weight: 500;
+    }
+    input,
+    select {
+      width: 100%;
+      padding: 0.5em;
+      font-size: 1em;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+    }
+    .btns {
+      text-align: right;
+    }
+    .cs-button-solid {
+      width: 100%;
+      margin: 0;
+    }
 /* Mobile - 360px */
 @media only screen and (min-width: 0rem) {
   #donations-1428 {

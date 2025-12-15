@@ -3,11 +3,17 @@ package utils
 import (
 	"context"
 	"fmt"
-	"log"
 	"time"
+
+	log "github.com/sirupsen/logrus"
 
 	"github.com/redis/go-redis/v9"
 )
+
+func IsRedisInit() bool {
+	log.Debug("dummy")
+	return true
+}
 
 type RedisClient struct {
 	// Add any necessary fields for your Redis client
@@ -29,7 +35,7 @@ func NewRedisClient(addr string) *RedisClient {
 		nCountRetry: 0,
 	}
 	if redisClient.InitializeRedis() != nil {
-		fmt.Errorf("Failed to initialize redis client")
+		log.Println("Failed to initialize redis client")
 		return nil
 	}
 	return redisClient
@@ -53,17 +59,17 @@ func (r *RedisClient) InitializeRedis() error {
 	})
 
 	if r.redisClient == nil {
-		fmt.Errorf("Failed to create Redis client")
+		log.Error("Failed to create Redis client")
 	}
 	// Test Redis connection
 	ctx := context.Background()
 	context.WithValue(ctx, "ping", r.address)
 	_, err := r.redisClient.Ping(ctx).Result()
 	if err != nil {
-		panic(fmt.Sprintf("Failed to connect to Redis: %v", err))
+		//panic(fmt.Sprintf("Failed to connect to Redis: %v", err))
 	}
 	r.initialized = true
-	fmt.Println("Connected to Redis successfully!")
+	log.Println("Connected to Redis successfully!")
 	return nil
 }
 
@@ -71,7 +77,7 @@ func (r *RedisClient) GetValue(ctx context.Context, key string) (string, error) 
 	if r.initialized {
 		val, err := r.redisClient.Get(ctx, key).Result()
 		if err != nil {
-			log.Println("Error getting value from redis for key %s", key)
+			log.Println("Error getting value from redis for key ", key)
 			return "", err
 		}
 		return val, nil
@@ -81,7 +87,7 @@ func (r *RedisClient) GetValue(ctx context.Context, key string) (string, error) 
 		log.Fatal("GetValue - Failed to initialize redis client")
 		return "", fmt.Errorf("Getvalue - Failed to initialize redis client")
 	}
-	log.Println("Get value initializing redis again in address %s", r.address)
+	log.Println("Get value initializing redis again in address ", r.address)
 	return r.GetValue(ctx, key)
 
 }
