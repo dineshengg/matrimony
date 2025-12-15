@@ -36,7 +36,7 @@ type Profiles struct {
 	CreatedAt   time.Time      `gorm:"column:created_at"`
 }
 
-func resetPassword(email string) error {
+func resetPassword(email, matid string) error {
 	//validate the input before quering
 	if email == "" {
 		return fmt.Errorf("email is empty")
@@ -52,8 +52,8 @@ func resetPassword(email string) error {
 	log.Debugf("Forgot password request count for email - %d", count)
 	if count == 0 {
 		//insert new record
-		query = `INSERT INTO forgot (email, reset_at, times, guid) VALUES ($1, $2, $3, $4)`
-		err := utils.GetDB().Exec(query, email, time.Now(), 1, guid.NewString()).Error
+		query = `INSERT INTO forgot (email, reset_at, times, guid, matrimonyid) VALUES ($1, $2, $3, $4, $5)`
+		err := utils.GetDB().Exec(query, email, time.Now(), 1, guid.NewString(), matid).Error
 		if err != nil {
 			return fmt.Errorf("failed to insert forgot password record: %v", err)
 		}
@@ -68,20 +68,20 @@ func resetPassword(email string) error {
 	return nil
 }
 
-func checkIfUserExists(email, phone string) (bool, error) {
+func checkIfUserExists(email, phone string) (string, error) {
 	//validate the input before quering
 	if email == "" && phone == "" {
-		return false, fmt.Errorf("email or phone is empty")
+		return "", fmt.Errorf("email or phone is empty")
 	}
 
-	query := `SELECT COUNT(*) FROM profiles WHERE email = $1 OR phone = $2`
-	var count int = 0
-	err := utils.GetDB().Raw(query, email, phone).Scan(&count).Error
+	query := `SELECT matrimonyid FROM profiles WHERE email = $1 OR phone = $2`
+	var matrimonyid string
+	err := utils.GetDB().Raw(query, email, phone).Scan(&matrimonyid).Error
 	if err != nil {
-		return false, fmt.Errorf("failed to check user existence: %v", err)
+		return "", fmt.Errorf("failed to check user existence: %v", err)
 	}
-	log.Debugf("User count for email and phone - %d", count)
-	return count > 0, nil
+	log.Debugf("Matrimony for email and phone - %s", matrimonyid)
+	return matrimonyid, nil
 }
 
 func createUser(email, phone, looking string) (*Enrolls, error) {

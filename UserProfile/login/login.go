@@ -228,7 +228,7 @@ func createAccountHandler(ctx *routing.Context) error {
 	}
 
 	// Validate if email or phone already exists
-	exists, err := checkIfUserExists(user.Email, user.Phone)
+	matid, err := checkIfUserExists(user.Email, user.Phone)
 	if err != nil {
 		ctx.SetStatusCode(fasthttp.StatusBadRequest)
 		//Land to an error page
@@ -237,7 +237,7 @@ func createAccountHandler(ctx *routing.Context) error {
 		return fmt.Errorf("checkIfUserExists failed with error - %v", err)
 	}
 
-	if exists {
+	if matid != "" {
 		ctx.SetStatusCode(fasthttp.StatusBadRequest)
 		//show in the same form that email and phone is already present
 		//ctx.Write([]byte(fmt.Sprintf("User already exists with this email or phone number please use a different one")))
@@ -311,19 +311,19 @@ func forgotPasswordHandler(ctx *routing.Context) error {
 	Email := string(ctx.FormValue("email"))
 
 	// Validate if email exists
-	exists, err := checkIfUserExists(Email, "")
+	matid, err := checkIfUserExists(Email, "")
 	if err != nil {
 		ctx.SetStatusCode(fasthttp.StatusInternalServerError)
 		ctx.Write([]byte("Failed to check user existence"))
 		log.Debugf("Failed to check user existence - %v", err)
 		return fmt.Errorf("Failed to check user existence - %v", err)
 	}
-	if exists {
+	if matid != "" {
 		// TODO: Send email to this email id
 		ctx.Write([]byte(fmt.Sprintf("Email id exists, email was sent to this id %s with reset password link", Email)))
 		//ctx.Response.Header.Set("Location", "/services/sent-email")
 		//store in the forgot table and the no of times reset password was requested
-		resetPassword(Email, "KANDAN0001")
+		resetPassword(Email, matid)
 
 	} else {
 		ctx.SetStatusCode(fasthttp.StatusSeeOther)
@@ -500,7 +500,7 @@ func createFullProfileAccountHandler(ctx *routing.Context) error {
 	}
 
 	// Validate if email or phone already exists
-	exists, err := checkIfUserExists(profile.Email, profile.Phone)
+	matid, err := checkIfUserExists(profile.Email, profile.Phone)
 	if err != nil {
 		ctx.SetStatusCode(fasthttp.StatusBadRequest)
 		//Land to an error page
@@ -509,7 +509,7 @@ func createFullProfileAccountHandler(ctx *routing.Context) error {
 		return fmt.Errorf("checkIfUserExists failed with error - %v", err)
 	}
 
-	if exists {
+	if matid != "" {
 		ctx.SetStatusCode(fasthttp.StatusBadRequest)
 		//show in the same form that email and phone is already present
 		//ctx.Write([]byte(fmt.Sprintf("User already exists with this email or phone number please use a different one")))
