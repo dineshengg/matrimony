@@ -3,6 +3,8 @@ const nextBtnFirst = document.querySelector(".firstNext");
 const prevBtnSec = document.querySelector(".prev-1");
 const nextBtnSec = document.querySelector(".next-1");
 const prevBtnThird = document.querySelector(".prev-2");
+const nextBtnThird = document.querySelector(".next-2");
+const prevBtnFourth = document.querySelector(".prev-3");
 const submitBtn = document.querySelector(".submit");
 const resetBtn = document.querySelector(".reset");
 const progressText = document.querySelectorAll(".step p");
@@ -17,6 +19,8 @@ const phonenoinput = document.getElementById("phone");
 const dateinput = document.getElementById("dob");
 const passwordInput = document.getElementById("password");
 const confirmPasswordInput = document.getElementById("confirmpassword");
+const preMinAgeInput = document.getElementById("prefagemin");
+const preMaxAgeInput = document.getElementById("prefagemax");
 const errorDiv = document.getElementById('error');
 const errorField = document.getElementById('error-field');
 //errorField.style.display = "none";
@@ -61,13 +65,13 @@ nextBtnFirst.addEventListener("click", function(event){
   const phonePattern = /^(?:\+91)?\d{10}$/;
   phoneno = phonenoinput.value.trim();
 
-  if (phoneno === "" || !phonePattern.test(phoneno)){
+  //if (phoneno === "" || !phonePattern.test(phoneno)){
+  if (phoneno === "" || phoneno.length <10) {
     showError(phonenoinput, "Please enter your correct phone number")
     valid = false;
     return;
   }
 
-  
   // Proceed to next step if both are unique
   slidePage.style.marginLeft = "-25%";
   bullet[current - 1].classList.add("active");
@@ -107,6 +111,8 @@ nextBtnSec.addEventListener("click", function(event){
     valid = false;
     return ;
   }
+
+  //check 
   
   
   
@@ -116,6 +122,34 @@ nextBtnSec.addEventListener("click", function(event){
   progressText[current - 1].classList.add("active");
   current += 1;
 });
+
+nextBtnThird.addEventListener("click", function(event){
+  event.preventDefault();
+
+  preMinAge = preMinAgeInput.value.trim();
+  preMaxAge = preMaxAgeInput.value.trim();
+
+  if (preMinAge === ""  || isNaN(preMinAge) || parseInt(preMinAge) < 18 || parseInt(preMinAge) > parseInt(preMaxAge)) {
+    showError(preMinAgeInput, "Please enter valid age preferences (min age >=18, max age >= min age)");
+    preMinAgeInput.focus();
+    valid = false;
+    return;
+  }
+
+  if (preMaxAge === "" || isNaN(preMaxAge) || parseInt(preMaxAge) < 18 || parseInt(preMinAge) > parseInt(preMaxAge)) {
+    showError(preMaxAgeInput, "Please enter valid age preferences (min age >=18, max age >= min age)");
+    preMaxAgeInput.focus();
+    valid = false;
+    return;
+  }
+  
+  slidePage.style.marginLeft = "-75%";
+  bullet[current - 1].classList.add("active");
+  progressCheck[current - 1].classList.add("active");
+  progressText[current - 1].classList.add("active");
+  current += 1;
+});
+
 submitBtn.addEventListener("click", function(){
   let valid = true;
 
@@ -179,6 +213,14 @@ prevBtnSec.addEventListener("click", function(event){
 prevBtnThird.addEventListener("click", function(event){
   event.preventDefault();
   slidePage.style.marginLeft = "-25%";
+  bullet[current - 2].classList.remove("active");
+  progressCheck[current - 2].classList.remove("active");
+  progressText[current - 2].classList.remove("active");
+  current -= 1;
+});
+prevBtnFourth.addEventListener("click", function(event){
+  event.preventDefault();
+  slidePage.style.marginLeft = "-50%";
   bullet[current - 2].classList.remove("active");
   progressCheck[current - 2].classList.remove("active");
   progressText[current - 2].classList.remove("active");

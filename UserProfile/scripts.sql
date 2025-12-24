@@ -21,11 +21,16 @@ create table profiles (
 	phone VARCHAR(20) UNIQUE NOT null,
 	looking VARCHAR(25),
 	DOB DATE,
+	age INT,
 	gender VARCHAR(10),
 	country VARCHAR(25),
 	religion VARCHAR(25),
+	caste VARCHAR(25),
+	state VARCHAR(40),
+	city VARCHAR(40),
 	language VARCHAR(25),
 	password VARCHAR(25),
+	hobbies VARCHAR(25),
 	created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	status VARCHAR(15),
 	subscription_type VARCHAR(15),
@@ -34,13 +39,14 @@ create table profiles (
 	pref_age_min INT,
 	pref_age_max INT,
 	pref_religion VARCHAR(25),
-	caste VARCHAR(25,
 	pref_caste VARCHAR(25),
-	pref_location VARCHAR(25),
-	hobbies VARCHAR(25),
-	location VARCHAR(25),
-	city VARCHAR(40)
+    pref_country VARCHAR(40),
+	pref_state VARCHAR(40),
+	pref_city VARCHAR(40),
+    pref_language VARCHAR(25),
+	updated_at TIMESTAMP
 	);
+
 
 create table contactus (
 	id SERIAL primary key,

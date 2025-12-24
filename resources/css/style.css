@@ -146,9 +146,9 @@ form .page .btns button.next{
   position: absolute;
   content: '';
   bottom: 11px;
-  right: -83px;
+  right: -62px;
   height: 3px;
-  width: 82px;
+  width: 60px;
   background: #262626;
 }
 .progress-bar .step .bullet.active:after{

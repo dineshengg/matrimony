@@ -149,3 +149,12 @@ Login flow - dev tested please test multiple times
 Password reset flow
  - code done in backend not tested ********
  - python code for job worker needs to be written ********
+20/12/25 
+- Perfected login flow from home page
+- DONE - Check the min age and max age for empty value 
+- TODO - Enrolled but not put the full profile we have to send an email for incomplete profile
+24/12/2025:
+ - login flow completed
+ - password reset flow completed
+ - Check the min age and max age for empty value - done
+ - 

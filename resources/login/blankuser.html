@@ -5,7 +5,9 @@
     <title>Matrimony registration form</title>
     <link rel="stylesheet" href="/static/css/style.css">
     <link rel="stylesheet" href="/static/css/header.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
     <!--
+    https://www.codingnepalweb.com/multi-step-form-html-css-javascript/
     <script src="https://kit.fontawesome.com/a076d05399.js"></script>
     -->
   </head>
@@ -38,9 +40,16 @@
           <div class="check fas fa-check"></div>
         </div>
         <div class="step">
-          <p>Submit</p>
+          <p>Preference</p>
           <div class="bullet">
             <span>3</span>
+          </div>
+          <div class="check fas fa-check"></div>
+        </div>
+        <div class="step">
+          <p>Submit</p>
+          <div class="bullet">
+            <span>4</span>
           </div>
           <div class="check fas fa-check"></div>
         </div>
@@ -63,7 +72,7 @@
                 <option value="self" id="opt-self">Self</option>
                 <option value="son" id="opt-son">Son</option>
                 <option value="daughter" id="opt-daughter">Daughter</option>
-                <option value="daughter" id="opt-relative">Relative</option>
+                <option value="relative" id="opt-relative">Relative</option>
               </select>
             </div>
             <div class="field">
@@ -72,7 +81,7 @@
             </div>
             <div class="field">
               <div class="label"> Phone Number</div>
-              <input type="text" name="phone" id="phone" placeholder="e.g +918248204733" required>
+              <input type="number"  name="phone" id="phone"  placeholder="e.g +918248204733" required>
             </div>
             <div class="field" id="error-field" style="display:none;">
               <div class="label" id="error" hidden style="color:red">Error : </div>
@@ -85,7 +94,7 @@
             <div class="title">Date of Birth:</div>
             <div class="field">
               <div class="label">Date</div>
-              <input type="date" name="dob" id="dob">
+              <input type="date" value="2018-07-22" min="1970-01-01" max="2025-12-31"name="dob" id="dob">
             </div>
             <div class="field">
               <div class="label">Gender</div>
@@ -131,6 +140,54 @@
               <button class="next-1 next">Next</button>
             </div>
           </div>
+          
+          <div class="page">
+            <div class="title">Preference</div>
+            <div class="field">
+                <div class="label">Minimum Age</div>
+                <input type="number" name="prefagemin" id="prefagemin" min="18" max="100" required>
+            </div>
+            <div class="field">
+              <div class="label">Maximum Age</div>
+              <input type="number" name="prefagemax" id="prefagemax" min="18" max="100" required>
+            </div>
+            <div class="field">
+              <div class="label">Religion</div>
+              <select name="prefreligion" id="prefreligion" required>
+                <option value="Hindu" selected>Hindu</option>
+                <option value="Christian">Christian</option>
+                <option value="Muslim">Muslim</option>
+                <option value="Others">Others</option>
+                <option value="Religion-no-bar">Religion-no-bar</option>
+              </select>
+            </div>
+            <div class="field">
+              <div class="label">Country</div>
+              <select name="prefcountry" id="prefcountry" required>
+                <option value="India" selected>India</option>
+                <option value="United States">United States</option>
+                <option value="Canada">Canada</option>
+                <option value="Australia">Australia</option>
+                <option value="UK">UK</option>
+                <option value="Others">Others</option>
+              </select>
+            </div>
+            <div class="field">
+              <div class="label">Language</div>
+              <select name="preflanguage" id="preflanguage" required>
+                <option value="Tamil" selected>Tamil</option>
+                <option value="Hindi">Hindi</option>
+                <option value="Telugu">Telugu</option>
+              </select>
+            </div>
+            <div class="field" id="error-field" style="display:none;">
+              <div class="label" id="error" hidden style="color:red">Error : </div>
+            </div>
+            <div class="field btns">
+              <button type="button" class="prev-2 prev">Previous</button>
+              <button type="button" class="next-2 next">Next</button>
+            </div>
+          </div>
 
           <div class="page">
             <div class="title">Login Details:</div>
@@ -147,7 +204,7 @@
               <div class="label" id="error-3" hidden style="color:red">Error : </div>
             </div>
             <div class="field btns">
-              <button type="button" class="prev-2 prev">Previous</button>
+              <button type="button" class="prev-3 prev">Previous</button>
               <button type="submit" class="submit">Submit</button>
             </div>
             <div class="field btns">

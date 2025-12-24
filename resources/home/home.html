@@ -167,7 +167,7 @@
             </div>
             <div class="field">
               <div class="label" id="phone-label">Phone</div>
-              <input type="text" name="phone" id="phone"  placeholder="e.g - +918248204733" required>
+              <input type="tel" name="phone" pattern="[0-9]{10,15}"  name="phone" id="phone"  placeholder="e.g - +918248204733" required>
             </div>
             <div class="field btns">
               <button type="submit" class="submit" id="find-btn">Find</button>
@@ -736,7 +736,7 @@ document.addEventListener("DOMContentLoaded", function() {
         const phonePattern = /^[0-9]{8,15}$/;
         phoneno = phonenoinput.value.trim();
 
-        if (phoneno === "" || !phonePattern.test(phoneno)){
+        if (phoneno === "" || !phonePattern.test(phoneno) || !(phoneno.length >=10 && phoneno.length <=15)) {
             showError(phonenoinput, "Please enter your correct phone number")
             valid = false;
             return;

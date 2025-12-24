@@ -7,6 +7,7 @@ import (
 
 	"github.com/dineshengg/matrimony/common/utils"
 
+	"github.com/dineshengg/matrimony/userprofile/forgot"
 	"github.com/dineshengg/matrimony/userprofile/login"
 	"github.com/valyala/fasthttp"
 
@@ -107,14 +108,7 @@ func main() {
 	api := router.Group("/api")
 
 	login.LoginRoutingFunctions(api)
-	//fasthttp.ListenAndServe(":8080", router.HandleRequest)
-
-	//profile.ProfileRoutingFunctions(mux)
-	//extprofile.ExtProfileRoutingFunctions(mux)
-	//dashboard.DashboardRoutingFunctions(mux)
-	//membership.MembershipRoutingFunctions(mux)
-
-	//wrappedMux := datasource.NewMiddleWare(mux)
+	forgot.ForgotRoutingFunctions(api)
 
 	srvErr := make(chan error, 1)
 	go func() {

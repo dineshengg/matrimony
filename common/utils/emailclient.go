@@ -1,6 +1,11 @@
 package utils
 
 import (
+	"encoding/json"
+	"fmt"
+
+	"bytes"
+
 	log "github.com/sirupsen/logrus"
 )
 
@@ -33,6 +38,11 @@ const (
 	ProfileGotMarriedEmail  = 18
 )
 
+type PostData struct {
+	Email string `json:"email"`
+	Matid string `json:"matid"`
+}
+
 func init() {
 	log.Debug("initializing email client utility for sending email events to server")
 	setup()
@@ -47,13 +57,45 @@ func IsEmailClientInitialized() bool {
 	return true
 }
 
-func LogEmailEvent(event int, message string) {
-	log.Debugf("Email Event: %d, Message: %s", event, message)
+func LogEmailEvent(event int, data ...string) error {
+	log.Debugf("Email Event: %d", event)
 	switch event {
 	case WelcomeEmail:
-		log.Info("Sending welcome email to user")
+		if len(data) < 2 {
+			return fmt.Errorf("insufficient data for welcome email event")
+		}
+
+		log.Info("Sending welcome email to user - ", data[0])
+		url := "http://0.0.0.0:8000/jobs/welcomeemail/"
+		payload := PostData{Email: data[0], Matid: data[1]}
+		postBody, err := json.Marshal(payload)
+		if err != nil {
+			log.Fatalf("Error marshalling JSON: %v", err)
+			return fmt.Errorf("Error marshalling JSON: %v", err)
+		}
+		requestBody := bytes.NewBuffer(postBody)
+
+		HttpPost(url, "application/json", requestBody)
+		return nil
 	case PasswordResetEmail:
-		log.Info("Sending password reset email to user")
+		//http client to send password reset to email server
+
+		log.Info("Sending password reset email to user", data[0])
+		if len(data) < 2 {
+			return fmt.Errorf("insufficient data for welcome email event")
+		}
+
+		url := "http://0.0.0.0:8000/jobs/passwordresetemail/"
+		payload := PostData{Email: data[0], Matid: data[1]}
+		postBody, err := json.Marshal(payload)
+		if err != nil {
+			log.Fatalf("Error marshalling JSON: %v", err)
+			return fmt.Errorf("Error marshalling JSON: %v", err)
+		}
+		requestBody := bytes.NewBuffer(postBody)
+
+		HttpPost(url, "application/json", requestBody)
+		return nil
 	case VerificationEmail:
 		log.Info("Sending verification email to user")
 	case PreferenceMatchEmail:
@@ -91,4 +133,5 @@ func LogEmailEvent(event int, message string) {
 	default:
 		log.Warnf("Unknown email event: %d", event)
 	}
+	return nil
 }
